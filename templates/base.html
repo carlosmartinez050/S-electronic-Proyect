@@ -1,0 +1,47 @@
+{% load static %}
+{% csrf_token %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shopping_cart.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'css/card_product.css' %}"> {% endcomment %}
+
+    {% comment %} <link href="{% static 'fontawesome/css/all.min.css' %}" rel="stylesheet"> {% endcomment %}
+   <title>{% block title %}S-ELECTRONIC{% endblock %}</title>
+ 
+   {% block extra_css %}
+
+   {% endblock %}
+    
+</head>
+<body>
+
+  <header>
+    {% include "partials/header.html" %}
+  </header>
+  
+  <main class="container_main">
+
+    {% block content %}
+      
+      {% include "partials/card_product.html" %}
+     
+    {% endblock %}
+
+    {% block detalle_producto %}  
+    {% endblock %}
+
+    {% include "shopping_cart_Template/shopping_cart.html" %}
+
+  </main> 
+ 
+
+
+<script src="{% static 'js/shopping_cart.js' %}"></script>  
+</body>
+</html>

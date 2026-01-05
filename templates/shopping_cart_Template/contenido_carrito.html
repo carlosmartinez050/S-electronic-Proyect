@@ -1,0 +1,76 @@
+{% csrf_token %}
+
+<div class="content-product-list">
+
+  <ul class="ul-list_product">
+    {% for item in lista_carrito %}
+    <li class="item-product">
+      <div class="content-div-name-img">
+
+        <div class="div-img-product">
+          <img src="{{ item.producto.imagen }}" alt="" width=130px height=145px>
+        </div>
+
+        <div class="div-name-product">
+          <h3>{{ item.producto.nombre }}</h3>
+        </div>
+      </div>
+
+      <div class="div-cantidad-producto">
+        <input type="number" class="cantidad-input" name="cantidad-input" min="1" max="100" data-producto-id="{{ item.producto.id }}" value="{{ item.cantidad }}">      
+      </div>
+
+      <div class="div-subtotal-producto">
+        <p class="tag-p">Subtotal: $<span id="subtotal-{{ item.producto.id }}">{{ item.subtotal|floatformat:2 }}</span></p>
+      </div>
+
+      <div class="div-buttom-eliminar">
+        <button class="btn-eliminar" data-producto-id="{{ item.producto.id }}">Eliminar</button>
+      </div>
+
+    </li>
+    {% endfor %}
+  </ul>
+
+</div>
+
+<div class="content-divisor-sumary">
+  <div class="summary-content">
+
+    <div class="div-header-summary">
+      <div class="box-quantity-item">
+        <p class="tag-p">Articulos: <span id="total-articulos">{{ total_articulos }}</span></p>
+      </div>
+
+      <div class="box-quantity-subtotal">
+        <p class="tag-p">Subtotal: $<span id="total-precio">{{ total_precio|floatformat:2 }}</span></p>
+      </div>
+    </div>
+   
+
+    <div class="box-envio-fijo">
+      <div class="box-envio">
+        <p class="tag-p">Envio:</p>
+      </div>
+      
+      <div class="box-envio">
+        <p class="tag-p">$80.00</p>
+      </div>
+    </div>
+
+    <div class="content-buttom">
+      <button class="btn-procces-envio" id="btn-procces-envio">Completar Compra</button>
+    </div>
+  </div>
+
+  <div class="otro-content">
+    {% if total_precio >= 15000 and not descuento_aplicado %}
+    <p>🎉 ¡Tu compra supera $1000! Aplica 10% descuento</p>
+    <button onclick="aplicarDescuento()">Aplicar Descuento</button>
+    {% endif %}
+      
+    {% if descuento_aplicado %}
+        <p id="mensaje-descuento">✅ ¡Descuento aplicado! Ahorraste 10%</p>
+    {% endif %}
+  </div>
+</div>

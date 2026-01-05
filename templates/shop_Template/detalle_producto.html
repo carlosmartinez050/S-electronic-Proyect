@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/detalle_producto.css' %}">
+
+{% endblock %}
+
+{% block content %}
+    
+    <div class="detalle-producto">
+        <div class="title-h2-img">
+            <div class="content-img-product">
+                <img src="{{ detalle_producto.imagen }}" alt="{{ detalle_producto.nombre}}" width="300px" height="300px">
+            </div>
+            <div class="h1-title-product">
+                <h2>{{ detalle_producto.nombre}}</h2>
+            </div>
+        </div>
+        <div class="main-detalle-description">
+            <div class="content-descriptions">
+                <h3 class="h3-description">Descripción</h3>
+                <p class="detalle-producto-p">{{ detalle_producto.descripcion }}</p>
+            </div>
+            <div class="content-stock-precio">
+                <p>Precio: {{ detalle_producto.precio }}</p>
+                <p>Stock: {{ detalle_producto.stock }}</p>
+            </div>
+          
+        </div>
+        
+        <a href="" class="btn-carrito-content-detalle">Agregar al Carrito</a>
+    </div>
+
+{% endblock %}

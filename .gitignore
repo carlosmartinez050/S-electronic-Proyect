@@ -1,0 +1,26 @@
+# ignorara la carpeta de comandos cosnsulta postrgresSQL
+
+consultas_postgresSQL/
+
+virtualenv/
+
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Django
+.env
+.env.*
+*.log
+db.sqlite3
+media/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

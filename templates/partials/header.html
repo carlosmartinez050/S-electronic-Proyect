@@ -1,0 +1,44 @@
+
+{% load static %}
+
+
+
+<div class="header-partials" id="header-partials">
+    <div class="div-header1">
+        <div class="container-logo">
+            <a href="{% url 'vistaPrincipalProductos' %}" class="img-logo">
+                <img src="{% static 'img/S-ELECTRONIC-LOGO.png' %}" alt="Logo S-ELECTRONIC" class="logo-S-electronic">
+            </a>
+        </div>
+        <div class="class-label-tag">
+            <label class="tags-label">Telefonos</label>
+            <label class="tags-label">Computadoras</label>
+            <label class="tags-label">TV y Audio</label>
+            <label class="tags-label">Electronica</label>
+        </div>
+        <div class="container_icons" id="container_icons">
+
+            <div class="container-image-icon" id="container-logo-search-input">
+                <img src="{% static 'img/icon-search.png' %}" alt="" class="icon-search" id="icon-search">
+            </div>
+
+            <div class="container-image-icon">
+                <img src="{% static 'img/icon-usuario.png' %}" alt="" class="icon-usuario">
+            </div>
+
+            <div class="container-image-icon" id="icon-carrito">
+                <img src="{% static 'img/icon-carrito.png' %}" alt="" class="icon-carrito">
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="div-header2">
+        {%for categoria in categorias%}
+        <div class="container-ancor-categoria">
+            <a href="{% url 'consultaProductoCategoria' categoria.id%}" class="ancor-categoria">{{categoria.nombre}}</a>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+

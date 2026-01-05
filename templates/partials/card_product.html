@@ -1,0 +1,54 @@
+
+
+{% load static %}
+
+ {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/card_product.css' %}">
+ {% endblock %}
+
+
+
+    {% for product in productos %}
+        <!-- Contenedor principal de la tarjeta de producto -->
+        <div class="product-card">
+
+            <!-- Imagen del producto -->
+            <div class="product-image">
+                <img src="{{ product.imagen }}" alt="{{ product.nombre }}" width=334px height=250.5>
+            </div>
+
+            <!-- Contenido de la tarjeta -->
+            <div class="product-content">
+
+                <!-- Nombre del producto -->
+                <div class="class-h1">
+                    <h3 class="product-title">{{ product.nombre }}</h3>
+                </div>
+
+                <!-- Descripción breve -->
+                <div class="p-descriptions">
+                    <p class="product-description">{{ product.descripcion }}</p>  
+                </div>
+            
+
+                <!-- Precio -->
+                <div class="box-precio">
+                    <p class="product-price">${{ product.precio }}</p>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="product-actions">
+                    <button class="btn-carrito" onclick='agregarProducto({{ product.id }})'>Agregar al carrito</button>
+                    <a href="{% url 'detalle_producto' product.id %}" class="btn-details">Ver detalles</a>
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+
+    
+ 
+        
+
+
+

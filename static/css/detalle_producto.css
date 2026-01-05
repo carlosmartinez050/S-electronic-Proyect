@@ -1,0 +1,101 @@
+
+
+.detalle-producto{
+    width: 100%;
+    height: 100%;
+    background-color:rgba(33, 34, 58, 0.781);
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+.title-h2-img{
+    width: 100%;
+    height: 300px;
+    /* background-color: aqua; */
+    display: flex;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+.content-img-product{
+    width: 300px;
+    height: 300px;
+    border-radius: 10px ;
+    /* background-color: blue; */
+}
+
+
+.h1-title-product{
+    flex: 1;
+    background-color: rgb(90, 87, 87);
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+    border-radius: 10px;
+}
+
+.main-detalle-description{
+    flex: 1;
+    background-color: rgb(90, 87, 87);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.content-descriptions{
+    width: 100%;
+    height: 150px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 600;
+}
+
+.h3-description{
+    font-size: 23px;
+    margin-bottom: 5px;
+}
+
+.detalle-producto-p{
+    font-size: 18px;
+    text-align: justify;
+}
+
+
+.content-stock-precio{
+    width: 100%;
+    height: 100px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-weight: 600;
+}
+
+
+.btn-carrito-content-detalle{
+    width: 200px;
+    height: 40px;
+    background-color: aqua;
+    border: 0;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}   
