@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'orders',
     'discounts',
     'checkout',
+    'admin_panel'
 ]
 
 MIDDLEWARE = [
