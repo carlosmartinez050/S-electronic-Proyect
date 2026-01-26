@@ -14,7 +14,17 @@
 
             <!-- Imagen del producto -->
             <div class="product-image">
-                <img src="{{ product.imagen }}" alt="{{ product.nombre }}" width=334px height=250.5>
+                {% if product.get_imagen_principal %}
+                    <img src="{{ product.get_imagen_principal.imagen.url }}" 
+                        alt="{{ product.nombre }}" 
+                        width="334" 
+                        height="250.5">
+                {% else %}
+                    <img src="{% static 'img/default.png' %}" 
+                        alt="Sin imagen" 
+                        width="334" 
+                        height="250.5">
+                {% endif %}
             </div>
 
             <!-- Contenido de la tarjeta -->

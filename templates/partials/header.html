@@ -14,7 +14,7 @@
             <label class="tags-label">Telefonos</label>
             <label class="tags-label">Computadoras</label>
             <label class="tags-label">TV y Audio</label>
-            <label class="tags-label">Electronica</label>
+            <label class="tags-label">Componentes</label>
         </div>
         <div class="container_icons" id="container_icons">
 
@@ -34,11 +34,11 @@
     </div>
 
     <div class="div-header2">
-        {%for categoria in categorias%}
+        {% comment %} {%for categoria in categorias%}
         <div class="container-ancor-categoria">
             <a href="{% url 'consultaProductoCategoria' categoria.id%}" class="ancor-categoria">{{categoria.nombre}}</a>
         </div>
-        {%endfor%}
+        {%endfor%} {% endcomment %}
     </div>
 </div>
 

@@ -8,10 +8,10 @@ def vistaPrincipalProductos(request):   #funcion a pagina principal
     productos = Producto.objects.all()
     return render(request, 'base.html', {"productos": productos})
 
-def consultaProductoCategoria(request, categoria_id):
-    productos_categoria = Producto.objects.filter(categoria_id = categoria_id)
-    print(productos_categoria)
-    return render(request, 'base.html', {"productos": productos_categoria})
+# def consultaProductoCategoria(request, categoria_id):
+#     productos_categoria = Producto.objects.filter(categoria_id = categoria_id)
+#     print(productos_categoria)
+#     return render(request, 'base.html', {"productos": productos_categoria})
  
 
 def detalle_producto(request, producto_id):
