@@ -1,44 +1,54 @@
-
 {% load static %}
 
-
-
 <div class="header-partials" id="header-partials">
+    <!-- PARTE SUPERIOR (siempre visible) -->
     <div class="div-header1">
         <div class="container-logo">
-            <a href="{% url 'vistaPrincipalProductos' %}" class="img-logo">
-                <img src="{% static 'img/S-ELECTRONIC-LOGO.png' %}" alt="Logo S-ELECTRONIC" class="logo-S-electronic">
+            <a href="{% url 'shop:home' %}" class="img-logo">
+                <img src="{% static 'img/img-iconos/S-ELECTRONIC-LOGO.png' %}" alt="Logo" class="logo-S-electronic">
             </a>
         </div>
+        
+        <!-- CATEGORÍAS PADRE -->
         <div class="class-label-tag">
-            <label class="tags-label">Telefonos</label>
-            <label class="tags-label">Computadoras</label>
-            <label class="tags-label">TV y Audio</label>
-            <label class="tags-label">Componentes</label>
+            {% for cat in categorias %}
+                <a href="{% url 'shop:categoria_detalle' cat.slug %}" 
+                   class="tags-label {% if categoria and categoria.id == cat.id %}activa{% endif %}">
+                    {{ cat.nombre }}
+                </a>
+            {% endfor %}
         </div>
-        <div class="container_icons" id="container_icons">
-
+        
+        <div class="container_icons">
             <div class="container-image-icon" id="container-logo-search-input">
-                <img src="{% static 'img/icon-search.png' %}" alt="" class="icon-search" id="icon-search">
+                <img src="{% static 'img/img-iconos/icon-search.png' %}" alt="" class="icon-search" id="icon-search">
             </div>
 
             <div class="container-image-icon">
-                <img src="{% static 'img/icon-usuario.png' %}" alt="" class="icon-usuario">
+                <img src="{% static 'img/img-iconos/icon-usuario.png' %}" alt="" class="icon-usuario">
             </div>
 
             <div class="container-image-icon" id="icon-carrito">
-                <img src="{% static 'img/icon-carrito.png' %}" alt="" class="icon-carrito">
+                <img src="{% static 'img/img-iconos/icon-carrito.png' %}" alt="" class="icon-carrito">
             </div>
-            
         </div>
     </div>
 
+    <!-- BARRA AZUL (solo si hay categoría seleccionada) -->
     <div class="div-header2">
-        {% comment %} {%for categoria in categorias%}
-        <div class="container-ancor-categoria">
-            <a href="{% url 'consultaProductoCategoria' categoria.id%}" class="ancor-categoria">{{categoria.nombre}}</a>
-        </div>
-        {%endfor%} {% endcomment %}
+        {% if categoria and marcas %}
+            <!-- Usuario hizo clic en una categoría, mostramos sus marcas -->
+            {% for marca in marcas %}
+                <div class="container-ancor-categoria">
+                    <a href="{% url 'shop:categoria_marca_detalle' categoria.slug marca.slug %}" 
+                       class="ancor-categoria {% if marca_seleccionada and marca_seleccionada.id == marca.id %}activa{% endif %}">
+                        {{ marca.nombre }}
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <!-- Home: barra vacía o mensaje -->
+            <p class="mensaje-barra">Selecciona una categoría para filtrar por marca</p>
+        {% endif %}
     </div>
 </div>
-

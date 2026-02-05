@@ -1,3 +1,99 @@
+{% load static %} <!-- load static es necesario para usar archivos estáticos como CSS e imágenes  --> 
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Título dinámico por página -->
+    <title>{% block title %}S-ELECTRONIC{% endblock %}</title>
+    
+    <!-- CSS base que se carga en todas las páginas -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shopping_cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}"> <!-- FontAwesome para íconos -->
+    
+    <!-- CSS adicional que cada página puede agregar -->
+    {% block extra_css %}{% endblock %}  <!-- block para agregar CSS extra en páginas hijas, solo hay que definir los links dentro de este bloque --> 
+</head>
+<body>
+    <!-- ============================================ -->
+    <!-- HEADER: Se muestra en TODAS las páginas     -->
+    <!-- ============================================ -->
+    <header>
+        {% include "partials/header.html" %}
+    </header>
+
+    <!-- ============================================ -->
+    <!-- CONTENIDO PRINCIPAL: Cambia por página      -->
+    <!-- ============================================ -->
+    <main class="container_main">
+        <!-- Este bloque está VACÍO a propósito -->
+        <!-- Cada página hijo lo llenará con su contenido -->
+        {% block content %}
+          {% comment %} {% include "partials/card_product.html" %} {% endcomment %} {# Comentado intencionalmente, este no es el metodo que se utilizara #}
+        {% endblock %}
+    </main>
+
+    <!-- ============================================ -->
+    <!-- FOOTER: Se muestra en TODAS las páginas     -->
+    <!-- ============================================ -->
+    <footer>
+        {% include "partials/footer.html" %}
+    </footer>
+
+    <!-- ============================================ -->
+    <!-- MODAL DEL CARRITO: Flotante, siempre visible -->
+    <!-- ============================================ -->
+    {% include "shopping_cart_Template/shopping_cart.html" %}
+
+    <!-- JavaScript base -->
+    <script src="{% static 'js/shopping_cart.js' %}"></script>
+    
+    <!-- JavaScript adicional por página -->
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} codigo viejo, sujeto a eliminar {% endcomment %}
+
+{% comment %}
+
 {% load static %}
 {% csrf_token %}
 
@@ -12,6 +108,10 @@
     {% comment %} <link rel="stylesheet" href="{% static 'css/card_product.css' %}"> {% endcomment %}
 
     {% comment %} <link href="{% static 'fontawesome/css/all.min.css' %}" rel="stylesheet"> {% endcomment %}
+
+    
+    {% comment %}
+      
    <title>{% block title %}S-ELECTRONIC{% endblock %}</title>
  
    {% block extra_css %}
@@ -45,3 +145,5 @@
 <script src="{% static 'js/shopping_cart.js' %}"></script>  
 </body>
 </html>
+
+{% endcomment %}

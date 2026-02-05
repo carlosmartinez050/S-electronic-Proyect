@@ -264,13 +264,13 @@ class Producto(models.Model):
         verbose_name = "Producto"
         verbose_name_plural = "Productos"
         ordering = ['-fecha_creacion']
-        indexes = [
+        indexes = [ # Índices para búsquedas comunes
             models.Index(fields=['slug', 'activo']),
             models.Index(fields=['categoria', 'activo']),
             models.Index(fields=['marca', 'activo']),
             models.Index(fields=['activo', 'destacado']),
         ]
-        constraints = [
+        constraints = [ # Restricción para precio no negativo
             models.CheckConstraint(
                 check=models.Q(precio__gte=0),
                 name='precio_no_negativo'
@@ -292,7 +292,7 @@ class Producto(models.Model):
                 counter += 1
         
         # Auto-generar SKU
-        if not self.sku:
+        if not self.sku: # el SKU se genera si no existe
             marca_code = self.marca.nombre[:4].upper() if self.marca else "PROD"
             timestamp = int(time.time() * 1000)  # milisegundos
             self.sku = f"{marca_code}-{timestamp}"
@@ -342,7 +342,7 @@ class ImagenProducto(models.Model):
     producto = models.ForeignKey(
         'Producto',  # ← Usamos string porque Producto se define después
         on_delete=models.CASCADE,  # ← Si borras producto, se borran sus imágenes
-        related_name='imagenes',
+        related_name='imagenes', # related_name se usa para acceder a las imágenes desde el producto
         help_text="Producto al que pertenece esta imagen"
     )
     
@@ -375,6 +375,7 @@ class ImagenProducto(models.Model):
     
     fecha_creacion = models.DateTimeField(default=timezone.now, editable=False)
     
+    # ========= METADATA ========== "clase que define metadatos del modelo, como el nombre legible, el ordenamiento predeterminado y los índices de la base de datos."
     class Meta:
         verbose_name = "Imagen de Producto"
         verbose_name_plural = "Imágenes de Producto"
@@ -384,11 +385,12 @@ class ImagenProducto(models.Model):
             models.Index(fields=['producto', 'es_principal']),
         ]
     
+    # ========= MÉTODOS ========== "métodos personalizados para el modelo, como la lógica de guardado y la representación en cadena."
     def save(self, *args, **kwargs):
         # Si es principal, quitar flag de otras imágenes del mismo producto
         if self.es_principal:
             ImagenProducto.objects.filter(
-                producto=self.producto,
+                producto=self.producto,             # el metodo save() asegura que solo una imagen por producto sea la principal
                 es_principal=True
             ).exclude(pk=self.pk).update(es_principal=False)
         

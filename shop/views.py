@@ -1,26 +1,107 @@
 from django.shortcuts import render, get_object_or_404
-from . models import Categoria, Producto
+from . models import Categoria, Producto, Marca
 
 
 # Create your views here.
-
-def vistaPrincipalProductos(request):   #funcion a pagina principal
-    productos = Producto.objects.all()
-    return render(request, 'base.html', {"productos": productos})
-
-# def consultaProductoCategoria(request, categoria_id):
-#     productos_categoria = Producto.objects.filter(categoria_id = categoria_id)
-#     print(productos_categoria)
-#     return render(request, 'base.html', {"productos": productos_categoria})
- 
-
-def detalle_producto(request, producto_id):
-    detalle_producto = get_object_or_404(Producto, id=producto_id)
-    return render(request, "shop_Template/detalle_producto.html", {
-        'detalle_producto': detalle_producto
+def vistaPrincipalProductos(request):
+    """
+    Home - Muestra productos de TODAS las categorías
+    Barra azul: VACÍA
+    """
+    # Productos destacados (de todas las categorías)
+    productos_destacados = Producto.objects.filter(
+        activo=True,
+        destacado=True,
+        stock__gt=0
+    ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
+    
+    # Productos nuevos (de todas las categorías)
+    productos_nuevos = Producto.objects.filter(
+        activo=True,
+        nuevo=True,
+        stock__gt=0
+    ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
+    
+    # Productos recientes (de todas las categorías)
+    productos_recientes = Producto.objects.filter(
+        activo=True,
+        stock__gt=0
+    ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:20]
+    
+    return render(request, 'base.html', {
+        'productos': productos_recientes,  # ← Mostrar recientes en el cuerpo principal
+        'productos_destacados': productos_destacados,
+        'productos_nuevos': productos_nuevos,
+        'productos_recientes': productos_recientes,
+        # ← NO pasamos 'marcas' ni 'categoria'
     })
     
     
+def categoria_detalle(request, slug):
+    """
+    Muestra productos de una categoría específica
+    URL: /categoria/telefonos/
+    """
+    categoria = get_object_or_404(Categoria, slug=slug, activo=True)
+    
+    # Marcas que tienen productos en esta categoría
+    marcas = Marca.objects.filter(
+        productos__categoria=categoria,
+        productos__activo=True,
+        activo=True
+    ).distinct().order_by('orden', 'nombre')
+    
+    # Productos de esta categoría
+    productos = Producto.objects.filter(
+        categoria=categoria,
+        activo=True,
+        stock__gt=0
+    ).select_related('categoria', 'marca').order_by('-destacado', '-fecha_creacion')
+    
+    return render(request, 'base.html', {
+        'categoria': categoria,
+        'marcas': marcas,  # ← Para la barra azul
+        'productos': productos,
+    })
+
+def categoria_marca_detalle(request, categoria_slug, marca_slug):
+    """
+    Filtra productos por categoría Y marca
+    URL: /categoria/telefonos/samsung/
+    """
+    categoria = get_object_or_404(Categoria, slug=categoria_slug, activo=True)
+    marca = get_object_or_404(Marca, slug=marca_slug, activo=True)
+    
+    # Todas las marcas de esta categoría (para la barra azul)
+    marcas = Marca.objects.filter(
+        productos__categoria=categoria,
+        productos__activo=True,
+        activo=True
+    ).distinct().order_by('orden', 'nombre')
+    
+    # Productos filtrados por categoría Y marca
+    productos = Producto.objects.filter(
+        categoria=categoria,
+        marca=marca,
+        activo=True,
+        stock__gt=0
+    ).select_related('categoria', 'marca').order_by('-destacado', '-fecha_creacion')
+    
+    return render(request, 'base.html', {
+        'categoria': categoria,
+        'marca_seleccionada': marca,  # ← Para resaltar en la barra
+        'marcas': marcas,
+        'productos': productos,
+    })
+
+
+# def detalle_producto(request, producto_id):
+#     detalle_producto = get_object_or_404(Producto, id=producto_id)
+#     return render(request, "shop_Template/detalle_producto.html", {
+#         'detalle_producto': detalle_producto
+#     })
+    
+
 
 
 

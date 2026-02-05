@@ -1,8 +1,20 @@
 from django.urls import path
 from . import views
 
+app_name = 'shop'
+
 urlpatterns = [
-   path('', views.vistaPrincipalProductos, name='vistaPrincipalProductos'),
-   # path('productos/<int:categoria_id>/', views.consultaProductoCategoria, name='consultaProductoCategoria' ),
-   path('detalle_producto/<int:producto_id>/', views.detalle_producto, name='detalle_producto')
+    # Home
+    path('', views.vistaPrincipalProductos, name='home'),
+    
+    # Detalle de producto (usa slug)
+   #  path('producto/<slug:slug>/', views.detalle_producto, name='detalle_producto'),
+    
+    # Categoría (muestra todos los productos de esa categoría)
+    path('categoria/<slug:slug>/', views.categoria_detalle, name='categoria_detalle'),
+    
+    # Categoría + Marca (filtra por ambos)
+    path('categoria/<slug:categoria_slug>/<slug:marca_slug>/', 
+         views.categoria_marca_detalle, 
+         name='categoria_marca_detalle'),
 ]

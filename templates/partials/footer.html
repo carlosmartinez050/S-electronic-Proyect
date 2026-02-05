@@ -1,0 +1,41 @@
+{% load static %}
+
+<div class="footer">
+  <div class="footer-container">
+    <!-- Columna 1 -->
+    <div class="footer-column">
+      <h3>Contacto</h3>
+      <ul class="contact-list">
+        <li> <img src="{% static  'img/svg-iconos/icon-direction.svg' %}" alt="direccion" class="direccion-icon"> Avenida 27 feb. 123, Santiago, Rep.Dom </li>
+        <li> <img src="{% static 'img/svg-iconos/phone.svg' %}" alt="Teléfono" class="contact-icon"> 809-598-2435 </li>
+        <li> <img src="{% static 'img/svg-iconos/mail.svg' %}" alt="Email" class="mail-icon"> S-ELECTRONIC_ecommerce@gmail.com </li>
+        <li> <img src="{% static 'img/svg-iconos/instagram.svg' %}" alt="instagram" class="instagram-icon"> Selectronic_SA </li>
+      </ul>
+    </div>
+
+    <!-- Columna 2 -->
+    <div class="footer-column">
+      <h3>Categorías</h3>
+      <div class="footer-categories">
+        {% for cat in categorias %}
+            <a href="{% url 'shop:categoria_detalle' cat.slug %}" class="footer-category-link">
+                {{ cat.nombre }}
+            </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Columna 3: Información/Legal -->
+    <div class="footer-column footer-legal">
+        <h3>Información</h3>
+        <a href="#" class="footer-link">Quiénes somos</a>
+        <a href="#" class="footer-link">Términos y condiciones</a>
+        <a href="#" class="footer-link">Políticas</a>
+        <a href="#" class="footer-link">Mi cuenta</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2026 S-ELECTRONIC</p>
+  </div>
+</div>

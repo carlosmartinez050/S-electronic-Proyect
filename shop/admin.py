@@ -88,7 +88,8 @@ class MarcaAdmin(admin.ModelAdmin):
 @admin.register(Producto) # decorador para registrar el modelo Producto en el admin
 class ProductoAdmin(admin.ModelAdmin):
     list_display = [
-        'nombre', 
+        'nombre',
+        'sku', 
         'marca', 
         'categoria',
         'precio', 

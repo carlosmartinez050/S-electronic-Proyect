@@ -1,9 +1,82 @@
 
-.footer-container{
-    width: 100%;
-    height: 100px;
-    background-color: rgb(36, 40, 55);
+/* ===== CONTENEDOR PRINCIPAL DEL FOOTER ===== */
+.footer {
+    background-color: rgb(36, 40, 55);  /* Tu color oscuro */
+    color: antiquewhite;
+    padding: 50px 20px 20px;            /* Espaciado vertical y horizontal */
+    margin-top: 60px;
+  
+}
+
+/* ===== CONTENEDOR DE LAS 3 COLUMNAS ===== */
+.footer-container {
+    width: 100%;                        /* Ocupa todo el ancho */
+    max-width: 1200px;                  /* Límite máximo de ancho */
+    margin: 0 auto;                     /* Centra el contenedor */
+    
+    display: flex;                      /* Activa flexbox */
+    justify-content: space-around;      /* Distribuye espacio entre columnas */
+    align-items: flex-start;            /* Alinea columnas arriba (no al centro) */
+    flex-wrap: wrap;                    /* Si no caben, se apilan */
+    gap: 40px;                          /* Espacio entre columnas */
+    
+    padding-bottom: 30px;               /* Espacio antes de la línea */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /*Línea divisoria sutil */
+    
+}
+
+/* ===== CADA COLUMNA ===== */
+.footer-column, .contact-list {
+    flex: 1;                            /* Cada columna ocupa igual espacio */
+    min-width: 200px;                   /* Ancho mínimo antes de apilarse */
+    list-style: none;
+
+}
+
+/* === COLUMNA PARA LAS CATEGORIAS === */
+.footer-categories, .footer-category-link {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    text-decoration: none;
+    color: antiquewhite;
+}
+
+
+/* === COLUMNA ¨INFORMACION¨ === */
+.footer-legal .footer-link {
+    display: block;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: antiquewhite;
+}
+
+/* ===== ESTILOS INTERNOS DE LAS COLUMNAS ===== */
+h3 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    border-bottom: 2px solid #555;     /* Línea debajo del título */
+    padding-bottom: 10px;
+}
+
+li {
+    margin-bottom: 10px;                /* Espacio entre elementos de la lista */
+    font-size: 16px;
+    display: flex;
     align-items: center;
+    gap: 10px;
+}
+
+/* ==== iconos ==== */
+.direccion-icon, .contact-icon, .mail-icon, .instagram-icon {
+    width: 25px;
+}
+
+
+/* ===== COPYRIGHT ===== */
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    color: #888;
+    font-size: 14px;
 }
