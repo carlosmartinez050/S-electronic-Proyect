@@ -1,0 +1,42 @@
+{% load static %}
+
+<!-- Contenedor principal del Hero -->
+<div class="hero-container">
+    
+    <!-- Slide 1: Categorías en Oferta -->
+    <div class="hero-slide active">
+        <img src="{% static 'img/hero-img/Slide-3.jpg' %}" alt="Categorías en Oferta" class="hero-image">        
+        <!-- Contenido superpuesto -->
+        <div class="hero-content">
+            <h1 class="hero-title">Categorías en Oferta</h1>
+            <p class="hero-description">Hasta 40% de descuento en productos seleccionados</p>
+            <a href="#" class="hero-button">Ver Ofertas</a>
+        </div>
+
+    </div>
+
+    <!-- Slide 2: Producto Destacado -->
+    <div class="hero-slide">
+        <img src="{% static 'img/hero-img/Slide-2.jpg' %}" alt="Producto Destacado" class="hero-image">
+        
+        <div class="hero-content">
+            <h1 class="hero-title">Producto Destacado</h1>
+            <p class="hero-description">Lo mejor en tecnología al mejor precio</p>
+            <a href="#" class="hero-button">Comprar Ahora</a>
+        </div>
+    </div>
+
+    <!-- Slide 3: Marcas en Oferta -->
+    <div class="hero-slide">
+        <img src="{% static 'img/hero-img/Slide-1.png' %}" alt="Marcas en Oferta" class="hero-image">
+        
+        <div class="hero-content">
+            <h1 class="hero-title">Marcas en Oferta</h1>
+            <p class="hero-description">Las mejores marcas con increíbles descuentos</p>
+            <a href="#" class="hero-button">Explorar Marcas</a>
+        </div>
+    </div>
+
+    <button class="hero-nav hero-prev" aria-label="Anterior">❮</button>  <!-- cambiar los simbolos de los botones mas adelante -->
+    <button class="hero-nav hero-next" aria-label="Siguiente">❯</button>
+</div>
