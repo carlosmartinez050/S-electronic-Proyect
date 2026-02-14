@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{% static 'css/header.css' %}">
     <link rel="stylesheet" href="{% static 'css/shopping_cart.css' %}">
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/hero.css' %}"> <!-- CSS específico para el Hero, solo se aplicará en el home -->
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}"> <!-- FontAwesome para íconos -->
     
     <!-- CSS adicional que cada página puede agregar -->
@@ -33,8 +34,10 @@
     <main class="container_main">
         <!-- Este bloque está VACÍO a propósito -->
         <!-- Cada página hijo lo llenará con su contenido -->
+        
         {% block content %}
           {% comment %} {% include "partials/card_product.html" %} {% endcomment %} {# Comentado intencionalmente, este no es el metodo que se utilizara #}
+
         {% endblock %}
     </main>
 
@@ -52,6 +55,7 @@
 
     <!-- JavaScript base -->
     <script src="{% static 'js/shopping_cart.js' %}"></script>
+    <script src="{% static 'js/hero.js' %}"></script>
     
     <!-- JavaScript adicional por página -->
     {% block extra_js %}{% endblock %}

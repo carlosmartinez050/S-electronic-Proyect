@@ -25,3 +25,5 @@ media/
 .DS_Store
 Thumbs.db
 
+# commit.txt
+commits.txt

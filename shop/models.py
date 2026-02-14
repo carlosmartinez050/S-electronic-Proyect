@@ -133,7 +133,7 @@ class Marca(models.Model):
     
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.nombre)
+            self.slug = slugify(self.nombre)    #  slugify() convierte el slug a miniusculas automaticamente
             original_slug = self.slug
             counter = 1
             while Marca.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():

@@ -28,7 +28,7 @@ def vistaPrincipalProductos(request):
         stock__gt=0
     ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:20]
     
-    return render(request, 'base.html', {
+    return render(request, 'home/index.html', {
         'productos': productos_recientes,  # ← Mostrar recientes en el cuerpo principal
         'productos_destacados': productos_destacados,
         'productos_nuevos': productos_nuevos,
