@@ -1,0 +1,120 @@
+
+/* ===== CONTENEDOR DE LA SECCIÓN ===== */
+.productos-destacados-section {
+    width: 100%;
+    max-width: 1400px;               /* Ancho máximo */
+    margin: 60px auto;              /* 60px para separar del Hero, centrado horizontalmente */
+    padding: 0 20px;                 /* Padding lateral */
+}
+
+/* ===== HEADER (Título + Link) ===== */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;      /* Elimina margen por defecto */
+}
+
+.section-link {
+    font-size: 16px;
+    color: #00a8ff;                  /* Azul (ajusta a tu color) */
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.section-link:hover {
+    color: #0077cc;
+    text-decoration: underline;
+}
+
+/* ===== CONTENEDOR CON SCROLL HORIZONTAL ===== */
+.productos-destacados-container {
+    display: flex;                   /* Cards en línea horizontal */
+    gap: 20px;                       /* Espacio entre cards */
+    overflow-x: auto;                /* Scroll horizontal */
+    overflow-y: hidden;              /* Sin scroll vertical */
+    padding: 20px 0;                 /* Padding arriba/abajo */
+    
+    /* Ocultar scrollbar por defecto */
+    scrollbar-width: thin;           /* Firefox: scrollbar delgado */
+    scrollbar-color: transparent transparent; /* Firefox: invisible */
+}
+
+/* Webkit (Chrome, Safari, Edge) - Scrollbar invisible por defecto */
+.productos-destacados-container::-webkit-scrollbar {
+    height: 8px;                     /* Altura de la scrollbar */
+}
+
+.productos-destacados-container::-webkit-scrollbar-track {
+    background: transparent;         /* Track invisible */
+}
+
+.productos-destacados-container::-webkit-scrollbar-thumb {
+    background: transparent;         /* Thumb invisible */
+    border-radius: 10px;
+}
+
+/* ===== MOSTRAR SCROLLBAR AL HOVER ===== */
+.productos-destacados-container:hover {
+    scrollbar-color: #cccccc #f5f5f5; /* Firefox: visible al hover */
+}
+
+.productos-destacados-container:hover::-webkit-scrollbar-track {
+    background: #f5f5f5;             /* Track gris claro */
+}
+
+.productos-destacados-container:hover::-webkit-scrollbar-thumb {
+    background: #cccccc;             /* Thumb gris */
+}
+
+.productos-destacados-container:hover::-webkit-scrollbar-thumb:hover {
+    background: #999999;             /* Thumb más oscuro al hover */
+}
+
+/* ===== CARDS DENTRO DEL CARRUSEL ===== */
+.productos-destacados-container .product-card {
+    flex: 0 0 280px;                 /* No crece, no se encoge, ancho fijo 280px */
+    min-width: 280px;                /* Ancho mínimo */
+}
+
+/* ===== MENSAJE SI NO HAY PRODUCTOS ===== */
+.no-products {
+    width: 100%;
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-size: 16px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 22px;
+    }
+    
+    .section-link {
+        font-size: 14px;
+    }
+    
+    .productos-destacados-container {
+        padding: 15px 0;
+    }
+    
+    .productos-destacados-container .product-card {
+        flex: 0 0 250px;             /* Cards más pequeñas en móvil */
+        min-width: 250px;
+    }
+}

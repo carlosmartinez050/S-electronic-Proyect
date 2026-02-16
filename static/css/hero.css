@@ -1,7 +1,7 @@
 /* === CONTENEDOR PRINCIPAL === */
 .hero-container {
     position: relative;             /* "position relative" para que los slides (imágenes) puedan posicionarse absolutamente dentro de este contenedor */
-    width: 100%;
+    width: 95%;
     height: 500px;
     overflow: hidden;
 }

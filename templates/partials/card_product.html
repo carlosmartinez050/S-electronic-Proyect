@@ -1,64 +1,47 @@
-
-
 {% load static %}
 
- {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/card_product.css' %}">
- {% endblock %}
-
-
-
-    {% for product in productos %}
-        <!-- Contenedor principal de la tarjeta de producto -->
-        <div class="product-card">
-
-            <!-- Imagen del producto -->
-            <div class="product-image">
-                {% if product.get_imagen_principal %}
-                    <img src="{{ product.get_imagen_principal.imagen.url }}" 
-                        alt="{{ product.nombre }}" 
-                        width="334" 
-                        height="250.5">
-                {% else %}
-                    <img src="{% static 'img/default.png' %}" 
-                        alt="Sin imagen" 
-                        width="334" 
-                        height="250.5">
-                {% endif %}
-            </div>
-
-            <!-- Contenido de la tarjeta -->
-            <div class="product-content">
-
-                <!-- Nombre del producto -->
-                <div class="class-h1">
-                    <h3 class="product-title">{{ product.nombre }}</h3>
-                </div>
-
-                <!-- Descripción breve -->
-                <div class="p-descriptions">
-                    <p class="product-description">{{ product.descripcion }}</p>  
-                </div>
-            
-
-                <!-- Precio -->
-                <div class="box-precio">
-                    <p class="product-price">${{ product.precio }}</p>
-                </div>
-
-                <!-- Botones de acción -->
-                <div class="product-actions">
-                    <button class="btn-carrito" onclick='agregarProducto({{ product.id }})'>Agregar al carrito</button>
-                    {% comment %} <a href="{% url 'detalle_producto' product.id %}" class="btn-details">Ver detalles</a> {% endcomment %}
-                </div>
-            </div>
-        </div>
-
-    {% endfor %}
-
+<!-- Card de producto -->
+<div class="product-card">
     
- 
+    <!-- Imagen con link a detalle -->
+    <a href="#" class="product-image-link">
+        {% if producto.get_imagen_principal %}
+            <img src="{{ producto.get_imagen_principal.imagen.url }}" 
+                 alt="{{ producto.nombre }}" 
+                 class="product-image">
+        {% else %}
+            <img src="{% static 'img/default-product.png' %}" 
+                 alt="Sin imagen" 
+                 class="product-image">
+        {% endif %}
+    </a>
+    
+    <!-- Contenido de la card -->
+    <div class="product-info">
         
-
-
-
+        <!-- Nombre del producto (truncado) -->
+        <h3 class="product-name" title="{{ producto.nombre }}">
+            {{ producto.nombre }}
+        </h3>
+        
+        <!-- Precio + Favorito -->
+        <div class="product-price-favorite">
+            <p class="product-price">${{ producto.precio|floatformat:0 }}</p>
+            <button class="btn-favorite" data-producto-id="{{ producto.id }}" aria-label="Añadir a favoritos">
+                ❤️
+            </button>
+        </div>
+        
+        <!-- Descuento (oculto por defecto) -->
+        <div class="product-discount hidden" data-producto-id="{{ producto.id }}">
+            -20% (opcional)
+        </div>
+        
+        <!-- Botón agregar al carrito -->
+        <button class="btn-add-cart" onclick="agregarProducto({{ producto.id }})">
+            Agregar al Carrito
+        </button>
+        
+    </div>
+    
+</div>

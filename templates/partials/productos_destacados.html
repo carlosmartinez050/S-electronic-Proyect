@@ -1,0 +1,27 @@
+{% load static %}
+
+<!-- Sección Productos Destacados -->
+<section class="productos-destacados-section">
+    
+    <!-- Header con título y link -->
+    <div class="section-header">
+        <h2 class="section-title">Productos Destacados</h2>
+        <a href="#" class="section-link">
+            Ver todos →
+        </a>
+    </div>
+    
+    <!-- Contenedor con scroll horizontal -->
+    <div class="productos-destacados-container">
+        
+        {% if productos_destacados %}
+            {% for producto in productos_destacados %}
+                {% include "partials/card_product.html" with producto=producto %} {# Reutilizamos la card de producto, pasando el producto actual #}
+            {% endfor %}
+        {% else %}
+            <p class="no-products">No hay productos destacados disponibles</p>
+        {% endif %}
+        
+    </div>
+    
+</section>

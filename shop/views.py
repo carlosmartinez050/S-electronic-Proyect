@@ -104,9 +104,9 @@ def categoria_marca_detalle(request, categoria_slug, marca_slug):
 
 
 
-
-
-
+# def productos_destacados_lista(request):
+#     productos = Producto.objects.filter(activo=True, destacado=True, stock__gt=0)
+#     return render(request, 'shop/productos_lista.html', {'productos': productos})
 
 
 

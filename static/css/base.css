@@ -43,3 +43,13 @@ header{
     justify-content: center;
     gap: 10px;
 }
+
+
+/* En tu base.css o hero.css */
+.hero-container {
+    margin-top: 0 !important;
+}
+
+.container_main {
+    padding-top: 0;
+}
