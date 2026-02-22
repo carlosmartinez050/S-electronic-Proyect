@@ -1,0 +1,52 @@
+{% load static %}
+
+<!-- Sección Arma tu PC + Marcas -->
+<section class="arma-pc-marcas-section">
+    
+    <!-- Columna 1: Arma tu PC -->
+    <div class="arma-pc-column">
+        <div class="column-header">
+            <h2 class="column-title">Arma tu PC</h2>
+            <a href="#" class="section-link">Ver todos →</a>
+        </div>
+        
+        <div class="arma-pc-container">
+            {% if productos_componentes %}
+                {% for producto in productos_componentes %}
+                    {% include "partials/product-card.html" with producto=producto %}
+                {% endfor %}
+            {% else %}
+                <p class="no-products">Componentes próximamente...</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Columna 2: Marcas -->
+    <div class="marcas-column">
+        <div class="column-header">
+            <h2 class="column-title">Marcas</h2>
+            <a href="#" class="section-link">Ver todas →</a>
+        </div>
+        
+        <div class="marcas-container">
+            {% if marcas %}
+                {% for marca in marcas %}
+                    <a href="#" class="marca-card">
+                        {% if marca.logo %}
+                            <img src="{{ marca.logo.url }}" 
+                                 alt="{{ marca.nombre }}" 
+                                 class="marca-logo">
+                        {% else %}
+                            <div class="marca-placeholder">
+                                <span class="marca-nombre">{{ marca.nombre }}</span>
+                            </div>
+                        {% endif %}
+                    </a>
+                {% endfor %}
+            {% else %}
+                <p class="no-products">No hay marcas disponibles</p>
+            {% endif %}
+        </div>
+    </div>
+    
+</section>
