@@ -1,0 +1,39 @@
+{% load static %}
+
+<!-- Sección Compra por Categoría -->
+<section class="compra-categoria-section">
+    
+    <!-- Título de la sección -->
+    <div class="section-header">
+        <h2 class="section-title">Compra por Categoría</h2>
+        <a href="#" class="section-link">Ver todas →</a>
+    </div>
+    
+    <!-- Grid de categorías -->
+    <div class="categorias-grid">
+        
+        {% if categorias %}
+            {% for categoria in categorias %}           <!-- categorias viene del context_processor -->
+                <a href="#" class="categoria-card">
+                    {% if categoria.imagen %}
+                        <img src="{{ categoria.imagen.url }}" 
+                             alt="{{ categoria.nombre }}" 
+                             class="categoria-image">
+                    {% else %}
+                        <img src="{% static 'img/default-category.png' %}" 
+                             alt="{{ categoria.nombre }}" 
+                             class="categoria-image">
+                    {% endif %}
+                    
+                    <div class="categoria-overlay">
+                        <h3 class="categoria-nombre">{{ categoria.nombre }}</h3>
+                    </div>
+                </a>
+            {% endfor %}
+        {% else %}
+            <p class="no-categories">No hay categorías disponibles</p>
+        {% endif %}
+        
+    </div>
+    
+</section>
