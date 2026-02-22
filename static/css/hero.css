@@ -1,9 +1,13 @@
 /* === CONTENEDOR PRINCIPAL === */
 .hero-container {
     position: relative;             /* "position relative" para que los slides (imágenes) puedan posicionarse absolutamente dentro de este contenedor */
+    z-index: 0;                      /* "z-index 0" para que el contenedor principal esté por debajo de otros elementos como el header, que tiene "z-index 100" */
     width: 95%;
+    /* max-width: 1280px; */
+    margin: 0 auto;             /* Centrado horizontal */
+    margin-bottom: 40px;         /* Espacio debajo del hero */
     height: 500px;
-    overflow: hidden;
+    overflow: hidden;           /* "overflow hidden" para ocultar cualquier parte de las imágenes que se salga del contenedor, asegurando que solo se vea la parte dentro del contenedor */
 }
 
 /* === SLIDE (IMAGEN DE FONDO) === */

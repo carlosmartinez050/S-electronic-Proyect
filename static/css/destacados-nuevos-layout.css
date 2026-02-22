@@ -1,0 +1,41 @@
+/* ============================================
+   CONTENEDOR DESTACADOS + NUEVOS
+   ============================================ */
+
+/* Contenedor que agrupa ambas secciones lado a lado */
+.destacados-nuevos-layout {
+    display: flex;
+    gap: 20px;                       /* Espacio entre secciones */
+    width: 100%;
+    /* max-width: 1400px; */
+    margin: auto;              /* Centrado horizontal con margen superior e inferior */
+    padding: 0 20px;                /* Espacio horizontal dentro del contenedor */
+    align-items: flex-start;         /* Alineadas arriba */
+}
+
+/* Productos Destacados ocupa más espacio */
+.destacados-nuevos-layout .productos-destacados-section {
+    flex: 1;                         /* Crece para ocupar espacio disponible */
+    margin: 0;                       /* Quitar margen (ya está en wrapper) */
+}
+
+/* Productos Nuevos con ancho fijo */
+.destacados-nuevos-layout .productos-nuevos-section {
+    flex: 0 0 350px;                 /* No crece, ancho fijo 350px */
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1024px) {
+    .destacados-nuevos-layout {
+        flex-direction: column;      /* Apiladas verticalmente */
+        gap: 40px;
+    }
+    
+    .destacados-nuevos-layout .productos-nuevos-section {
+        flex: 1;                     /* Ocupa todo el ancho */
+        max-width: 100%;
+    }
+}

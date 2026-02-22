@@ -1,0 +1,168 @@
+
+/* ===== CONTENEDOR DE LA SECCIÓN ===== */
+.compra-categoria-section {
+    width: 100%;
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+/* ===== HEADER ===== */
+.compra-categoria-section .section-header {
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.compra-categoria-section .section-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+.compra-categoria-section .section-link {
+    font-size: 16px;
+    color: #00a8ff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.compra-categoria-section .section-link:hover {
+    color: #0077cc;
+    text-decoration: underline;
+}
+
+/* ===== CONTENEDOR CON SCROLL HORIZONTAL ===== */
+.categorias-grid {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;                /* Scroll horizontal siempre */
+    overflow-y: hidden;
+    padding-bottom: 20px;
+    
+    /* Scrollbar invisible por defecto */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+/* Webkit - Scrollbar invisible */
+.categorias-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.categorias-grid::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.categorias-grid::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 10px;
+}
+
+/* Scrollbar visible al hover */
+.categorias-grid:hover {
+    scrollbar-color: #cccccc #f5f5f5;
+}
+
+.categorias-grid:hover::-webkit-scrollbar-track {
+    background: #f5f5f5;
+}
+
+.categorias-grid:hover::-webkit-scrollbar-thumb {
+    background: #cccccc;
+}
+
+.categorias-grid:hover::-webkit-scrollbar-thumb:hover {
+    background: #999999;
+}
+
+/* ===== CARD DE CATEGORÍA ===== */
+.categoria-card {
+    position: relative;
+    display: block;
+    flex: 0 0 320px;                 /* No crece, ancho fijo 320px */
+    min-width: 320px;
+    height: 250px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+}
+
+.categoria-card:hover {
+    transform: translateY(-5px);     /* Se eleva al hover */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+/* ===== IMAGEN DE LA CATEGORÍA ===== */
+.categoria-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;               /* Cubre todo el espacio */
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+.categoria-card:hover .categoria-image {
+    transform: scale(1.1);           /* Zoom al hover */
+}
+
+/* ===== OVERLAY CON NOMBRE ===== */
+.categoria-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    display: flex;
+    align-items: flex-end;
+}
+
+.categoria-nombre {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* ===== MENSAJE SI NO HAY CATEGORÍAS ===== */
+.no-categories {
+    grid-column: 1 / -1;             /* Ocupa todas las columnas */
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-size: 16px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .compra-categoria-section {
+        margin: 40px auto;
+    }
+    
+    .compra-categoria-section .section-title {
+        font-size: 22px;
+    }
+    
+    .categoria-card {
+        flex: 0 0 280px;             /* Cards más pequeñas en mobile */
+        min-width: 280px;
+        height: 180px;
+    }
+    
+    .categoria-nombre {
+        font-size: 18px;
+    }
+    
+    .categoria-overlay {
+        padding: 15px;
+    }
+}

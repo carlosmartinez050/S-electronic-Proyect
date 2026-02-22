@@ -1,0 +1,225 @@
+/* ============================================
+   ARMA TU PC + MARCAS - Layout Lado a Lado
+   ============================================ */
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.arma-pc-marcas-section {
+    display: flex;
+    gap: 40px;                       /* Espacio entre columnas */
+    max-width: 1400px;
+    margin: 60px auto;
+    padding: 0 20px;
+    justify-content: flex-start;
+}
+
+/* ===== COLUMNAS (50% cada una) ===== */
+.arma-pc-column,
+.marcas-column {
+    flex: 1;                         /* Ocupan el mismo espacio */
+    min-width: 0;                    /* Permite que flex comprima el contenido */               
+    border-radius: 15px;
+    padding: 25px;
+    /* box-shadow: 0 4px 6px rgba(0,0,0,0.1);   */
+}
+
+/* ===== HEADER DE COLUMNAS ===== */
+.column-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.section_link {
+    font-size: 16px;
+    color: #00a8ff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.section_link:hover {
+    color: #0077cc;
+    text-decoration: underline;
+}
+
+.column-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+/* ============================================
+   ARMA TU PC - Scroll Horizontal
+   ============================================ */
+
+.arma-pc-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 20px 0;
+    
+    /* Scrollbar invisible */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+.arma-pc-container::-webkit-scrollbar {
+    height: 8px;    
+}
+
+.arma-pc-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.arma-pc-container::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 10px;
+}
+
+/* Scrollbar visible al hover */
+.arma-pc-container:hover {
+    scrollbar-color: #cccccc #f5f5f5;
+}
+
+.arma-pc-container:hover::-webkit-scrollbar-thumb {
+    background: #cccccc;
+}
+
+.arma-pc-container .product-card {
+    flex: 0 0 280px;
+    min-width: 280px;
+}
+
+/* ============================================
+   MARCAS - Scroll Horizontal
+   ============================================ */
+
+.marcas-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 20px 0;
+    
+    /* Scrollbar invisible */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+.marcas-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.marcas-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.marcas-container::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 10px;
+}
+
+/* Scrollbar visible al hover */
+.marcas-container:hover {
+    scrollbar-color: #cccccc #f5f5f5;
+}
+
+.marcas-container:hover::-webkit-scrollbar-thumb {
+    background: #cccccc;
+}
+
+/* ===== CARD DE MARCA ===== */
+.marca-card {
+    flex: 0 0 200px;                 /* Ancho más grande: 200px */
+    min-width: 200px;
+    height: 140px;                   /* Altura más grande */
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+}
+
+.marca-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+/* ===== LOGO DE MARCA ===== */
+.marca-logo {
+    max-width: 100%;
+    max-height: 100px;               /* Altura máxima más grande */
+    object-fit: contain;
+}
+
+/* ===== PLACEHOLDER SI NO HAY LOGO ===== */
+.marca-placeholder {
+    text-align: center;
+}
+
+.marca-nombre {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* ===== MENSAJE SI NO HAY CONTENIDO ===== */
+.no-products {
+    width: 100%;
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+    font-size: 16px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .arma-pc-marcas-section {
+        gap: 30px;
+    }
+    
+    .column-title {
+        font-size: 22px;
+    }
+}
+
+/* Mobile - Apiladas verticalmente */
+@media (max-width: 768px) {
+    .arma-pc-marcas-section {
+        flex-direction: column;      /* Apiladas */
+        gap: 40px;
+        margin: 40px auto;
+    }
+    
+    .arma-pc-column,
+    .marcas-column {
+        width: 100%;
+    }
+    
+    .column-title {
+        font-size: 20px;
+    }
+    
+    .arma-pc-container .product-card {
+        flex: 0 0 250px;
+        min-width: 250px;
+    }
+    
+    .marca-card {
+        flex: 0 0 150px;
+        min-width: 150px;
+        height: 100px;
+    }
+}
