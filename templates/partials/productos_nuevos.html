@@ -1,0 +1,27 @@
+{% load static %}
+
+<!-- Sección Productos Nuevos -->
+<section class="productos-nuevos-section">
+    
+    <!-- Header con título y link -->
+    <div class="section-header">
+        <h2 class="section-title">Productos Nuevos</h2>
+        <a href="#" class="section-link">
+            Ver todos →
+        </a>
+    </div>
+    
+    <!-- Contenedor con scroll (vertical en desktop, horizontal en mobile) -->
+    <div class="productos-nuevos-container">
+        
+        {% if productos_nuevos %}
+            {% for producto in productos_nuevos %}
+                {% include "partials/card_product.html" with producto=producto %}
+            {% endfor %}
+        {% else %}
+            <p class="no-products">No hay productos nuevos disponibles</p>
+        {% endif %}
+        
+    </div>
+    
+</section>
