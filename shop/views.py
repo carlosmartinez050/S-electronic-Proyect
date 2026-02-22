@@ -14,7 +14,7 @@ def vistaPrincipalProductos(request):
         destacado=True,
         stock__gt=0
     ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
-    
+        
     # Productos nuevos (de todas las categorías)
     productos_nuevos = Producto.objects.filter(
         activo=True,
@@ -28,12 +28,21 @@ def vistaPrincipalProductos(request):
         stock__gt=0
     ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:20]
     
+    # productos_ofertas = Producto.objects.filter(          #* FUTURA SECCIÓN DE OFERTAS *) ESPERA A SER IMPLEMENTADA EN EL FUTURO, CON LA APP "DESCUENTOS".
+    #     oferta=True,
+    #     stock__gt=0
+    # ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
+    
+    marcas = Marca.objects.filter(
+        activo=True
+    ).order_by('orden', 'nombre')
+    
     return render(request, 'home/index.html', {
         'productos': productos_recientes,  # ← Mostrar recientes en el cuerpo principal
         'productos_destacados': productos_destacados,
         'productos_nuevos': productos_nuevos,
-        'productos_recientes': productos_recientes,
-        # ← NO pasamos 'marcas' ni 'categoria'
+        'marcas': marcas,  
+        # 'productos_ofertas': productos_ofertas,  
     })
     
     
@@ -104,9 +113,9 @@ def categoria_marca_detalle(request, categoria_slug, marca_slug):
 
 
 
-# def productos_destacados_lista(request):
-#     productos = Producto.objects.filter(activo=True, destacado=True, stock__gt=0)
-#     return render(request, 'shop/productos_lista.html', {'productos': productos})
+def productos_destacados_lista(request):
+    productos = Producto.objects.filter(activo=True, destacado=True, stock__gt=0)
+    return render(request, 'shop/productos_lista.html', {'productos': productos})
 
 
 
