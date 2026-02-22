@@ -16,7 +16,7 @@
         
         {% if productos_destacados %}
             {% for producto in productos_destacados %}
-                {% include "partials/card_product.html" with producto=producto %} {# Reutilizamos la card de producto, pasando el producto actual #}
+                {% include "partials/card_product.html" with producto=producto %}
             {% endfor %}
         {% else %}
             <p class="no-products">No hay productos destacados disponibles</p>
