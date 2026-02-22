@@ -4,8 +4,15 @@
 {% block content %}
     <!-- El Hero solo aparece en el home -->
     {% include "partials/hero.html" %}
-    {% include "partials/productos_destacados.html" %}
+
+    <div class="destacados-nuevos-layout">
+        {% include "partials/productos_destacados.html" %}
+
+        {% include "partials/productos_nuevos.html" %}
+    </div>
+   
+    {% include 'partials/comprar_categoria.html' %}
+    {% include "partials/ofertas.html" %}
+    {% include "partials/section_armaPC_marcas.html" %}
     
-    <!-- Categorías -->
-    <!-- Etc. -->
 {% endblock %}
