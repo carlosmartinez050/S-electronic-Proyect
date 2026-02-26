@@ -1,0 +1,111 @@
+/* ============================================================
+   S-ELECTRONIC — SISTEMA DE DISEÑO
+   theme.css · Fuente única de verdad para colores y tokens
+   
+   INSTRUCCIÓN: Este archivo debe cargarse PRIMERO en base.html,
+   antes que cualquier otro CSS.
+   ============================================================ */
+
+:root {
+
+  /* ──────────────────────────────────────────
+     FONDOS — 3 niveles de profundidad
+     El ojo percibe jerarquía gracias a estos
+     sutiles saltos de luminosidad.
+  ────────────────────────────────────────── */
+  --bg-base:     #0b0c0f;   /* body, fondo principal         */
+  --bg-surface:  #1a1d24;   /* cards, header, footer         */
+  --bg-elevated: #1a1d24;   /* modales, dropdowns, carrito   */
+  --bg-hover:    #22262f;   /* estado hover de cards/items   */
+
+  /* ──────────────────────────────────────────
+     ACENTO — Azul eléctrico
+     #0ea5e9 es más vivo que el rgb(0,114,184)
+     actual sin perder seriedad tecnológica.
+     El "glow" crea profundidad sin saturar.
+  ────────────────────────────────────────── */
+  --accent:       #0ea5e9;
+  --accent-hover: #38bdf8;
+  --accent-dark:  #0369a1;
+  --accent-glow:  rgba(14, 165, 233, 0.15);
+  --accent-glow-strong: rgba(14, 165, 233, 0.30);
+
+
+  /* ──────────────────────────────────────────
+     TIPOGRAFÍA — Escala de grises cálidos
+     Nunca usar blanco puro (#fff) sobre negro
+     puro: fatiga visual. #f1f5f9 es más suave.
+  ────────────────────────────────────────── */
+  --text-primary:   #f1f5f9;   /* títulos, nombres de producto   */
+  --text-secondary: #94a3b8;   /* precios secundarios, subtítulos */
+  --text-card: #1a9ce3;        /* otros titulos */
+  --text-muted:     #475569;   /* placeholders, texto desactivado */
+
+  /* ──────────────────────────────────────────
+     BORDES
+     Bordes muy sutiles dan estructura sin
+     "encajonar" visualmente los elementos.
+  ────────────────────────────────────────── */
+  --border-subtle: rgba(216, 211, 211, 0.301);
+  --border-mid:    rgba(157, 152, 152, 0.322);
+  --border-active: rgba(14, 165, 233, 0.45);
+
+  /* ──────────────────────────────────────────
+     SEMÁNTICOS — Estado y feedback
+  ────────────────────────────────────────── */
+  --danger:        #ef4444;
+  --danger-hover:  #f87171;
+  --danger-glow:   rgba(239, 68, 68, 0.15);
+
+  --success:       #22c55e;
+  --success-glow:  rgba(34, 197, 94, 0.15);
+
+  --warning:       #f59e0b;
+
+  /* ──────────────────────────────────────────
+     SOMBRAS
+     Las sombras de color (no grises) dan
+     profundidad real en temas oscuros.
+  ────────────────────────────────────────── */
+  --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md:  0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg:  0 8px 24px rgba(0, 0, 0, 0.6);
+  --shadow-accent: 0 4px 20px rgba(14, 165, 233, 0.20);
+
+  /* ──────────────────────────────────────────
+     ESPACIADO — Escala consistente
+     Usar estas variables evita "números mágicos"
+     (padding: 13px, gap: 17px, etc.)
+  ────────────────────────────────────────── */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  40px;
+  --space-2xl: 64px;
+
+  /* ──────────────────────────────────────────
+     RADIO DE BORDES — Consistencia visual
+  ────────────────────────────────────────── */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --radius-xl:  24px;
+  --radius-full: 9999px;
+
+  /* ──────────────────────────────────────────
+     TRANSICIONES — Velocidad estándar
+     Usar siempre la misma duración crea
+     cohesión en toda la interfaz.
+  ────────────────────────────────────────── */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   400ms ease;
+
+  /* ──────────────────────────────────────────
+     LAYOUT
+  ────────────────────────────────────────── */
+  --max-width: 1400px;
+  --header-height: 140px;
+
+}

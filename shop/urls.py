@@ -8,7 +8,7 @@ urlpatterns = [
     path('', views.vistaPrincipalProductos, name='home'),
     
     # Detalle de producto (usa slug)
-    # path('producto/<slug:slug>/', views.detalle_producto, name='detalle_producto'),
+    path('producto/<slug:slug>/', views.detalle_producto, name='detalle_producto'),
     
     # Productos destacados
     # path('productos-destacados/', views.productos_destacados_lista, name='productos_destacados'),

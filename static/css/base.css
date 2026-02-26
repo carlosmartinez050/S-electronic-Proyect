@@ -9,7 +9,7 @@ body {
     width: 100%;
     min-height: 100vh;
     overflow: auto;
-    background-color: rgb(25, 25, 25);
+    background-color: var(--bg-base);
     display: flex;
     flex-direction: column;
 }
@@ -19,7 +19,7 @@ body {
     min-height: calc(100vh - 140px);
     overflow-x: hidden;
     overflow-y: auto;
-    background-color: rgb(25, 25, 25);
+    background-color:  var(--bg-base);
     margin-top: 0; /* eliminar espacio extra: hero debe ir directamente debajo del header */
     padding: 0;
     flex: 1;

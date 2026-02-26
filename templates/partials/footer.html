@@ -4,7 +4,7 @@
   <div class="footer-container">
     <!-- Columna 1 -->
     <div class="footer-column">
-      <h3>Contacto</h3>
+      <h3 class="footer-title">Contacto</h3>
       <ul class="contact-list">
         <li> <img src="{% static  'img/svg-iconos/icon-direction.svg' %}" alt="direccion" class="direccion-icon"> Avenida 27 feb. 123, Santiago, Rep.Dom </li>
         <li> <img src="{% static 'img/svg-iconos/phone.svg' %}" alt="Teléfono" class="contact-icon"> 809-598-2435 </li>
@@ -15,7 +15,7 @@
 
     <!-- Columna 2 -->
     <div class="footer-column">
-      <h3>Categorías</h3>
+      <h3 class="footer-title">Categorías</h3>
       <div class="footer-categories">
         {% for cat in categorias %}
             <a href="{% url 'shop:categoria_detalle' cat.slug %}" class="footer-category-link">
@@ -27,7 +27,7 @@
 
     <!-- Columna 3: Información/Legal -->
     <div class="footer-column footer-legal">
-        <h3>Información</h3>
+        <h3 class="footer-title">Información</h3>
         <a href="#" class="footer-link">Quiénes somos</a>
         <a href="#" class="footer-link">Términos y condiciones</a>
         <a href="#" class="footer-link">Políticas</a>

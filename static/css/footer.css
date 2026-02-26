@@ -52,7 +52,7 @@
 }
 
 /* ===== ESTILOS INTERNOS DE LAS COLUMNAS ===== */
-h3 {
+.footer-title {
     margin-bottom: 20px;
     font-size: 20px;
     border-bottom: 2px solid #555;     /* Línea debajo del título */

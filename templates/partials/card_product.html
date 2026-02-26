@@ -4,7 +4,7 @@
 <div class="product-card">
     
     <!-- Imagen con link a detalle -->
-    <a href="#" class="product-image-link">
+    <a href="{% url 'shop:detalle_producto' producto.slug %}" class="product-image-link">
         {% if producto.get_imagen_principal %}
             <img src="{{ producto.get_imagen_principal.imagen.url }}" 
                  alt="{{ producto.nombre }}" 

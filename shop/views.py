@@ -104,18 +104,30 @@ def categoria_marca_detalle(request, categoria_slug, marca_slug):
     })
 
 
-# def detalle_producto(request, producto_id):
-#     detalle_producto = get_object_or_404(Producto, id=producto_id)
-#     return render(request, "shop_Template/detalle_producto.html", {
-#         'detalle_producto': detalle_producto
-#     })
+def detalle_producto(request, slug):
+    """
+    Muestra el detalle de un producto específico
+    URL: /producto/razer-deathadder-v2/
+    """
+    # Obtener el producto por slug, asegurándose de que esté activo
+    producto = get_object_or_404(Producto, slug=slug, activo=True)
     
-
-
+    # buscar productos relacionados o similares.
+    productos_relacionados = Producto.objects.filter(
+        categoria=producto.categoria,
+        activo=True,
+        stock__gt=0
+    ).exclude(id=producto.id)[:8]  # Mostrar hasta 4 productos relacionados
+    
+    return render(request, 'shop_Template/detalle_producto.html', {
+        'producto': producto,
+        'productos_relacionados': productos_relacionados,
+    })
+    
 
 def productos_destacados_lista(request):
     productos = Producto.objects.filter(activo=True, destacado=True, stock__gt=0)
-    return render(request, 'shop/productos_lista.html', {'productos': productos})
+    return render(request, 'shop_Template/productos_lista.html', {'productos': productos})
 
 
 

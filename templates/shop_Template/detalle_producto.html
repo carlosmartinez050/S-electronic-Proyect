@@ -1,36 +1,80 @@
-{% extends 'base.html' %}
-
+{% extends 'base.html' %}   <!-- HEREDA DE LA PLANTILLA BASE, QUE CONTIENE LA ESTRUCTURA GENERAL DE LA PÁGINA -->                                                                                                   
 {% load static %}
 
+{% block title %}{{ producto.nombre }} - S-ELECTRONIC{% endblock  %}        <!-- BLOQUE PARA DEFINIR EL TÍTULO DE LA PÁGINA, UTILIZANDO EL NOMBRE DEL PRODUCTO -->  
+
+<!-- BLOQUE PARA INCLUIR CSS ESPECÍFICO PARA LA PÁGINA DE DETALLE DE PRODUCTO, SOLO SE APLICARÁ EN ESTA PÁGINA -->
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/detalle_producto.css' %}">
-
-{% endblock %}
-
-{% block content %}
+{% endblock extra_css %}
     
-    <div class="detalle-producto">
-        <div class="title-h2-img">
-            <div class="content-img-product">
-                <img src="{{ detalle_producto.imagen }}" alt="{{ detalle_producto.nombre}}" width="300px" height="300px">
+
+{% block content %}     <!-- BLOQUE PRINCIPAL DE CONTENIDO, DONDE SE INCLUYE LA ESTRUCTURA ESPECÍFICA PARA MOSTRAR EL DETALLE DEL PRODUCTO -->
+
+<!-- CONTENEDOR PRICIPAL (PADRE) -->
+<div class="detalle-producto-container">
+    <!-- CONTENEDOR SECUNDARIO (CUERO DE INFORMACION) -->
+    <div class="detalle-producto-main">
+        <div class="detalle-producto-imagen">   <!-- CONTENEDOR LATERAL IZQUIERDO (IMAGENES) -->
+            <img src="https://placehold.net/400x400.png" alt="Imagen del producto" class="detalle-producto-imagen-miniatura">
+            <img src="https://placehold.net/400x400.png" alt="Imagen del producto" class="detalle-producto-imagen-miniatura">
+            <img src="https://placehold.net/400x400.png" alt="Imagen del producto" class="detalle-producto-imagen-miniatura">
+        </div>
+
+        <div class="imagen-principal-wrapper">     <!-- CONTENEDOR CENTRAL (IMAGEN PRINCIPAL + BOTON) -->
+            <div class="imagen-principal-content">
+                <img src="https://placehold.net/400x400.png" alt="">   
             </div>
-            <div class="h1-title-product">
-                <h2>{{ detalle_producto.nombre}}</h2>
+            
+            <button class="boton-comprar">Comprar Ahora</button>
+        </div>
+
+        <div class="detalle-producto-informacion">      <!-- CONTENEDOR LATERAL IZQUIERDO (INFORMACION + BOTONES) -->
+            <div class="detalle-producto-informacion-content">
+                <h3 class="detalle-producto-header">Descripción</h3>
+                <div class="detalle-producto-descripcion">
+                    <p class="detalle-producto-descripcion-text">Este es un producto de alta calidad con características únicas.</p>
+                </div>
+            </div>
+
+            <div class="detalle-producto-informacion-boton">
+                <div class="detalle-producto-agregar-carrito-content">
+                    <button class="boton-agregar-carrito">Agregar al Carrito</button>
+                </div>
+                <div class="detalle-producto-oferta-content hidden">   
+                    <!-- CONTENEDOR DE OFERTAS O PROMOCIONES (OCULTO HASTA QUE ALLA DESC.)-->
+                </div>
+                <div class="detalle-producto-envio-content">
+                    <p class="detalle-producto-envio-text">
+                        Envios a USD $30 a todo el país. Tiempo de entrega estimado: 3-5 días hábiles.
+                    </p>
+                </div>    
+                <div class="detalle-producto-pago-seguro-content">
+                    <p class="detalle-producto-pago-seguro-text">
+                        Pago seguro garantizado. Aceptamos tarjetas de crédito, débito y PayPal.
+                    </p>
+                    <div class="detalle-producto-pago-seguro-iconos">
+                        <img src="https://placehold.net/50x30.png" alt="Icono de tarjeta de crédito" class="detalle-producto-pago-seguro-icono">
+                        <img src="https://placehold.net/50x30.png" alt="Icono de PayPal" class="detalle-producto-pago-seguro-icono">
+                        <img src="https://placehold.net/50x30.png" alt="Icono de Google Pay" class="detalle-producto-pago-seguro-icono">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="main-detalle-description">
-            <div class="content-descriptions">
-                <h3 class="h3-description">Descripción</h3>
-                <p class="detalle-producto-p">{{ detalle_producto.descripcion }}</p>
-            </div>
-            <div class="content-stock-precio">
-                <p>Precio: {{ detalle_producto.precio }}</p>
-                <p>Stock: {{ detalle_producto.stock }}</p>
-            </div>
-          
-        </div>
-        
-        <a href="" class="btn-carrito-content-detalle">Agregar al Carrito</a>
     </div>
+</div>
+
+    <!-- SECCION DE PRODUCTOS SIMILARES -->
+<section class="productos-similares-section">
+    <div class="productos-similares-header">
+        <h2 class="productos-similares-title">Productos Similares</h2>
+        <a href="#" class="productos-similares-link">Ver todos →</a>
+    </div>
+
+    <div class="productos-similares-cards-container">
+        <!-- Aquí se incluirían las tarjetas de productos similares, utilizando un bucle para mostrar cada producto -->
+    </div>
+
+</section>
 
 {% endblock %}
