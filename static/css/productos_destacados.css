@@ -14,26 +14,26 @@
     align-items: center;
     margin-bottom: 20px;
     padding-bottom: 15px;
-    border-bottom: 2px solid #e0e0e0;
+    border-bottom: 2px solid var(--border-subtle);
 }
 
 .section-title {
-    font-size: 24px;
+    font-size: var(--font-size-base);
     font-weight: 700;
-    color: #333;
+    color: var(--text-muted);
     margin: 0;      /* Elimina margen por defecto */
 }
 
 .section-link {
-    font-size: 16px;
-    color: #00a8ff;                  /* Azul (ajusta a tu color) */
+    font-size: var(--font-size-md);
+    color: var(--accent);                  /* Azul (ajusta a tu color) */
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 .section-link:hover {
-    color: #0077cc;
+    color: var(--accent-dark);            /* Azul más oscuro al hover */
     text-decoration: underline;
 }
 

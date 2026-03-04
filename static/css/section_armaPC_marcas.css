@@ -28,26 +28,26 @@
     justify-content: space-between;
     margin-bottom: 20px;
     padding-bottom: 15px;
-    border-bottom: 2px solid #e0e0e0;
+    border-bottom: 2px solid var(--border-subtle);
 }
 
 .section_link {
-    font-size: 16px;
-    color: #00a8ff;
+    font-size: var(--font-size-md);
+    color: var(--accent);
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 .section_link:hover {
-    color: #0077cc;
+    color: var(--accent-dark);
     text-decoration: underline;
 }
 
 .column-title {
-    font-size: 24px;
+    font-size: var(--font-size-base);
     font-weight: 700;
-    color: #333;
+    color: var(--text-muted);
     margin: 0;
 }
 

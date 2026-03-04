@@ -122,6 +122,7 @@ def detalle_producto(request, slug):
     return render(request, 'shop_Template/detalle_producto.html', {
         'producto': producto,
         'productos_relacionados': productos_relacionados,
+        'detalle_producto': producto,
     })
     
 

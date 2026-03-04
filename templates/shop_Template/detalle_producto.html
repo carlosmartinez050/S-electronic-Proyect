@@ -1,5 +1,6 @@
 {% extends 'base.html' %}   <!-- HEREDA DE LA PLANTILLA BASE, QUE CONTIENE LA ESTRUCTURA GENERAL DE LA PÁGINA -->                                                                                                   
 {% load static %}
+{% load humanize %}
 
 {% block title %}{{ producto.nombre }} - S-ELECTRONIC{% endblock  %}        <!-- BLOQUE PARA DEFINIR EL TÍTULO DE LA PÁGINA, UTILIZANDO EL NOMBRE DEL PRODUCTO -->  
 
@@ -11,70 +12,104 @@
 
 {% block content %}     <!-- BLOQUE PRINCIPAL DE CONTENIDO, DONDE SE INCLUYE LA ESTRUCTURA ESPECÍFICA PARA MOSTRAR EL DETALLE DEL PRODUCTO -->
 
-<!-- CONTENEDOR PRICIPAL (PADRE) -->
-<div class="detalle-producto-container">
-    <!-- CONTENEDOR SECUNDARIO (CUERO DE INFORMACION) -->
-    <div class="detalle-producto-main">
-        <div class="detalle-producto-imagen">   <!-- CONTENEDOR LATERAL IZQUIERDO (IMAGENES) -->
-            <img src="https://placehold.net/400x400.png" alt="Imagen del producto" class="detalle-producto-imagen-miniatura">
-            <img src="https://placehold.net/400x400.png" alt="Imagen del producto" class="detalle-producto-imagen-miniatura">
-            <img src="https://placehold.net/400x400.png" alt="Imagen del producto" class="detalle-producto-imagen-miniatura">
-        </div>
+    <!-- CONTENEDOR PRICIPAL (PADRE) -->
+    <div class="detalle-producto-container">
+        <!-- CONTENEDOR SECUNDARIO (CUERO DE INFORMACION) -->
+        <div class="detalle-producto-main">
 
-        <div class="imagen-principal-wrapper">     <!-- CONTENEDOR CENTRAL (IMAGEN PRINCIPAL + BOTON) -->
-            <div class="imagen-principal-content">
-                <img src="https://placehold.net/400x400.png" alt="">   
-            </div>
-            
-            <button class="boton-comprar">Comprar Ahora</button>
-        </div>
 
-        <div class="detalle-producto-informacion">      <!-- CONTENEDOR LATERAL IZQUIERDO (INFORMACION + BOTONES) -->
-            <div class="detalle-producto-informacion-content">
-                <h3 class="detalle-producto-header">Descripción</h3>
-                <div class="detalle-producto-descripcion">
-                    <p class="detalle-producto-descripcion-text">Este es un producto de alta calidad con características únicas.</p>
+
+            <!-- CONTENEDOR PADRE PARA IMAGENES MINIATURAS + IMAGEN PRINCIPAL QUE EN MOBIL SERA UN CAROUSEL DE IMAGENES --> 
+            <div class="galeria-imagenes-carousel">
+                <div class="detalle-producto-imagen">   <!-- CONTENEDOR LATERAL IZQUIERDO (IMAGENES) -->
+                    {% for imagen in detalle_producto.get_imagenes_secundarias %}
+                        <img src="{{ imagen.imagen.url }}" alt="{{ detalle_producto.nombre }}" class="detalle-producto-imagen-miniatura" onclick="document.querySelector('.detalle-producto-imagen-principal').src='{{ imagen.imagen.url }}'">
+                    {% empty %}
+                        <img src="{% static  'img/default-product.png' %}" alt="Sin imagen" class="detalle-producto-imagen-miniatura">
+                    {% endfor %}
+                </div>
+
+                <div class="imagen-principal-wrapper">     <!-- CONTENEDOR CENTRAL (IMAGEN PRINCIPAL + BOTON) -->
+                    <div class="imagen-principal-content">
+                        {% if producto.get_imagen_principal %}
+                            <img class="detalle-producto-imagen-principal" src="{{ producto.get_imagen_principal.imagen.url }}" alt="{{ producto.nombre }}"> 
+                        {% else %}
+                            <img class="detalle-producto-imagen-principal" src="{% static 'img/default-product.png' %}" alt="Sin imagen">
+                        {% endif %}  
+                    </div>
+                
+                    <button class="boton-comprar">Comprar Ahora</button>
                 </div>
             </div>
 
-            <div class="detalle-producto-informacion-boton">
-                <div class="detalle-producto-agregar-carrito-content">
-                    <button class="boton-agregar-carrito">Agregar al Carrito</button>
+
+
+            <div class="detalle-producto-informacion">      <!-- CONTENEDOR LATERAL IZQUIERDO (INFORMACION + BOTONES) -->
+                <div class="detalle-producto-informacion-content">
+                    <h3 class="detalle-producto-title">{{ producto.nombre }}</h3>
+                    <div class="detalle-producto-precio">
+                        <div class="detalle-producto-precio-container">  
+                            <p class="detalle-producto-precio-text">${{ producto.precio|floatformat:0|intcomma }}</p>
+                        </div>
+                        <!-- CONTENEDOR DE DESCUENTO (OCULTO POR DEFECTO, SE MOSTRARÁ SOLO SI HAY UN DESCUENTO ACTIVO) -->
+                        <div class="detalle-producto-descuento hidden">
+                            <p class="detalle-producto-descuento-text">-20% (opcional)</p>
+                        </div>
+                    </div>
+                    <div class="detalle-producto-descripcion">
+                        <p class="detalle-producto-descripcion-text">{{ producto.descripcion }}</p>
+                    </div>
                 </div>
-                <div class="detalle-producto-oferta-content hidden">   
-                    <!-- CONTENEDOR DE OFERTAS O PROMOCIONES (OCULTO HASTA QUE ALLA DESC.)-->
-                </div>
-                <div class="detalle-producto-envio-content">
-                    <p class="detalle-producto-envio-text">
-                        Envios a USD $30 a todo el país. Tiempo de entrega estimado: 3-5 días hábiles.
-                    </p>
-                </div>    
-                <div class="detalle-producto-pago-seguro-content">
-                    <p class="detalle-producto-pago-seguro-text">
-                        Pago seguro garantizado. Aceptamos tarjetas de crédito, débito y PayPal.
-                    </p>
-                    <div class="detalle-producto-pago-seguro-iconos">
-                        <img src="https://placehold.net/50x30.png" alt="Icono de tarjeta de crédito" class="detalle-producto-pago-seguro-icono">
-                        <img src="https://placehold.net/50x30.png" alt="Icono de PayPal" class="detalle-producto-pago-seguro-icono">
-                        <img src="https://placehold.net/50x30.png" alt="Icono de Google Pay" class="detalle-producto-pago-seguro-icono">
+
+                <div class="detalle-producto-informacion-boton">  
+                    <div class="detalle-producto-agregar-carrito-content" onclick="agregarProducto({{ producto.id }})">
+                        <button class="boton-agregar-carrito">Agregar al Carrito</button>
+                    </div>
+                    <div class="detalle-producto-oferta-content hidden">  <!-- CONTENEDOR DE OFERTA (OCULTO POR DEFECTO, SE MOSTRARÁ SOLO SI HAY UNA OFERTA ACTIVA) -->
+                        <span class="tag-descuento">−20%</span>
+                        <span class="inline-texto">
+                            Precio con descuento: <strong>$5,200</strong>— antes $6,500
+                        </span>
+                    </div>
+                    <div class="detalle-producto-envio-content">
+                        <p class="detalle-producto-envio-text">
+                            Envios a USD $30 a todo el país. Tiempo de entrega estimado: 3-5 días hábiles.
+                        </p>
+                    </div>    
+                    <div class="detalle-producto-pago-seguro-content">
+                        <p class="detalle-producto-pago-seguro-text">
+                            Pago seguro garantizado. Aceptamos tarjetas de crédito, débito y PayPal.
+                        </p>
+                        <div class="detalle-producto-pago-seguro-iconos">
+                            <img src="{% static 'img/svg-iconos/mastercard.svg' %}" alt="Icono de tarjeta de crédito" class="detalle-producto-pago-seguro-icono">
+                            <img src="{% static 'img/svg-iconos/paypal.svg' %}" alt="Icono de PayPal" class="detalle-producto-pago-seguro-icono">
+                            <img src="{% static 'img/svg-iconos/google-pay.svg' %}" alt="Icono de Google Pay" class="detalle-producto-pago-seguro-icono">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-    <!-- SECCION DE PRODUCTOS SIMILARES -->
-<section class="productos-similares-section">
-    <div class="productos-similares-header">
-        <h2 class="productos-similares-title">Productos Similares</h2>
-        <a href="#" class="productos-similares-link">Ver todos →</a>
-    </div>
+        <!-- SECCION DE PRODUCTOS SIMILARES -->
+    <section class="productos-similares-section">
+        <div class="productos-similares-header">
+            <h2 class="productos-similares-title">Productos Similares</h2>
+            <a href="#" class="productos-similares-link">Ver todos →</a>
+        </div>
 
-    <div class="productos-similares-cards-container">
-        <!-- Aquí se incluirían las tarjetas de productos similares, utilizando un bucle para mostrar cada producto -->
-    </div>
-
-</section>
+        <div class="productos-similares-cards-container">
+            {% for productos_relacionados in productos_relacionados %}
+                {% include "partials/card_product.html" with producto=producto %}
+            {% empty %}
+                <p class="productos-similares-empty">No se encontraron productos similares.</p>
+            {% endfor %}
+        </div>
+    </section>
 
 {% endblock %}
+
+
+
+
+

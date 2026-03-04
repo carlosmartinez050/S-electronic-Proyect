@@ -17,6 +17,8 @@
   --bg-surface:  #1a1d24;   /* cards, header, footer         */
   --bg-elevated: #1a1d24;   /* modales, dropdowns, carrito   */
   --bg-hover:    #22262f;   /* estado hover de cards/items   */
+  --icons-footer: #94a3b8; /* color de los iconos del footer */
+
 
   /* ──────────────────────────────────────────
      ACENTO — Azul eléctrico
@@ -38,8 +40,9 @@
   ────────────────────────────────────────── */
   --text-primary:   #f1f5f9;   /* títulos, nombres de producto   */
   --text-secondary: #94a3b8;   /* precios secundarios, subtítulos */
-  --text-card: #1a9ce3;        /* otros titulos */
+  --text-card:      #1a9ce3;        /* otros titulos */
   --text-muted:     #475569;   /* placeholders, texto desactivado */
+  --text-danger:    #ef4444;   /* errores, alertas, descuento */
 
   /* ──────────────────────────────────────────
      BORDES
@@ -49,13 +52,14 @@
   --border-subtle: rgba(216, 211, 211, 0.301);
   --border-mid:    rgba(157, 152, 152, 0.322);
   --border-active: rgba(14, 165, 233, 0.45);
+  --border-danger:  rgba(173, 34, 34, 0.538);
 
   /* ──────────────────────────────────────────
      SEMÁNTICOS — Estado y feedback
   ────────────────────────────────────────── */
   --danger:        #ef4444;
   --danger-hover:  #f87171;
-  --danger-glow:   rgba(239, 68, 68, 0.15);
+  --danger-glow:   rgba(99, 41, 41, 0.39);
 
   --success:       #22c55e;
   --success-glow:  rgba(34, 197, 94, 0.15);
@@ -108,4 +112,12 @@
   --max-width: 1400px;
   --header-height: 140px;
 
+  /* TAMAÑOS EN LETRAS */
+   --font-size-xs: 12px;
+   --font-size-sm: 14px;
+   --font-size-md: 16px;
+   --font-size-lg: 20px;
+   --font-size-base: 24px;
+   --font-size-xl: 26px;
 }
+

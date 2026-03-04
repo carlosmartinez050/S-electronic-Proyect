@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 
 <!-- Card de producto -->
 <div class="product-card">
@@ -26,7 +27,7 @@
         
         <!-- Precio + Favorito -->
         <div class="product-price-favorite">
-            <p class="product-price">${{ producto.precio|floatformat:0 }}</p>
+            <p class="product-price">${{ producto.precio|floatformat:0|intcomma}}</p>
             <button class="btn-favorite" data-producto-id="{{ producto.id }}" aria-label="Añadir a favoritos">
                 ❤️
             </button>

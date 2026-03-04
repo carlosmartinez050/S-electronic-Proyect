@@ -1,8 +1,7 @@
 
 /* ===== CONTENEDOR PRINCIPAL DEL FOOTER ===== */
 .footer {
-    background-color: rgb(36, 40, 55);  
-    color: antiquewhite;
+    background-color: var(--bg-surface); 
     padding: 50px 20px 20px;            /* Espaciado vertical y horizontal */
     margin-top: 60px;
   
@@ -21,7 +20,6 @@
     gap: 40px;                          /* Espacio entre columnas */
     
     padding-bottom: 30px;               /* Espacio antes de la línea */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /*Línea divisoria sutil */
     
 }
 
@@ -30,7 +28,7 @@
     flex: 1;                            /* Cada columna ocupa igual espacio */
     min-width: 200px;                   /* Ancho mínimo antes de apilarse */
     list-style: none;
-
+    color: var(--text-secondary);
 }
 
 /* === COLUMNA PARA LAS CATEGORIAS === */
@@ -39,7 +37,7 @@
     flex-direction: column;
     gap: 10px;
     text-decoration: none;
-    color: antiquewhite;
+    color: var(--text-secondary);
 }
 
 
@@ -48,7 +46,7 @@
     display: block;
     margin-bottom: 10px;
     text-decoration: none;
-    color: antiquewhite;
+    color: var(--text-secondary);
 }
 
 /* ===== ESTILOS INTERNOS DE LAS COLUMNAS ===== */
@@ -57,6 +55,7 @@
     font-size: 20px;
     border-bottom: 2px solid #555;     /* Línea debajo del título */
     padding-bottom: 10px;
+    color: var(--text-primary);
 }
 
 li {
@@ -77,6 +76,6 @@ li {
 .footer-bottom {
     text-align: center;
     padding-top: 20px;
-    color: #888;
+    color: var(--text-secondary);
     font-size: 14px;
 }
