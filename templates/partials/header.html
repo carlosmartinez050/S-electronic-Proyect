@@ -10,13 +10,22 @@
         </div>
         
         <!-- CATEGORÍAS PADRE -->
-        <div class="class-label-tag">
+        <div class="class-label-tag" id="class-label-tag">
             {% for cat in categorias %}
                 <a href="{% url 'shop:categoria_detalle' cat.slug %}" 
                    class="tags-label {% if categoria and categoria.id == cat.id %}activa{% endif %}">
                     {{ cat.nombre }}
                 </a>
             {% endfor %}
+                
+            <!-- INPUT DE BÚSQUEDA (oculto por defecto, se muestra al hacer clic en el icono de búsqueda) -->
+            <div class="container-search-input" id="container-search-input">
+                <form action="#" method="get" class="form-search">
+                    <input type="text" name="q" placeholder="Buscar productos..." class="input-search" id="input-search">
+                    <button type="submit" class="btn-search-submit">Buscar</button>
+                </form>
+            </div>
+
         </div>
         
         <div class="container_icons">
@@ -31,7 +40,15 @@
             <div class="container-image-icon" id="icon-carrito">
                 <img src="{% static 'img/img-iconos/icon-carrito.png' %}" alt="" class="icon-carrito">
             </div>
+
+
+            <!-- BOTON HAMBURGUESA (MENU HAMBURGUESA SOLO VISIBLE EN MOBILE)-->
+            <button class="btn-menu-hamburguesa-content" id="btn-menu-hamburguesa">
+                <img class="btn-menu-hamburguesa-icon" src="{% static 'fontawesome/svgs/regular/menu-hamburguesa.svg' %}" alt="Menu">
+            </button>
+
         </div>
+
     </div>
 
     <!-- BARRA AZUL (solo si hay categoría seleccionada) -->
@@ -39,9 +56,9 @@
         {% if categoria and marcas %}
             <!-- Usuario hizo clic en una categoría, mostramos sus marcas -->
             {% for marca in marcas %}
-                <div class="container-ancor-categoria">
+                <div class="container-caregoria-marca">
                     <a href="{% url 'shop:categoria_marca_detalle' categoria.slug marca.slug %}" 
-                       class="ancor-categoria {% if marca_seleccionada and marca_seleccionada.id == marca.id %}activa{% endif %}">
+                       class="ancor-categoria-marca {% if marca_seleccionada and marca_seleccionada.id == marca.id %}activa{% endif %}">
                         {{ marca.nombre }}
                     </a>
                 </div>
@@ -50,5 +67,52 @@
             <!-- Home: barra vacía o mensaje -->
             <p class="mensaje-barra">Selecciona una categoría para filtrar por marca</p>
         {% endif %}
+
+
+        <!-- CONTENEDOR DEL INPUT DE BÚSQUEDA EN MOBILE -->
+        <div class="container-search-input-mobile" id="container-search-input-mobile">
+            <form action="#" method="get" class="form-search">
+                <input type="text" name="q" placeholder="Buscar productos..." class="input-search" id="input-search-mobile">
+                <div type="submit" class="container-image-icon-mobile" id="container-logo-search-input-mobile">
+                    <img src="{% static 'img/img-iconos/icon-search.png' %}" alt="" class="icon-search-mobile" id="icon-search-mobile">
+                </div>
+
+                {% comment %} <button type="submit" class="btn-search-submit">Buscar</button> {% endcomment %}
+            </form>
+        </div>
+
     </div>
+
+    <!-- MENÚ MÓVIL — oculto por defecto, se abre con el botón hamburguesa -->
+    <div class="menu-movil" id="menu-movil">
+
+        <!-- Botón para cerrar el menú móvil -->
+        <button class="btn-cerrar-menu" id="btn-cerrar-menu">Cerrar</button>
+
+        <!-- CATEGORÍAS -->
+        <div class="menu-movil-categorias">
+            {% for cat in categorias %}
+                <a href="{% url 'shop:categoria_detalle' cat.slug %}"
+                   class="menu-movil-link {% if categoria and categoria.id == cat.id %}activa{% endif %}">
+                    {{ cat.nombre }}
+                </a>
+            {% endfor %}
+        </div>
+
+        <!-- MARCAS (solo si hay categoría seleccionada) -->
+        {% if categoria and marcas %}
+            <div class="menu-movil-marcas">
+                <span class="menu-movil-separador">Marcas</span>
+                {% for marca in marcas %}
+                    <a href="{% url 'shop:categoria_marca_detalle' categoria.slug marca.slug %}"
+                    class="menu-movil-link menu-movil-link-marca {% if marca_seleccionada and marca_seleccionada.id == marca.id %}activa{% endif %}">
+                        {{ marca.nombre }}
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
 </div>
+
+<script src="{% static 'js/header.js' %}"></script>
