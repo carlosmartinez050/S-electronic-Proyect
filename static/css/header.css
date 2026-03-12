@@ -24,7 +24,6 @@ header {
 .div-header1{
     width: 100%;
     height: 90px;
-    /* background-color: aquamarine; */
     display: flex;
 
 }
@@ -33,7 +32,7 @@ header {
 .div-header2{
     width: 100%;
     height: 50px;
-    background-color: rgb(0, 114, 184);
+    background-color: var(--accent);
     display: flex;
     gap: 10px ;
     justify-content: center;
@@ -45,7 +44,7 @@ header {
 
 /* "header" barra azul-mensaje barra  */
 .mensaje-barra{
-    color: antiquewhite;
+    color: var(--text-primary);
     font-size: 18px;
     font-weight: 600;
 }
@@ -59,7 +58,6 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: cadetblue; */
 }
 
 /* imagen Pagina "S-Electronic" */
@@ -74,18 +72,95 @@ header {
     height: 100%;
 }
 
+
+/* CONTENEDOR DE CATEGORÍAS PADRE */
 .class-label-tag{
+    position: relative;     /* necesario para posicionar el contenedor de búsqueda */
     width: 50%;
     height: 100%;
-    /* background-color: blueviolet; */
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 15px;
-    padding: 0 5px;
+    padding: 5px 5px;
 }
 
 
+/* ESTADO OCULTO — por defecto */
+.container-search-input {
+    position: absolute;        /* se posiciona sobre el header */
+    top: 20%;                  
+    left: 0;                   
+    width: 100%;                   /* ocupa todo el ancho del header */
+    background-color: var(--bg-surface);    
+    padding: 10px;
+    display: flex;              /* siempre en el DOM */
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;         /* no ocupa espacio en clicks */
+    transform: translateY(-8px); /* empieza 8px arriba */
+    transition: 
+        opacity    var(--transition-slow),
+        visibility var(--transition-slow),
+        transform  var(--transition-slow);
+}
+
+/* ESTADO VISIBLE — cuando tiene clase .active */
+.container-search-input.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);   /* baja a su posición natural */
+}
+
+/* FORMULARIO DE BÚSQUEDA (INPUT) */
+.form-search {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+/* INPUT */
+.input-search {
+    flex: 1;        /* ocupa todo el espacio disponible */
+    padding: 8px 12px;      
+    border: none;
+    border-radius: 5px;
+    font-size: var(--font-size-md);
+}
+
+.input-search:focus {
+    outline: none;          
+    box-shadow: var(--shadow-accent);
+    font-weight: 600;
+}                                   
+
+
+/* BOTÓN DE BÚSQUEDA */
+.btn-search-submit {
+    padding: 8px 16px;
+    background-color: var(--accent);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 5px;
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--transition-normal);
+}
+
+.btn-search-submit:hover {
+    background-color: var(--accent-dark);
+    transition: var(--transition-slow);
+}
+
+
+.container-search-input-mobile {
+    display: none;             /* oculto por defecto, se muestra solo en mobile */
+}
+
+
+/* CATEGORIAS PADRE (PLACEHOLDERS) */
 .tags-label{
     width: 200px;
     height: 50px;
@@ -110,16 +185,21 @@ header {
     border-radius: 5px;
 }
 
+/* CATEGORIAS PADRE OCULTAS (AL HACER CLIC EN EL ICONO BUSCAR) */
+.tags-label.oculto {
+    display: none; 
+}
+
+/* CONTENEDOR DE ÍCONOS */
 .container_icons{
     flex: 1;
-    /* background-color: crimson; */
     display: flex;
     gap: 15px;
     justify-content: center;
     align-items: center;
 }
 
-
+/* CONTENEDOR DE IMAGENES DE ÍCONOS */
 .container-image-icon{
     width: 50px;
     height: 50px;
@@ -130,11 +210,13 @@ header {
     padding: 5px;
 }
 
+
 .icon-search{
     width: 35px;
     height: 35px;
 
 }
+
 
 .icon-usuario{
     width: 35px;
@@ -152,13 +234,30 @@ header {
 }
 
 
-.ancor-categoria{
+/* CONTENEDOR DEL BOTÓN DE MENÚ HAMBURGUESA */
+.btn-menu-hamburguesa-content {
+    width: 35px;
+    height: 35px;
+    display: none;               /* oculto por defecto (solo visible en mobile) */
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* ICONO DEL BOTÓN DE MENÚ HAMBURGUESA */
+.btn-menu-hamburguesa-icon{
+    width: 100%;
+    height: 100%;
+}
+
+/* ANCLA DE CATEGORÍA */
+.ancor-categoria-marca{
     text-decoration: none;
-    color: antiquewhite;
+    color: var(--text-primary);
 }
 
 
-.container-ancor-categoria, .ancor-categoria{
+.container-caregoria-marca, .ancor-categoria-marca{
     width: 100px;
     height: 40px;
     font-weight: 600;
@@ -166,12 +265,168 @@ header {
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    transition: background-color var(--transition-slow);
  
 }
 
 
-.container-ancor-categoria:hover{
-    background-color: rgba(242, 237, 230, 0.334);
+.ancor-categoria-marca:hover{
+    background-color: var(--accent-glow-strong);
+}
+
+.menu-movil{
+    display: none;             /* oculto por defecto, se muestra solo en mobile */
 }
 
 
+
+/* MEDIA QUERYS */
+
+@media (max-width: 1030px) {
+    .container-logo {
+        width: auto;      /* se adapta al contenido (logo) */
+    }        
+    .tags-label     { 
+        width: auto;          /* cede espacio */
+        font-size: clamp(14px, 1.5vw, 22px);        /* tamaño de fuente responsivo */
+    } 
+    
+}
+
+@media (max-width: 768px) {
+    .btn-menu-hamburguesa-content {
+        display: block;            /* Mostrar el botón de menú hamburguesa en dispositivos móviles */
+    }
+
+    .container-logo {
+        width: 200px;              /* Ajustar el tamaño del logo en dispositivos móviles */
+        display: flex;
+        justify-content: flex-start;          /* Alinear el logo a la izquierda en dispositivos móviles */
+        padding-left: var(--space-md);       /* Un poco de espacio a la izquierda */
+    }
+
+    .icon-search {
+        opacity: 0;
+        visibility: hidden;         /* Ocultar el ícono de búsqueda en dispositivos móviles */            
+    }
+
+    .container_icons {
+        display: flex; 
+        justify-content: flex-end;          /* Alinear los íconos al final del contenedor en dispositivos móviles */
+        padding-right: var(--space-md);         /* Un poco de espacio a la derecha */  
+    } 
+
+    .tags-label {
+        display: none;             /* Ocultar las categorías padre en dispositivos móviles */
+    }
+
+
+    .container-search-input-mobile {
+        display: flex;              /* Mostrar el contenedor de búsqueda en dispositivos móviles */
+        width: 95%;                   /* ocupa todo el ancho del header */
+    }
+
+    .container-caregoria-marca, .mensaje-barra {
+       display: none;                       /* Ocultar la barra azul con el mensaje en dispositivos móviles */
+    }
+
+    .div-header2 {
+        height: auto;                      /* Ajustar la altura de la barra azul para que se adapte al contenido en dispositivos móviles */
+        padding: var(--space-md);           /* Agregar algo de padding para que el contenido no esté tan pegado */
+        background-color: var(--bg-surface);
+        gap: 10px;                         
+    }
+
+    .form-search {
+        gap: 10px;                          
+    }
+
+    /* MENÚ — posición y tamaño */
+    .menu-movil {
+        display: flex;                  /* activamos el menú              */
+        flex-direction: column;
+        
+        position: fixed;                /* se queda fijo aunque se scrollee */
+        top: 0;
+        right: 0;                       /* sale desde la derecha          */
+        width: 100%;                    /* ocupa toda la pantalla         */
+        height: 100vh;                  /* altura completa del viewport   */
+        
+        background-color: var(--bg-surface);
+        color: var(--text-secondary);
+        
+        z-index: 999;                   /* encima de todo                 */
+        padding: 20px;
+
+        /* ANIMACIÓN — empieza fuera de pantalla a la derecha */
+        transform: translateX(100%);    /* escondido a la derecha         */
+        transition: transform 350ms ease;  /* animación suave             */
+
+        /* Menú scrolleable si hay muchas categorías */
+        overflow-y: auto;
+    }
+
+    /* MENÚ ABIERTO — cuando JS añade la clase .activo */
+    .menu-movil.activo {
+        transform: translateX(0);       /* entra desde la derecha         */
+    }
+
+    /*  BOTÓN CERRAR */
+    .btn-cerrar-menu {
+        width: 80px;
+        align-self: flex-end;           /* se posiciona a la derecha      */
+        font-size: var(--font-size-md);
+        font-weight: 700;
+        cursor: pointer;
+        margin-bottom: 20px;
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+    }
+
+    /* LISTA DE CATEGORÍAS */
+    .menu-movil-categorias {
+        display: flex;
+        flex-direction: column;         /* categorías en lista vertical   */
+        gap: 4px;
+        width: 100%;
+    }
+
+    /* CADA LINK  */
+    .menu-movil-link {
+        width: 100%;
+        padding: 14px 16px;
+        font-size: var(--font-size-md);
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-decoration: none;
+        border-radius: var(--radius-md);
+        transition: background-color 200ms ease;
+    }
+
+    .menu-movil-link:hover,
+    .menu-movil-link.activa {
+        background-color: var(--bg-hover);
+    }
+
+    /*  SEPARADOR MARCAS  */
+    .menu-movil-separador {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--border-mid);
+        padding: 16px 16px 8px;
+        display: block;
+    }
+
+    /*  MARCAS más pequeñas que categorías  */
+    .menu-movil-link-marca {
+        font-size: 14px;
+        font-weight: 500;
+        padding: 10px 16px;
+        padding-left: 28px;             /* sangría para diferenciarlas    */
+    }
+
+    
+}
