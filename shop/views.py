@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 from . models import Categoria, Producto, Marca
-
+from django.shortcuts import redirect
 
 # Create your views here.
 def vistaPrincipalProductos(request):
@@ -128,8 +129,35 @@ def detalle_producto(request, slug):
 
 def productos_destacados_lista(request):
     productos = Producto.objects.filter(activo=True, destacado=True, stock__gt=0)
-    return render(request, 'shop_Template/productos_lista.html', {'productos': productos})
+    return render(request, 'shop_Template/productos_lista.html', {
+        'productos': productos
+    })
 
+ 
+
+# VISTA PARA LA BUSQUEDA DE PRODUCTOS (INPUT DE BUSQUEDA EN EL HEADER)
+def busqueda_productos(request):
+    query = request.GET.get('q', '').strip()
+    
+    if not query:
+        # Si no hay consulta, redirigir a la página principal o mostrar un mensaje
+        return redirect('shop:home')  
+    
+    productos = Producto.objects.filter(
+        activo=True,
+        stock__gt=0
+    ).filter(
+        Q(nombre__icontains=query) |
+        Q(descripcion__icontains=query) |
+        Q(categoria__nombre__icontains=query) |
+        Q(marca__nombre__icontains=query)
+    ).select_related('categoria', 'marca').order_by('-fecha_creacion')
+    
+    return render(request, 'shop_Template/productos_lista.html', {
+        'productos': productos,
+        'query': query,
+    })
+    
 
 
 
