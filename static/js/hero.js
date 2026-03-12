@@ -83,7 +83,4 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // ===== INICIAR AUTOPLAY =====
     startAutoplay();
-    
-    
-    console.log('✅ Hero carousel iniciado correctamente');
 });

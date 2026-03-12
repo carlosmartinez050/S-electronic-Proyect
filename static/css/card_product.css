@@ -38,6 +38,16 @@
     
 }
 
+
+.product-image-default {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;             /* Mantiene proporción, no recorta */
+    object-position: center;
+    transition: transform 0.3s ease;
+    /* filter: grayscale(100%);          */
+}
+
 .product-image-link:hover .product-image {
     transform: scale(1.05);          /* Zoom suave al hover */
 }

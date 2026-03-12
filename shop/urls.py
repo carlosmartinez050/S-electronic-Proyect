@@ -20,4 +20,7 @@ urlpatterns = [
     path('categoria/<slug:categoria_slug>/<slug:marca_slug>/', 
          views.categoria_marca_detalle, 
          name='categoria_marca_detalle'),
+    
+    # Búsqueda de productos
+    path('buscar/', views.busqueda_productos, name='busqueda_productos'),
 ]

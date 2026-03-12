@@ -88,6 +88,36 @@
     box-shadow: var(--shadow-accent);
 }
 
+
+/* BOTÓN DE COMPRA (OCULTO POR DEFECTO, SE MOSTRARÁ SOLO EN MOBILE) */
+.btn-comprar-oculto-content {
+    width: 100%;
+    padding: var(--space-xs);
+    border-radius: var(--radius-md);
+    background-color: var(--accent);
+    transition: background-color var(--transition-slow), box-shadow var(--transition-slow);
+    display: none;         /* Oculto por defecto, se mostrará solo en mobile */
+}
+
+
+/* BOTÓN DE COMPRA ELEMENTO (VISIBLE SOLO EN MOBILE) */
+.boton-comprar-oculto {
+    width: 100%;
+    padding: var(--space-sm);
+    border: none;
+    border-radius: var(--radius-md);
+    background-color: transparent;  /* El fondo lo maneja el contenedor padre */
+    color: var(--text-primary);
+    font-size: var(--font-size-md);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.boton-comprar-oculto:active {
+    background-color: var(--accent-hover);
+    box-shadow: var(--shadow-accent);
+}
+
 /* CONTENEDOR #2 DE INFORMACIÓN LATERAL DERECHO */
 .detalle-producto-informacion {
     flex: 1;                /* Ocupa 1 parte — misma proporción que miniaturas  */
@@ -301,8 +331,13 @@
 .productos-similares-cards-container {
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
     gap: 20px;
+}
+
+/* SCROLL PARA CONTENEDOR DE PRODUCTOS SIMILARES */
+.productos-similares-cards-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* MENSAJE CUANDO NO HAY PRODUCTOS SIMILARES */
@@ -333,6 +368,14 @@
     .detalle-producto-informacion {
         width: 100%;
         order: 2; /* Mueve la información al final en mobile */
+    }
+
+    .btn-comprar-oculto-content {
+        display: block; /* Muestra el botón oculto solo en mobile */
+    }
+
+    .boton-comprar {
+        display: none; /* Oculta el botón de compra normal en mobile */
     }
 
 }
