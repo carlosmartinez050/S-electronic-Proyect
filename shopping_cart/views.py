@@ -33,7 +33,6 @@ def agregar_al_carrito(request, producto_id):
 
     return redirect('shop:home')
 
-
 def ver_carrito(request):
     carrito = Carrito(request)
 
