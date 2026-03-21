@@ -26,10 +26,13 @@
 /* CONTENEDOR DE IMÁGENES LATERAL IZQUIERDO (MINIATURAS) */
 .detalle-producto-imagen {
     flex: 1;                /* Ocupa 1 parte del espacio disponible */
+    background-color: var(--bg-hover);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;  /* Alinea desde arriba, no desde el centro */
     align-items: center;
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
     gap: 10px;
 }
 

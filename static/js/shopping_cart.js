@@ -67,9 +67,20 @@ function agregarProducto(productoId) {
 function agregarEventosInputs() {
     const valorCantidadInput = document.querySelectorAll(".cantidad-input");
     
+    let debounceTimer = null;
+
     valorCantidadInput.forEach(input => {
         input.addEventListener('input', function() {
-            actualizarCantidad(this.dataset.productoId, this.value);
+            const productoId = this.dataset.productoId;
+            const valor = this.value;
+
+            // Cancela el timer anterior si el usuario sigue escribiendo
+            clearTimeout(debounceTimer);
+
+            // Solo ejecuta cuando el usuario para 500ms
+            debounceTimer = setTimeout(() => {
+                actualizarCantidad(productoId, valor);
+            }, 500);
         });
     });
 
@@ -111,6 +122,7 @@ function actualizarCantidad(productoId, nuevaCantidad) {
         // Si hay error, recargar el carrito completo
         cargarCarrito();
     });
+
 }
 
 

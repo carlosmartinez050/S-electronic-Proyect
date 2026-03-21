@@ -1,76 +1,152 @@
 {% csrf_token %}
+{% load humanize %}
 
 <div class="content-product-list">
 
   <ul class="ul-list_product">
     {% for item in lista_carrito %}
-    <li class="item-product">
-      <div class="content-div-name-img">
+      <li class="item-product">
 
-        <div class="div-img-product">
-          <img src="{{ item.producto.imagen }}" alt="" width=130px height=145px>
-        </div>
+          <!-- CONTENEDOR 1: IMAGEN -->
+          <div class="div-img-product">
+              <img src="{{ item.producto.get_imagen_principal.imagen.url }}" 
+                  alt="{{ item.producto.nombre }}" 
+                  width="130px" height="145px">
+          </div>
 
-        <div class="div-name-product">
-          <h3>{{ item.producto.nombre }}</h3>
-        </div>
-      </div>
+          <!-- CONTENEDOR 2: INFORMACIÓN (flex-direction: column) -->
+          <div class="content-div-name-img">
 
-      <div class="div-cantidad-producto">
-        <input type="number" class="cantidad-input" name="cantidad-input" min="1" max="100" data-producto-id="{{ item.producto.id }}" value="{{ item.cantidad }}">      
-      </div>
+              <!-- FILA SUPERIOR: nombre + cantidad + subtotal -->
+                <div class="div-name-product">
+                  <h3 class="name-product">{{ item.producto.nombre }}</h3>
 
-      <div class="div-subtotal-producto">
-        <p class="tag-p">Subtotal: $<span id="subtotal-{{ item.producto.id }}">{{ item.subtotal|floatformat:2 }}</span></p>
-      </div>
+                  <input type="number" 
+                        class="cantidad-input" 
+                        name="cantidad-input" 
+                        min="1" max="100" 
+                        data-producto-id="{{ item.producto.id }}" 
+                        value="{{ item.cantidad }}">
 
-      <div class="div-buttom-eliminar">
-        <button class="btn-eliminar" data-producto-id="{{ item.producto.id }}">Eliminar</button>
-      </div>
+                  <div class="div-subtotal-producto">
+                    <p class="tag-p">Subtotal: $<span id="subtotal-{{ item.producto.id }}">{{ item.subtotal|floatformat:2|intcomma }}</span></p>
+                  </div>
+                </div>
 
-    </li>
+              <!-- FILA INFERIOR: precio + botón eliminar (space-between) -->
+            <div class="div-price-btn-eliminar">
+
+              <p class="tag-p">
+                {% if item.producto.tiene_descuento %}
+                  <span class="precio-tachado">${{ item.producto.precio|floatformat:2|intcomma }}</span>
+                  ${{ item.producto.precio_con_descuento|floatformat:2 }}
+                {% else %}
+                  ${{ item.producto.precio|floatformat:2|intcomma }}
+                {% endif %}
+              </p>
+
+              <div class="div-buttom-eliminar">
+                <button class="btn-eliminar" data-producto-id="{{ item.producto.id }}">Eliminar</button>
+              </div>
+
+            </div>
+
+          </div>
+
+      </li>
+
     {% endfor %}
   </ul>
 
 </div>
 
-<div class="content-divisor-sumary">
-  <div class="summary-content">
 
-    <div class="div-header-summary">
-      <div class="box-quantity-item">
-        <p class="tag-p">Articulos: <span id="total-articulos">{{ total_articulos }}</span></p>
-      </div>
+<!-- CONTENEDOR LATERAL DERECHO -->
+<div class="cart-panel-lateral">
 
-      <div class="box-quantity-subtotal">
-        <p class="tag-p">Subtotal: $<span id="total-precio">{{ total_precio|floatformat:2 }}</span></p>
-      </div>
+    <!-- ── CONTENEDOR SUPERIOR: RESUMEN DE COSTOS ── -->
+    <div class="cart-resumen">
+
+        <!-- Fila 1: Artículos + Subtotal -->
+        <div class="cart-resumen-fila">
+          <span class="cart-resumen-label">
+            Artículos: <strong id="total-articulos">{{ total_articulos }}</strong>
+          </span>
+          <span class="cart-resumen-valor">
+            Subtotal: $<strong id="subtotal">{{ total_precio|floatformat:2|intcomma }}</strong>
+          </span>
+        </div>
+
+        <!-- Fila 2: Envío -->
+        <div class="cart-resumen-fila">
+          <span class="cart-resumen-label">Envío:</span>
+          <span class="cart-resumen-valor">$ 20</span>
+        </div>
+
+        <!-- Separador -->
+        <hr class="cart-resumen-separador">
+
+        <!-- Fila 3: Total -->
+        <div class="cart-resumen-fila">
+          <span class="cart-resumen-label">Total:</span>
+          <span class="cart-resumen-valor" id="total-precio">${{ total_precio|floatformat:2|intcomma }}</span>
+        </div>
+
+        <p class="info-envio-mensaje">
+          Este y todos nuestros productos tienen un costo de envio igual.
+        </p>
     </div>
-   
+    <!-- /cart-resumen -->
 
-    <div class="box-envio-fijo">
-      <div class="box-envio">
-        <p class="tag-p">Envio:</p>
-      </div>
-      
-      <div class="box-envio">
-        <p class="tag-p">$80.00</p>
-      </div>
+
+    <!-- ── CONTENEDOR INFERIOR: ACCIÓN + DESCUENTOS ── -->
+    <div class="cart-accion">
+
+        <!-- Botón completar compra -->
+        <button class="cart-btn-comprar">Completar Compra</button>
+
+        <!-- Caja de descuentos -->
+        <div class="cart-descuentos">
+
+            <!-- Mensaje informativo -->
+            <p class="cart-descuentos-mensaje">
+              Los descuentos se aplican automáticamente al precio final.
+            </p>
+
+            <!-- Descuento por productos en oferta — solo si existe -->
+            {% if descuento_oferta %}
+              <div class="cart-descuentos-fila">
+                <span class="cart-descuentos-label">Ahorro en ofertas</span>
+                <span class="cart-descuentos-valor">-${{ descuento_oferta|floatformat:2|intcomma }}</span>
+              </div>
+            {% endif %}
+
+            <!-- Descuento por categoría — solo si existe -->
+            {% if descuento_categoria %}
+              <div class="cart-descuentos-fila">
+                <span class="cart-descuentos-label">Descuento por categoría</span>
+                <span class="cart-descuentos-valor">-${{ descuento_categoria|floatformat:2|intcomma }}</span>
+              </div>
+            {% endif %}
+
+            <!-- Total aplicado — tachado si hay descuentos -->
+            <div class="cart-descuentos-fila cart-descuentos-total">
+                <span class="cart-descuentos-label">Total aplicado</span>
+                <span class="cart-descuentos-valor">
+                  {% if descuento_oferta or descuento_categoria %}
+                    <span class="cart-precio-tachado">${{ total|floatformat:2|intcomma }}</span>
+                      ${{ total_con_descuento|floatformat:2 }}
+                    {% else %}
+                      ${{ total|floatformat:2 }}
+                  {% endif %}
+                </span>
+            </div>
+
+        </div>
+        <!-- /cart-descuentos -->
+
     </div>
+    <!-- /cart-accion -->
 
-    <div class="content-buttom">
-      <button class="btn-procces-envio" id="btn-procces-envio">Completar Compra</button>
-    </div>
-  </div>
-
-  <div class="otro-content">
-    {% if total_precio >= 15000 and not descuento_aplicado %}
-    <p>🎉 ¡Tu compra supera $1000! Aplica 10% descuento</p>
-    <button onclick="aplicarDescuento()">Aplicar Descuento</button>
-    {% endif %}
-      
-    {% if descuento_aplicado %}
-        <p id="mensaje-descuento">✅ ¡Descuento aplicado! Ahorraste 10%</p>
-    {% endif %}
-  </div>
 </div>
+<!-- /cart-panel-lateral -->
