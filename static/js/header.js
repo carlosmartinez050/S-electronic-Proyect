@@ -60,3 +60,25 @@ iconoLupaMobile.addEventListener('click', () => {
     }
 });
 
+
+// ══════════════════════════════════════════
+// USER DROPDOWN
+// ══════════════════════════════════════════
+
+const iconoUsuario = document.getElementById('icon-usuario');
+const userDropdown = document.getElementById('user-dropdown');
+const userDropdownWrapper = document.getElementById('user-dropdown-wrapper');
+
+// Abrir/cerrar al hacer clic en el ícono
+iconoUsuario.addEventListener('click', (e) => {
+    e.stopPropagation(); // Evita que el click se propague al document
+    userDropdown.classList.toggle('active');
+});
+
+// Cerrar al hacer clic fuera del dropdown
+document.addEventListener('click', (e) => {
+    if (!userDropdownWrapper.contains(e.target)) {
+        userDropdown.classList.remove('active');
+    }
+});
+
