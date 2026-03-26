@@ -33,8 +33,68 @@
                 <img src="{% static 'img/img-iconos/icon-search.png' %}" alt="" class="icon-search" id="icon-search">
             </div>
 
-            <div class="container-image-icon">
-                <img src="{% static 'img/img-iconos/icon-usuario.png' %}" alt="" class="icon-usuario">
+            <!-- ÍCONO USUARIO + DROPDOWN -->
+            <div class="container-image-icon user-dropdown-wrapper" id="user-dropdown-wrapper">
+                <img src="{% static 'img/img-iconos/icon-usuario.png' %}" 
+                    alt="Usuario" 
+                    class="icon-usuario" 
+                    id="icon-usuario">
+
+                <!-- DROPDOWN — cambia según si está logueado o no -->
+                <div class="user-dropdown" id="user-dropdown">
+
+                    {% if request.user.is_authenticated %}
+                        <!-- Usuario logueado -->
+                        <div class="user-dropdown-header">
+                            <p class="user-dropdown-greeting">
+                                Hola, <strong>{{ request.user.first_name }}</strong>
+                            </p>
+                            <p class="user-dropdown-email">{{ request.user.email }}</p>
+                        </div>
+
+                        <hr class="user-dropdown-divider">
+
+                        <a href="#" class="user-dropdown-item">
+                            Mi cuenta
+                        </a>
+                        <a href="#" class="user-dropdown-item">
+                            Mis pedidos
+                        </a>
+
+                        {% if request.user.is_staff %}
+                            <a href="#" class="user-dropdown-item user-dropdown-item--admin">
+                                Panel Admin
+                            </a>
+                        {% endif %}
+
+                        <hr class="user-dropdown-divider">
+
+                        <form action="{% url 'accounts:logout' %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="user-dropdown-item user-dropdown-item--logout">
+                                Cerrar sesión
+                            </button>
+                        </form>
+
+                    {% else %}
+                        <!-- Visitante no logueado -->
+                        <p class="user-dropdown-greeting">¡Bienvenido!</p>
+                        <p class="user-dropdown-subtitle">
+                            Accede a tu cuenta para ver tus pedidos
+                        </p>
+
+                        <a href="{% url 'accounts:login' %}" class="user-dropdown-btn-primary">
+                            Iniciar sesión
+                        </a>
+
+                        <a href="{% url 'accounts:registro' %}" class="user-dropdown-btn-secondary">
+                            Crear cuenta
+                        </a>
+                    {% endif %}
+
+                </div>
+                <!-- /user-dropdown -->
+
             </div>
 
             <div class="container-image-icon" id="icon-carrito">
