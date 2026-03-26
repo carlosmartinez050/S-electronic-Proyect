@@ -1,0 +1,113 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión — S-ELECTRONIC</title>
+    <link rel="icon" type="image/png" href="{% static 'img/img-iconos/isotipo-logo2.png' %}">
+    <link rel="stylesheet" href="{% static 'css/root.css' %}">
+    <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+</head>
+<body class="auth-body">
+
+    <div class="auth-wrapper">
+
+        <!-- ═══ LADO IZQUIERDO — Imagen decorativa ═══ -->
+        <div class="auth-image-side">
+            <div class="auth-image-placeholder">
+                <img src="{% static 'img/img-iconos/S-ELECTRONIC-LOGO.png' %}"
+                     alt="S-ELECTRONIC"
+                     class="auth-image-logo-overlay">
+            </div>
+        </div>
+
+        <!-- ═══ LADO DERECHO — Formulario ═══ -->
+        <div class="auth-form-side">
+
+            <!-- Título principal -->
+            <h1 class="auth-title">Inicie sesión en su cuenta</h1>
+
+            <!-- Mensajes -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="auth-message auth-message--{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Formulario -->
+            <form method="POST" 
+                  action="{% url 'accounts:login' %}" 
+                  class="auth-form" 
+                  novalidate>
+                {% csrf_token %}
+
+                <!-- Email -->
+                <div class="auth-field">
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <span class="auth-field-error">
+                            {{ form.username.errors.0 }}
+                        </span>
+                    {% endif %}
+                </div>
+
+                <!-- Contraseña -->
+                <div class="auth-field">
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                        <span class="auth-field-error">
+                            {{ form.password.errors.0 }}
+                        </span>
+                    {% endif %}
+                </div>
+
+                <!-- Errores generales (credenciales incorrectas) -->
+                {% if form.non_field_errors %}
+                    <div class="auth-field-error auth-field-error--general">
+                        {{ form.non_field_errors.0 }}
+                    </div>
+                {% endif %}
+
+                <!-- Botón submit -->
+                <button type="submit" class="auth-btn-primary">
+                    Iniciar Sesión
+                </button>
+
+            </form>
+
+            <!-- Link a registro -->
+            <p class="auth-switch">
+                ¿No tiene cuenta?
+                <a href="{% url 'accounts:registro' %}" class="auth-switch-link">
+                    Regístrese
+                </a>
+            </p>
+
+            <!-- OAuth — deshabilitado por ahora -->
+            <div class="auth-oauth">
+                <span class="auth-oauth-label">O inicie sesión con</span>
+                <div class="auth-oauth-buttons">
+                    <button class="auth-oauth-btn" disabled title="Próximamente">
+                        <img src="{% static 'img/svg-iconos/google.svg' %}" alt="Google">
+                    </button>
+                    <button class="auth-oauth-btn" disabled title="Próximamente">
+                        <img src="{% static 'img/svg-iconos/facebook.svg' %}" alt="Facebook">
+                    </button>
+                    <button class="auth-oauth-btn" disabled title="Próximamente">
+                        <img src="{% static 'img/svg-iconos/apple.svg' %}" alt="Apple">
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <!-- /auth-form-side -->
+
+    </div>
+    <!-- /auth-wrapper -->
+
+</body>
+</html>

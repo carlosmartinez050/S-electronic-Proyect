@@ -1,0 +1,153 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>registro — S-ELECTRONIC</title>
+    <link rel="icon" type="image/png" href="{% static 'img/img-iconos/isotipo-logo2.png' %}">
+    <link rel="stylesheet" href="{% static 'css/root.css' %}">
+    <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+</head>
+<body class="auth-body">
+
+    <div class="auth-wrapper">
+
+        <!-- ═══ LADO IZQUIERDO — Imagen decorativa ═══ -->
+        <div class="auth-image-side">
+            <!-- Cuando tengas la imagen, reemplaza el div por:        -->
+            <!-- <img src="{% static 'img/auth/registro-bg.jpg' %}"    -->
+            <!--      alt="S-Electronic" class="auth-image">           -->
+            <div class="auth-image-placeholder">
+                <img src="{% static 'img/img-iconos/S-ELECTRONIC-LOGO.png' %}"
+                     alt="S-ELECTRONIC"
+                     class="auth-image-logo-overlay">
+            </div>
+        </div>
+
+        <!-- ═══ LADO DERECHO — Formulario ═══ -->
+        <div class="auth-form-side">
+
+            <!-- Logo -->
+            <div class="auth-logo-container">
+                <a href="{% url 'shop:home' %}">
+                    <img src="{% static 'img/img-iconos/S-ELECTRONIC-LOGO.png' %}"
+                         alt="S-ELECTRONIC"
+                         class="auth-logo">
+                </a>
+            </div>
+
+            <!-- Título -->
+            <h1 class="auth-title">Crear cuenta</h1>
+
+            <!-- Mensajes de error/éxito -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="auth-message auth-message--{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Formulario -->
+            <form method="POST" action="{% url 'accounts:registro' %}" class="auth-form" novalidate>
+                {% csrf_token %}
+
+                <!-- Fila: Nombre + Apellido -->
+                <div class="auth-form-row">
+                    <div class="auth-field">
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                            <span class="auth-field-error">
+                                {{ form.first_name.errors.0 }}
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <div class="auth-field">
+                        {{ form.last_name }}
+                        {% if form.last_name.errors %}
+                            <span class="auth-field-error">
+                                {{ form.last_name.errors.0 }}
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="auth-field">
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <span class="auth-field-error">
+                            {{ form.email.errors.0 }}
+                        </span>
+                    {% endif %}
+                </div>
+
+                <!-- Contraseña -->
+                <div class="auth-field">
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <span class="auth-field-error">
+                            {{ form.password1.errors.0 }}
+                        </span>
+                    {% endif %}
+                </div>
+
+                <!-- Confirmar contraseña -->
+                <div class="auth-field">
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <span class="auth-field-error">
+                            {{ form.password2.errors.0 }}
+                        </span>
+                    {% endif %}
+                </div>
+
+                <!-- Errores generales del formulario -->
+                {% if form.non_field_errors %}
+                    <div class="auth-field-error">
+                        {{ form.non_field_errors.0 }}
+                    </div>
+                {% endif %}
+
+                <!-- Botón submit -->
+                <button type="submit" class="auth-btn-primary">
+                    Crear Cuenta
+                </button>
+
+            </form>
+
+            <!-- Link a login -->
+            <p class="auth-switch">
+                ¿Ya tienes una cuenta?
+                <a href="{% url 'accounts:login' %}" class="auth-switch-link">
+                    Inicia sesión
+                </a>
+            </p>
+
+            <!-- OAuth — deshabilitado por ahora, listo para activar después -->
+            <div class="auth-oauth">
+                <span class="auth-oauth-label">O continúa con</span>
+                <div class="auth-oauth-buttons">
+                    <button class="auth-oauth-btn" disabled title="Próximamente">
+                        <img src="{% static 'img/svg-iconos/google.svg' %}" alt="Google">
+                    </button>
+                    <button class="auth-oauth-btn" disabled title="Próximamente">
+                        <img src="{% static 'img/svg-iconos/facebook.svg' %}" alt="Facebook">
+                    </button>
+                    <button class="auth-oauth-btn" disabled title="Próximamente">
+                        <img src="{% static 'img/svg-iconos/apple.svg' %}" alt="Apple">
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <!-- /auth-form-side -->
+
+    </div>
+    <!-- /auth-wrapper -->
+
+</body>
+</html>

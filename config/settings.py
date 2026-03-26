@@ -53,6 +53,21 @@ INSTALLED_APPS = [
     'admin_panel'
 ]
 
+# ─── Usuario personalizado ───────────────────────────────
+# CRÍTICO: debe estar antes de la primera migración
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# ─── Redirecciones de autenticación ──────────────────────
+LOGIN_URL = 'accounts:login'              # Si no está logueado, va aquí
+LOGIN_REDIRECT_URL = 'shop:home'          # Después del login, va aquí
+LOGOUT_REDIRECT_URL = 'accounts:login'    # Después del logout, va aquí
+
+# ─── Backends de autenticación ────────────────────────────
+AUTHENTICATION_BACKENDS = [
+    'accounts.backend.EmailBackend',  # Nuestro backend por email
+]
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

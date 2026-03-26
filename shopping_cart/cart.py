@@ -24,7 +24,10 @@ class Carrito:
             self._carrito[producto_id] = cantidad
         else:
             if actualizar:
-              self._carrito[producto_id] = cantidad   
+                if cantidad <= 0:
+                    del self._carrito[producto_id]
+                else:
+                    self._carrito[producto_id] = cantidad   
             else:
                 self._carrito[producto_id] += cantidad
                 
