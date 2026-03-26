@@ -22,8 +22,8 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('shop.urls')), # Agregado para las URLs de la tienda
-    path('', include('shopping_cart.urls'))
-
+    path('', include('shopping_cart.urls')),
+    path('accounts/', include('accounts.urls'))
 ]
 
 
