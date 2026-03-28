@@ -105,7 +105,7 @@
 
         <div class="productos-similares-cards-container">
             {% for productos_relacionados in productos_relacionados %}
-                {% include "partials/card_product.html" with producto=producto %}
+                {% include "partials/card_product.html" with producto=productos_relacionados %}
             {% empty %}
                 <p class="productos-similares-empty">No se encontraron productos similares.</p>
             {% endfor %}

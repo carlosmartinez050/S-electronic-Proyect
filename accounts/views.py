@@ -6,6 +6,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import RegistroForm, LoginForm
+from shopping_cart.cart import Carrito
 
 
 def registro_view(request):
@@ -23,7 +24,11 @@ def registro_view(request):
         if form.is_valid():
             user = form.save()
             # Logueamos al usuario automáticamente después del registro
-            login(request, user, backend='accounts.backends.EmailBackend')
+            login(request, user, backend='accounts.backend.EmailBackend')
+            
+            
+            Carrito.fusionar_sesion_a_db(request)
+            
             messages.success(request, f'¡Bienvenido, {user.first_name}!')
             return redirect('shop:home')
         else:
@@ -48,9 +53,12 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+            
+            Carrito.fusionar_sesion_a_db(request)
+            
             messages.success(request, f'¡Bienvenido de vuelta, {user.first_name}!')
 
-            # Redirección según rol     #COMENTADA HASTA DESARROLLAR EL ADMIN PANEL
+            # Redirección según rol     #!COMENTADA HASTA DESARROLLAR EL ADMIN PANEL
             # if user.is_staff:
             #     return redirect('admin_panel:dashboard')
 

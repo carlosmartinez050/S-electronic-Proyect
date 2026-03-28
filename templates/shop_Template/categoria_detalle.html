@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ categoria.nombre }} | S-ELECTRONIC
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/categoria_detalle.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+
+    <!-- ========================= -->
+    <!-- POPULARES -->
+    <!-- ========================= -->
+    <section class="seccion-productos">
+        <div class="seccion-header">
+            <h2>Populares</h2>
+        </div>
+
+        <div class="productos-scroll">
+
+            {% for producto in productos_populares %}
+                {% include "partials/card_product.html" with producto=producto %}
+            {% empty %}
+                <p>No hay productos populares.</p>
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- RECOMENDADOS -->
+    <!-- ========================= -->
+    <section class="seccion-productos">
+
+        <div class="seccion-header">
+            <h2>Recomendados para ti</h2>
+        </div>
+
+        <div class="productos-scroll">
+
+            {% for producto in productos_recomendados %}
+                {% include "partials/card_product.html" with producto=producto %}
+            {% empty %}
+                <p>No hay recomendaciones disponibles.</p>
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- OFERTAS -->
+    <!-- ========================= -->
+    <section class="seccion-productos">
+
+        <div class="seccion-header">
+            <h2>Ofertas</h2>
+        </div>
+
+        <div class="productos-scroll">
+
+            {% for producto in productos_ofertas %}
+                {% include "partials/card_product.html" with producto=producto %}
+            {% empty %}
+                <p>No hay ofertas disponibles.</p>
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+{% endblock %}
