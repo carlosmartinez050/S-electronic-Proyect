@@ -129,3 +129,36 @@
     background-color: rgba(0, 0, 0, 0.8); /* Fondo más oscuro */
     transform: translateY(-50%) scale(1.1); /* Se agranda un poco */
 }
+
+
+/* MEDIA QUERY PARA MOBILE */
+@media (max-width: 768px) {
+    .hero-container {
+        width: 100%;          /* sin espacios laterales */
+        height: 300px;        /* menos alto en mobile */
+        margin-bottom: 20px;
+        border-radius: 0;
+    }
+
+    .hero-title {
+        font-size: 28px;      /* más pequeño */
+        margin-bottom: 12px;
+    }
+
+    .hero-description {
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+
+    .hero-button {
+        padding: 10px 24px;
+        font-size: 14px;
+    }
+
+    .hero-nav {
+        font-size: 20px;
+        padding: 10px 14px;
+        opacity: 1;           /* siempre visible en mobile, no hay hover */
+    }
+}
+
