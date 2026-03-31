@@ -124,7 +124,7 @@ ALLOWED_HOSTS=localhost,127.0.0.1
 4. Guarda
 
 ### Ver tienda
-1. Navega a http://localhost:8000
+1. Navega a https://s-electronic-proyect.onrender.com
 2. Explora productos por categoría
 3. Agrega al carrito
 4. Finaliza compra
@@ -134,12 +134,7 @@ AQUI
 
 ## 🗺️ Roadmap
 
-- [ ] Sistema de pagos (PayPal, Stripe)
-- [ ] Autenticación con redes sociales
-- [ ] Sistema de reviews y calificaciones
-- [ ] Wishlist (lista de deseos)
-- [ ] Notificaciones por email
-- [ ] Dashboard de analytics
+- [ ] calificaciones a Productos
 
 ## 🤝 Contribución
 

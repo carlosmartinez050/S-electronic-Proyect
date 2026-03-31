@@ -14,7 +14,7 @@
         
         {% if categorias %}
             {% for categoria in categorias %}           <!-- categorias viene del context_processor -->
-                <a href="{% url 'shop:categoria_detalle' categoria.slug %}" class="categoria-card">
+                <a href="{% url 'shop:categoria_detalle' categoria.slug %}  " class="categoria-card">
                     {% if categoria.imagen %}
                         <img src="{{ categoria.imagen.url }}" 
                              alt="{{ categoria.nombre }}" 
