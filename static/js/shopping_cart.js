@@ -32,6 +32,14 @@ function cargarCarrito() {
                 btnCompletar.addEventListener("click", finalizarCompra);
                 console.log("se clikeo el boton")
             }
+
+            // Agregar evento al botón cerrar carrito (móvil)
+            const btnCerrar = document.querySelector(".btn-cerrar");
+            if (btnCerrar) {
+                btnCerrar.addEventListener("click", () => {
+                    contenedorTransparente.classList.add("hidden");
+                });
+            }
         })
         .catch(error => console.error("Error al cargar el carrito:", error));
 }
@@ -198,6 +206,12 @@ function getCookie(name) {
 }
 
 
+// evento para cerrar con el boton cerrar carrito
+const btnCerrarCarrito = document.getElementById("btn-cerrar-carrito");
+
+btnCerrarCarrito.addEventListener("click", () => {
+    contenedorTransparente.classList.add("hidden");
+});
 
 
 
@@ -207,8 +221,7 @@ function getCookie(name) {
 
 
 
-
-// document.addEventListener('DOMContentLoaded', ()=>{
+//! document.addEventListener('DOMContentLoaded', ()=>{
 //         fetch('http://127.0.0.1:8000/ver_carrito/')
 //   .then(respuesta => {
 //     console.log(respuesta)
