@@ -478,6 +478,10 @@ header {
         padding-left: var(--space-md);
     }
 
+    #container-logo-search-input {
+        display: none;   /* elimina el espacio y los clicks */
+    }
+
     .container_icons {
         display: flex;
         justify-content: flex-end;
@@ -498,4 +502,94 @@ header {
         background-color: var(--bg-surface);
         gap: 10px;
     }
+
+
+
+    /* MENÚ — posición y tamaño */
+    .menu-movil {
+        display: flex;                  /* activamos el menú              */
+        flex-direction: column;
+        
+        position: fixed;                /* se queda fijo aunque se scrollee */
+        top: 0;
+        right: 0;                       /* sale desde la derecha          */
+        width: 100%;                    /* ocupa toda la pantalla         */
+        height: 100vh;                  /* altura completa del viewport   */
+        
+        background-color: var(--bg-surface);
+        color: var(--text-secondary);
+        
+        z-index: 999;                   /* encima de todo                 */
+        padding: 20px;
+
+        /* ANIMACIÓN — empieza fuera de pantalla a la derecha */
+        transform: translateX(100%);    /* escondido a la derecha         */
+        transition: transform 350ms ease;  /* animación suave             */
+
+        /* Menú scrolleable si hay muchas categorías */
+        overflow-y: auto;
+    }
+
+    /* MENÚ ABIERTO — cuando JS añade la clase .activo */
+    .menu-movil.activo {
+        transform: translateX(0);       /* entra desde la derecha         */
+    }
+
+    /*  BOTÓN CERRAR */
+    .btn-cerrar-menu {
+        width: 80px;
+        align-self: flex-end;           /* se posiciona a la derecha      */
+        font-size: var(--font-size-md);
+        font-weight: 700;
+        cursor: pointer;
+        margin-bottom: 20px;
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+    }
+
+    /* LISTA DE CATEGORÍAS */
+    .menu-movil-categorias {
+        display: flex;
+        flex-direction: column;         /* categorías en lista vertical   */
+        gap: 4px;
+        width: 100%;
+    }
+
+    /* CADA LINK  */
+    .menu-movil-link {
+        width: 100%;
+        padding: 14px 16px;
+        font-size: var(--font-size-md);
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-decoration: none;
+        border-radius: var(--radius-md);
+        transition: background-color 200ms ease;
+    }
+
+    .menu-movil-link:hover,
+    .menu-movil-link.activa {
+        background-color: var(--bg-hover);
+    }
+
+    /*  SEPARADOR MARCAS  */
+    .menu-movil-separador {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--border-mid);
+        padding: 16px 16px 8px;
+        display: block;
+    }
+
+    /*  MARCAS más pequeñas que categorías  */
+    .menu-movil-link-marca {
+        font-size: 14px;
+        font-weight: 500;
+        padding: 10px 16px;
+        padding-left: 28px;             /* sangría para diferenciarlas    */
+    }
+
 }

@@ -81,7 +81,7 @@
      Usar estas variables evita "números mágicos"
      (padding: 13px, gap: 17px, etc.)
   ────────────────────────────────────────── */
-  --space-xs:  4px;
+  --space-xs:  4px;  
   --space-sm:  8px;
   --space-md:  16px;
   --space-lg:  24px;
