@@ -25,13 +25,13 @@
     <div class="marcas-column">
         <div class="column-header">
             <h2 class="column-title">Marcas</h2>
-            <a href="#" class="section-link">Ver todas →</a>
+            <a href="{% url 'shop:marcas_lista' %}" class="section-link">Ver todas →</a>
         </div>
         
         <div class="marcas-container">
             {% if marcas %}
                 {% for marca in marcas %}
-                    <a href="#" class="marca-card">
+                    <a href="{% url 'shop:marca_detalle' slug=marca.slug %}" class="marca-card">
                         {% if marca.logo %}
                             <img src="{{ marca.logo.url }}" 
                                  alt="{{ marca.nombre }}" 

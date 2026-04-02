@@ -335,13 +335,40 @@
     width: 100%;
     display: flex;
     gap: 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+
+    /* scrollbar invisible por defecto */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
 }
 
-/* SCROLL PARA CONTENEDOR DE PRODUCTOS SIMILARES */
-.productos-similares-cards-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+.productos-similares-cards-container:hover {
+    scrollbar-color: var(--border-mid) transparent;
 }
+
+.productos-similares-cards-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.productos-similares-cards-container::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 10px;
+}
+
+.productos-similares-cards-container:hover::-webkit-scrollbar-thumb {
+    background: var(--border-mid);
+}
+
+/* ← ESTO ES LO CLAVE — ancho fijo para cada card */
+.productos-similares-cards-container .product-card {
+    flex: 0 0 260px;   /* no crece, no se encoge, ancho fijo */
+    min-width: 260px;
+}
+
+
 
 /* MENSAJE CUANDO NO HAY PRODUCTOS SIMILARES */
 .productos-similares-empty {
@@ -355,13 +382,23 @@
 
 /* DISPOSITIVOS MEDIANOS */
 @media (max-width: 768px) {
+    .detalle-producto-container {
+        width: 100%;             /* Ocupa todo el ancho disponible en mobile */
+        margin-top: 10px;         
+        display: flex;
+        flex-direction: column;
+        justify-content: center;   
+        align-items: center;
+    }
+
     .detalle-producto-main {
         flex-direction: column;
+        width: 100%;
     }
 
     .galeria-imagenes-carousel {
         flex-direction: column;
-        order: 1; /* Mueve el carousel de imágenes al inicio en mobile */
+        order: 1;                   /* Mueve el carousel de imágenes al inicio en mobile */
     }
 
     .imagen-principal-wrapper {
@@ -370,17 +407,26 @@
 
     .detalle-producto-informacion {
         width: 100%;
-        order: 2; /* Mueve la información al final en mobile */
+        order: 2;                   /* Mueve la información al final en mobile */
     }
 
     .btn-comprar-oculto-content {
-        display: block; /* Muestra el botón oculto solo en mobile */
+        display: block;             /* Muestra el botón oculto solo en mobile */
     }
 
     .boton-comprar {
-        display: none; /* Oculta el botón de compra normal en mobile */
+        display: none;              /* Oculta el botón de compra normal en mobile */
     }
 
+    .productos-similares-section {
+        width: 100%;
+        padding: 20px 12px;
+    }
+
+    .productos-similares-cards-container .product-card {
+        flex: 0 0 200px;        /* más pequeñas en mobile */
+        min-width: 200px;
+    }
 }
 
 
