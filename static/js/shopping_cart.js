@@ -1,8 +1,55 @@
 
+// Función para obtener CSRF token
+function getCookie(name) {
+    // Para csrftoken, primero busca en el input hidden del DOM
+    if (name === 'csrftoken') {
+        const token = document.querySelector('[name=csrfmiddlewaretoken]');
+        if (token) {
+            return token.value;
+        }
+    }
+    
+    // Si no está en el DOM, busca en las cookies
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+
+
+
+
+
+
+// function getCookie(name) {
+//     let cookieValue = null;
+//     if (document.cookie && document.cookie !== '') {
+//         const cookies = document.cookie.split(';');
+//         for (let i = 0; i < cookies.length; i++) {
+//             const cookie = cookies[i].trim();
+//             if (cookie.substring(0, name.length + 1) === (name + '=')) {
+//                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+//                 break;
+//             }
+//         }
+//     }
+//     return cookieValue;
+// }
+
+
+
 const iconoCarrito = document.getElementById("icon-carrito");
 const contenedorTransparente = document.getElementById("content-modal-trasparent");
-
-
 
 iconoCarrito.addEventListener("click", () => {
     cargarCarrito();
@@ -54,6 +101,8 @@ contenedorTransparente.addEventListener("click", (event) => {
 
 
 function agregarProducto(productoId) {
+    console.log("Intentando agregar producto:", productoId);
+    
     fetch(`/agregar_al_carrito/${productoId}/`, {
         method: 'POST',  
         headers: {
@@ -61,7 +110,10 @@ function agregarProducto(productoId) {
             'X-CSRFToken': getCookie('csrftoken')
         }
     }) 
-    .then(response => response.json()) 
+    .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+    })
     .then(data => {
         if (data.success) {
             console.log("Producto agregado al carrito:", productoId);
@@ -70,6 +122,29 @@ function agregarProducto(productoId) {
     })
     .catch(error => console.error("Error al agregar producto:", error));
 }
+
+
+
+
+
+
+// function agregarProducto(productoId) {
+//     fetch(`/agregar_al_carrito/${productoId}/`, {
+//         method: 'POST',  
+//         headers: {
+//             'X-Requested-With': 'XMLHttpRequest',
+//             'X-CSRFToken': getCookie('csrftoken')
+//         }
+//     }) 
+//     .then(response => response.json()) 
+//     .then(data => {
+//         if (data.success) {
+//             console.log("Producto agregado al carrito:", productoId);
+//             cargarCarrito();
+//         }
+//     })
+//     .catch(error => console.error("Error al agregar producto:", error));
+// }
 
 
 function agregarEventosInputs() {
@@ -189,21 +264,7 @@ function finalizarCompra() {
 
 
 
-// Función para obtener CSRF token
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
+
 
 
 // evento para cerrar con el boton cerrar carrito

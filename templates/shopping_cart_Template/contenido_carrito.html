@@ -107,7 +107,9 @@
     <div class="cart-accion">
 
         <!-- Botón completar compra -->
-        <button class="cart-btn-comprar">Completar Compra</button>
+        <a href="{% url 'checkout:checkout' %}" class="cart-btn-comprar">
+          Completar Compra
+        </a>
 
         <!-- Caja de descuentos -->
         <div class="cart-descuentos">
