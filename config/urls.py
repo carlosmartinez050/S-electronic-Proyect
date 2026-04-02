@@ -23,7 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('shop.urls')), # Agregado para las URLs de la tienda
     path('', include('shopping_cart.urls')),
-    path('accounts/', include('accounts.urls'))
+    path('accounts/', include('accounts.urls')),
+    path('checkout/', include('checkout.urls')),
 ]
 
 
