@@ -135,11 +135,62 @@ def detalle_producto(request, slug):
     
 
 def productos_destacados_lista(request):
-    productos = Producto.objects.filter(activo=True, destacado=True, stock__gt=0)
+    productos = Producto.objects.filter(
+        activo=True,
+        destacado=True,
+        stock__gt=0
+    ).select_related('categoria', 'marca').order_by('-fecha_creacion')
+
     return render(request, 'shop_Template/productos_lista.html', {
-        'productos': productos
+        'productos':      productos,
+        'titulo_pagina':  'Productos Destacados',
+        'subtitulo':      f'{productos.count()} productos encontrados',
     })
 
+
+def productos_nuevos_lista(request):
+    productos = Producto.objects.filter(
+        activo=True,
+        nuevo=True,
+        stock__gt=0
+    ).select_related('categoria', 'marca').order_by('-fecha_creacion')
+
+    return render(request, 'shop_Template/productos_lista.html', {
+        'productos':      productos,
+        'titulo_pagina':  'Productos Nuevos',
+        'subtitulo':      f'{productos.count()} productos encontrados',
+    })
+    
+
+def marcas_lista(request):
+    """Todos los productos de todas las marcas"""
+    productos = Producto.objects.filter(
+        activo=True,
+        stock__gt=0
+    ).select_related('categoria', 'marca').order_by('marca__nombre', '-fecha_creacion')
+
+    return render(request, 'shop_Template/productos_lista.html', {
+        'productos':      productos,
+        'titulo_pagina':  'Todas las Marcas',
+        'subtitulo':      f'{productos.count()} productos encontrados',
+    })
+    
+    
+def marca_detalle_lista(request, slug):
+    """Productos de una marca específica"""
+    marca = get_object_or_404(Marca, slug=slug, activo=True)
+
+    productos = Producto.objects.filter(
+        marca=marca,
+        activo=True,
+        stock__gt=0
+    ).select_related('categoria', 'marca').order_by('-fecha_creacion')
+
+    return render(request, 'shop_Template/productos_lista.html', {
+        'productos':      productos,
+        'titulo_pagina':  f'Productos {marca.nombre}',
+        'subtitulo':      f'{productos.count()} productos encontrados',
+    })
  
 
 # VISTA PARA LA BUSQUEDA DE PRODUCTOS (INPUT DE BUSQUEDA EN EL HEADER)
