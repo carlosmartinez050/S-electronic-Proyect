@@ -1,0 +1,273 @@
+
+/* ── CONTENEDOR PRINCIPAL ─────────────────────────────────────
+   display: flex pone las dos columnas lado a lado.
+   gap: 30px es el espacio entre las columnas.
+   align-items: flex-start hace que cada columna tenga
+   su propia altura (no se estiran para igualarse).
+──────────────────────────────────────────────────────────── */
+.checkout-container {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;        /* Cada columna tiene su propia altura */
+    width: 95%;
+    max-width: 1100px;
+    margin: 30px auto;              /* Centrado horizontal con espacio arriba */
+    padding: 0 20px;
+}
+
+
+.checkout-formulario {
+    flex: 1.5;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* mensaje de error o éxito */
+.checkout-mensaje {
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.checkout-mensaje--error {
+    background-color: var(--danger-glow);
+    color: var(--text-danger);
+    border: 1px solid var(--border-danger);
+}
+
+.checkout-mensaje--success {
+    background-color: var(--success-glow);
+    color: var(--success);
+    border: 1px solid var(--success);
+}
+
+/* ── Título de sección ── */
+.checkout-seccion-titulo {
+    width: 100%;
+    padding: 12px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.checkout-seccion-titulo h2 {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin: 0;
+    text-align: center;
+}
+
+/* Título secundario para "Datos de la tarjeta" */
+.checkout-seccion-titulo--secundario {
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+.checkout-seccion-titulo--secundario h3 {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+
+/* ── Campos del formulario ── */
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;                      
+}
+
+/* Contenedor de cada campo individual */
+.checkout-campo {
+    width: 100%;
+}
+
+/* El input en sí */
+.checkout-input {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: var(--bg-hover);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: var(--font-size-md);
+    box-sizing: border-box;         /* Incluye padding en el ancho total */
+
+    /* Transición suave al hacer focus */
+    transition: border-color var(--transition-normal),
+                box-shadow var(--transition-normal);
+}
+
+.checkout-input::placeholder {
+    color: var(--text-muted);
+}
+
+
+.checkout-input:focus {
+    outline: none;                  /* Quitamos el borde azul del navegador */
+    border-color: var(--accent);    
+    box-shadow: 0 0 0 3px var(--accent-glow); 
+}
+
+
+/* ── Fila de dos columnas (CVV + Expiración) ─── */
+.checkout-fila-dos-columnas {
+    display: flex;
+    gap: 12px;
+}
+
+/* Cada campo dentro de la fila ocupa el mismo espacio */
+.checkout-fila-dos-columnas .checkout-campo {
+    flex: 1;
+}
+
+
+/* ── Métodos de pago alternativos ──── */
+.checkout-metodos-pago {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Cada botón de método de pago */
+.checkout-metodo-btn {
+    flex: 1;                        /* Todos ocupan el mismo ancho */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px;
+    background-color: var(--bg-hover);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    cursor: not-allowed;            /* Cursor de "no disponible" porque están disabled */
+    opacity: 0.6;
+}
+
+/* Imagen del ícono dentro del botón */
+.checkout-metodo-btn img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+.checkout-resumen {
+    flex: 1;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    /* Pegamos la columna a la parte superior aunque el formulario sea más alto */
+    position: sticky;
+    top: 20px;
+}
+
+
+/* ── Cada fila del resumen ─── */
+
+.resumen-fila {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--font-size-md);
+}
+
+.resumen-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.resumen-valor {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* Fila de descuento — texto en rojo/verde */
+.resumen-valor--descuento {
+    color: var(--success);          /* Verde para indicar ahorro */
+    font-weight: 700;
+}
+
+/* Separador entre filas y el total */
+.resumen-separador {
+    border: none;
+    border-top: 1px solid var(--border-subtle);
+    margin: 4px 0;
+}
+
+/* Fila del total — más grande y prominente */
+.resumen-fila--total .resumen-label,
+.resumen-fila--total .resumen-valor {
+    font-size: var(--font-size-lg);
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.resumen-valor--total {
+    color: var(--accent) !important;
+}
+
+
+/* ── Botón Finalizar Compra ── */
+.checkout-btn-finalizar {
+    width: 100%;
+    padding: 15px;
+    margin-top: 8px;
+    background-color: var(--accent);
+    color: var(--text-primary);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-md);
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color var(--transition-normal),
+                box-shadow var(--transition-normal),
+                transform var(--transition-fast);
+}
+
+.checkout-btn-finalizar:hover {
+    background-color: var(--accent-hover);
+    box-shadow: var(--shadow-accent);
+}
+
+/* Efecto de "presión" al hacer click */
+.checkout-btn-finalizar:active {
+    transform: scale(0.98);
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile
+══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .checkout-container {
+        width: 100%;                
+        flex-direction: column;     /* De lado a lado → una encima de otra */
+        padding: 0 15px;
+        margin: 15px auto;
+    }
+
+    .checkout-resumen {
+        width: 100%;                /* Que ocupe todo el ancho disponible */
+        position: static;           /* Quitamos sticky en mobile */
+        order: -1;                  /* Lo mueve al principio */
+    }
+
+    .checkout-metodos-pago {
+        flex-wrap: wrap;            /* Si no caben, bajan a la siguiente fila */
+    }
+}
