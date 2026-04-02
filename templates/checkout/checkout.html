@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Checkout — S-ELECTRONIC{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="checkout-container">
+
+    <!-- ══════════════════════════════════════
+         COLUMNA IZQUIERDA — Formulario
+    ══════════════════════════════════════ -->
+    <div class="checkout-formulario">
+
+        <!-- Título del bloque -->
+        <div class="checkout-seccion-titulo">
+            <h2>Información del envío</h2>
+        </div>
+
+        <!-- mensaje de error o éxito -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="checkout-mensaje checkout-mensaje--{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+
+        <!-- formulario -->
+        <form method="POST" action="" class="checkout-form" id="checkout-form">
+
+            
+            {% csrf_token %} 
+
+            <!-- CAMPO: Nombre -->
+            <div class="checkout-campo">
+                <input 
+                    type="text" 
+                    name="nombre" 
+                    placeholder="Nombre"
+                    class="checkout-input"
+                    autocomplete="given-name"
+                    required
+                    value="{{ form_data.nombre }}">
+            </div>
+
+            <!-- CAMPO: Apellido -->
+            <div class="checkout-campo">
+                <input 
+                    type="text" 
+                    name="apellido" 
+                    placeholder="Apellido"
+                    class="checkout-input"
+                    autocomplete="family-name"
+                    required
+                    value="{{ form_data.apellido }}">
+            </div>
+
+            <!-- CAMPO: Dirección -->
+            <div class="checkout-campo">
+                <input 
+                    type="text" 
+                    name="direccion" 
+                    placeholder="Dirección"
+                    class="checkout-input"
+                    autocomplete="street-address"
+                    required
+                    value="{{ form_data.direccion }}">
+            </div>
+
+            <!-- ── SEPARADOR: Datos de pago ── -->
+            <div class="checkout-seccion-titulo checkout-seccion-titulo--secundario">
+                <h3>Datos de la tarjeta</h3>
+            </div>
+
+            <!-- CAMPO: Número de tarjeta -->
+            <div class="checkout-campo">
+                <input 
+                    type="text" 
+                    name="tarjeta" 
+                    placeholder="Datos de la tarjeta"
+                    class="checkout-input"
+                    autocomplete="cc-number"
+                    maxlength="19"
+                    inputmode="numeric">
+                    <!-- inputmode="numeric" abre teclado numérico en móvil -->
+            </div>
+
+            <!-- FILA: CVV + Expiración (lado a lado) -->
+            <div class="checkout-fila-dos-columnas">
+
+                <div class="checkout-campo">
+                    <input 
+                        type="text" 
+                        name="cvv" 
+                        placeholder="CVV"
+                        class="checkout-input"
+                        autocomplete="cc-csc"
+                        maxlength="4"
+                        inputmode="numeric">
+                </div>
+
+                <div class="checkout-campo">
+                    <input 
+                        type="text" 
+                        name="expiracion" 
+                        placeholder="MM / AA"
+                        class="checkout-input"
+                        autocomplete="cc-exp"
+                        maxlength="7">
+                </div>
+
+            </div>
+
+            <!-- ── MÉTODOS DE PAGO ALTERNATIVOS ── -->
+            <!-- Por ahora son botones visuales, sin funcionalidad real -->
+            <div class="checkout-metodos-pago">
+
+                <button type="button" class="checkout-metodo-btn" disabled title="Próximamente">
+                    <img src="{% static 'img/svg-iconos/google-pay.svg' %}" alt="Google Pay">
+                    Google Pay
+                </button>
+
+                <button type="button" class="checkout-metodo-btn" disabled title="Próximamente">
+                    <img src="{% static 'img/svg-iconos/paypal.svg' %}" alt="PayPal">
+                    PayPal
+                </button>
+
+                <button type="button" class="checkout-metodo-btn" disabled title="Próximamente">
+                    <img src="{% static 'img/svg-iconos/mastercard.svg' %}" alt="Apple Pay">
+                    Apple Pay
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+    <!-- /checkout-formulario -->
+
+
+    <!-- ══════════════════════════════════════
+         COLUMNA DERECHA — Resumen del carrito
+    ══════════════════════════════════════ -->
+    <div class="checkout-resumen">
+
+        <!-- FILA: Artículos + Subtotal -->
+        <div class="resumen-fila">
+            <span class="resumen-label">
+                Artículos: <strong>{{ total_articulos }}</strong>
+            </span>
+            <span class="resumen-valor">
+                ${{ subtotal|floatformat:2|intcomma }}
+            </span>
+        </div>
+
+        <!-- FILA: Envío -->
+        <div class="resumen-fila">
+            <span class="resumen-label">Envío</span>
+            <span class="resumen-valor">$20</span>
+        </div>
+
+        <!-- FILA: Descuento (solo aparece si hay descuento) -->
+        {% if descuento %}
+            <div class="resumen-fila resumen-fila--descuento">
+                <span class="resumen-label">Descuento aplicado</span>
+                <span class="resumen-valor resumen-valor--descuento">
+                    -${{ descuento|floatformat:2|intcomma }}
+                </span>
+            </div>
+        {% endif %}
+
+        <!-- SEPARADOR visual -->
+        <hr class="resumen-separador">
+
+        <!-- FILA: Total -->
+        <div class="resumen-fila resumen-fila--total">
+            <span class="resumen-label">Total</span>
+            <span class="resumen-valor resumen-valor--total">
+                ${{ total|floatformat:2|intcomma }}
+            </span>
+        </div>
+
+        <!-- BOTÓN FINALIZAR -->
+        <!-- Este botón hace submit del formulario de la columna izquierda -->
+        <!-- form="checkout-form" lo conecta al form aunque esté en otro div -->
+        <button 
+            type="submit" 
+            form="checkout-form" 
+            class="checkout-btn-finalizar">
+            Finalizar Compra
+        </button>
+
+    </div>
+    <!-- /checkout-resumen -->
+
+</div>
+<!-- /checkout-container -->
+
+{% endblock %}
