@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ titulo_pagina }} | S-ELECTRONIC{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/productos_lista.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+
+    {% include "partials/hero.html" %}
+
+    <section class="productos-lista-section">
+        <div class="productos-lista-header">
+            <h2 class="productos-lista-titulo">{{ titulo_pagina }}</h2>
+            {% if subtitulo %}
+                <p class="productos-lista-subtitulo">{{ subtitulo }}</p>
+            {% endif %}
+        </div>
+
+        <div class="productos-lista-grid">
+            {% for producto in productos %}
+                {% include "partials/card_product.html" with producto=producto %}
+            {% empty %}
+                <p class="productos-lista-empty">No hay productos disponibles.</p>
+            {% endfor %}
+        </div>
+
+    </section>
+
+{% endblock %}
