@@ -21,4 +21,16 @@ urlpatterns = [
     
     # Búsqueda de productos
     path('buscar/', views.busqueda_productos, name='busqueda_productos'),
+    
+    # destacados
+    path('destacados/', views.productos_destacados_lista, name='productos_destacados'),
+    
+    # nuevos
+    path('nuevos/', views.productos_nuevos_lista, name='productos_nuevos'),
+    
+    # marcas
+    path('marcas/', views.marcas_lista, name='marcas_lista'),
+    
+    # marca específica
+    path('marcas/<slug:slug>/', views.marca_detalle_lista, name='marca_detalle'),
 ]
