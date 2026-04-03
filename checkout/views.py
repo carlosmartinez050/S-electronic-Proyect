@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from shopping_cart.cart import Carrito
+from orders.models import Order, OrderItem
 
 # crate your views here.
 
@@ -55,19 +56,34 @@ def checkout_view(request):
             }
             return render(request, 'checkout/checkout.html', context)
 
-        # ── Si todo está bien ───────────────────────────────
-        # Guardamos los datos en la sesión para usarlos después
-        # La sesión es como una memoria temporal del usuario
-        request.session['checkout_datos'] = {
-            'nombre':    nombre,
-            'apellido':  apellido,
-            'direccion': direccion,
-        }
-        
+        # ── Crear la orden en la BD ─────────────────────────
+        subtotal    = carrito.total_precio()
+        costo_envio = 20
+        total       = subtotal + costo_envio
+
+        # 1. Creamos la orden principal
+        orden = Order.objects.create(
+            usuario   = request.user,
+            nombre    = nombre,
+            apellido  = apellido,
+            direccion = direccion,
+            subtotal  = subtotal,
+            costo_envio = costo_envio,
+            total     = total,
+        )
+
+        # 2. Creamos un OrderItem por cada producto del carrito
+        for item in carrito.get_items():
+            OrderItem.objects.create(
+                orden           = orden,
+                producto        = item['producto'],
+                nombre_producto = item['producto'].nombre,
+                precio_unitario = item['producto'].precio,
+                cantidad        = item['cantidad'],
+                subtotal        = item['subtotal'],
+            )
+            
         carrito.limpiar()  # Limpiamos el carrito
 
         messages.success(request, '¡Pedido recibido! Pronto nos comunicaremos contigo.')
-
-        # Por ahora redirigimos al home
-        # Después aquí irá: crear la orden en BD y redirigir a confirmación
         return redirect('shop:home')
