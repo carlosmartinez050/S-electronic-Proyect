@@ -105,12 +105,12 @@ def vistaPrincipalProductos(request):
     
 
     
-def categoria_detalle(request, slug):
+def categoria_detalle(request, categoria_slug, marca_slug=None):
     """
-    Muestra productos de una categoría específica
-    URL: /categoria/telefonos/
+    Muestra productos de una categoría específica, y opcionalmente filtra por marca
+    URL: /categoria/telefonos/ o /categoria/telefonos/apple/
     """
-    categoria = get_object_or_404(Categoria, slug=slug, activo=True)
+    categoria = get_object_or_404(Categoria, slug=categoria_slug, activo=True)
     ahora = timezone.now()
 
     # Marcas que tienen productos en esta categoría
@@ -119,21 +119,39 @@ def categoria_detalle(request, slug):
         productos__activo=True,
         activo=True
     ).distinct().order_by('orden', 'nombre')
+    
+    # Si se especifica una marca, validar que exista y pertenezca a la categoría
+    marca_seleccionada = None
+    if marca_slug:
+        marca_seleccionada = get_object_or_404(Marca, slug=marca_slug, activo=True)
+        # Verificar que la marca tenga productos en esta categoría
+        if not Producto.objects.filter(categoria=categoria, marca=marca_seleccionada, activo=True).exists():
+            marca_seleccionada = None
 
     # POPULARES
-    productos_populares = Producto.objects.filter(
+    query_populares = Producto.objects.filter(
         categoria=categoria,
         activo=True,
         stock__gt=0,
         destacado=True
-    ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
+    ).select_related('categoria', 'marca')
+    
+    if marca_seleccionada:
+        query_populares = query_populares.filter(marca=marca_seleccionada)
+    
+    productos_populares = query_populares.order_by('-fecha_creacion')[:8]
 
     # RECOMENDADOS
-    productos_recomendados = Producto.objects.filter(
+    query_recomendados = Producto.objects.filter(
         categoria=categoria,
         activo=True,
         stock__gt=0
-    ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
+    ).select_related('categoria', 'marca')
+    
+    if marca_seleccionada:
+        query_recomendados = query_recomendados.filter(marca=marca_seleccionada)
+    
+    productos_recomendados = query_recomendados.order_by('-fecha_creacion')[:8]
 
     #  OFERTAS (productos con descuentos válidos de esta categoría) - CON MANEJO DE ERRORES
     productos_ofertas = []
@@ -147,6 +165,10 @@ def categoria_detalle(request, slug):
             producto__activo=True,
             producto__stock__gt=0
         ).select_related('producto')
+        
+        if marca_seleccionada:
+            descuentos_producto = descuentos_producto.filter(producto__marca=marca_seleccionada)
+        
         for desc in descuentos_producto:
             try:
                 if desc.es_valido():
@@ -183,6 +205,8 @@ def categoria_detalle(request, slug):
                         activo=True,
                         stock__gt=0
                     )
+                    if marca_seleccionada:
+                        productos = productos.filter(marca=marca_seleccionada)
                     for prod in productos:
                         productos_con_descuento_ids.add(prod.id)
             except Exception:
@@ -199,6 +223,7 @@ def categoria_detalle(request, slug):
     return render(request, 'shop_Template/categoria_detalle.html', {
         'categoria': categoria,
         'marcas': marcas,
+        'marca_seleccionada': marca_seleccionada,
         'productos_populares': productos_populares,
         'productos_recomendados': productos_recomendados,
         'productos_ofertas': productos_ofertas,
