@@ -12,7 +12,7 @@
         <!-- CATEGORÍAS PADRE -->
         <div class="class-label-tag" id="class-label-tag">
             {% for cat in categorias %}
-                <a href="{% url 'shop:categoria_detalle' cat.slug %}" 
+                <a href="{% url 'shop:categoria_detalle' categoria.slug marca.slug %}" 
                    class="tags-label {% if categoria and categoria.id == cat.id %}activa{% endif %}">
                     {{ cat.nombre }}
                 </a>
