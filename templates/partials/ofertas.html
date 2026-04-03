@@ -5,14 +5,14 @@
     <!-- Título de la sección -->
     <div class="section-header">
         <h2 class="section-title">Ofertas Especiales</h2>   
-        <a href="#" class="section-link">Ver todos →</a>
+        <a href="{% url 'shop:productos_ofertas' %}" class="section-link">Ver todos →</a>
     </div>
     
     <!-- contenedor con scroll horizontal -->
     <div class="ofertas-container">
         {% if productos_ofertas %}
             {% for producto in productos_ofertas %}
-                {% include "partials/product-card.html" with producto=producto %}
+                {% include "partials/card_product.html" with producto=producto %}
             {% endfor %}
         {% else %}
             <p class="no-products">No hay ofertas disponibles</p>
