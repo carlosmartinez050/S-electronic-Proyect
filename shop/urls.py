@@ -10,8 +10,6 @@ urlpatterns = [
     # Detalle de producto (usa slug)
     path('producto/<slug:slug>/', views.detalle_producto, name='detalle_producto'),
     
-    # Productos destacados
-    # path('productos-destacados/', views.productos_destacados_lista, name='productos_destacados'),
     
     # Categoría (muestra todos los productos de esa categoría)
     path('categoria/<slug:slug>/', views.categoria_detalle, name='categoria_detalle'),
