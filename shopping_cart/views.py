@@ -35,12 +35,54 @@ def agregar_al_carrito(request, producto_id):
 
 def ver_carrito(request):
     carrito = Carrito(request)
+    items = carrito.get_items()
+    
+    # Calcular descuentos por tipo
+    descuento_producto = 0  # Suma de ahorros en productos individuales
+    descuento_marca = 0      # Suma de ahorros por marca
+    descuento_categoria = 0  # Suma de ahorros por categoría
+    
+    for item in items:
+        producto = item['producto']
+        cantidad = item['cantidad']
+        descuento = producto.obtener_descuento_aplicable()
+        
+        # Calcular ahorro individual
+        monto_ahorro = producto.get_monto_ahorro() * cantidad
+        
+        # Clasificar el descuento por tipo
+        if descuento['tipo'] == 'producto':
+            descuento_producto += monto_ahorro
+        elif descuento['tipo'] == 'marca':
+            descuento_marca += monto_ahorro
+        elif descuento['tipo'] == 'categoria':
+            descuento_categoria += monto_ahorro
+    
+    # Total sin descuentos (precio original)
+    total_sin_descuentos = sum(
+        producto.precio * cantidad 
+        for item in items 
+        for producto, cantidad in [(item['producto'], item['cantidad'])]
+    )
+    
+    # Total con descuentos (lo que calcula la clase Carrito)
+    total_con_descuentos = carrito.total_precio()
+    
+    # Ahorro total
+    ahorro_total = total_sin_descuentos - total_con_descuentos
 
     context = {
-        'lista_carrito': carrito.get_items(),     
-        'total_precio': carrito.total_precio(),       
+        'lista_carrito': items,     
+        'total_precio': total_con_descuentos,       
         'total_articulos': carrito.total_articulos(),    
-        'carrito_vacio': carrito.esta_vacio(),     
+        'carrito_vacio': carrito.esta_vacio(),
+        # Variables de descuento
+        'total_sin_descuentos': total_sin_descuentos,
+        'total_con_descuentos': total_con_descuentos,
+        'descuento_producto': descuento_producto,
+        'descuento_marca': descuento_marca,
+        'descuento_categoria': descuento_categoria,
+        'ahorro_total': ahorro_total,
     }
 
     return render(request, 'shopping_cart_Template/contenido_carrito.html', context)
