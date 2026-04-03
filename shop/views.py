@@ -31,52 +31,65 @@ def vistaPrincipalProductos(request):
         stock__gt=0
     ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:20]
     
-    # Productos con ofertas (descuentos activos)
-    ahora = timezone.now()
-    
-    # Obtener IDs de productos con descuentos válidos
-    productos_con_descuento_ids = set()
-    
-    # 1. Productos con descuento individual
-    descuentos_producto = DescuentoProducto.objects.filter(
-        activo=True
-    ).select_related('producto')
-    for desc in descuentos_producto:
-        if desc.es_valido():
-            productos_con_descuento_ids.add(desc.producto.id)
-    
-    # 2. Productos de categorías con descuento
-    descuentos_categoria = DescuentoCategoria.objects.filter(
-        activo=True
-    ).select_related('categoria')
-    for desc in descuentos_categoria:
-        if desc.es_valido():
-            productos = Producto.objects.filter(
-                categoria=desc.categoria,
-                activo=True,
-                stock__gt=0
-            )
-            for prod in productos:
-                productos_con_descuento_ids.add(prod.id)
-    
-    # 3. Productos de marcas con descuento
-    descuentos_marca = DescuentoMarca.objects.filter(
-        activo=True
-    ).select_related('marca')
-    for desc in descuentos_marca:
-        if desc.es_valido():
-            productos = Producto.objects.filter(
-                marca=desc.marca,
-                activo=True,
-                stock__gt=0
-            )
-            for prod in productos:
-                productos_con_descuento_ids.add(prod.id)
-    
-    # Obtener los productos con descuentos
-    productos_ofertas = Producto.objects.filter(
-        id__in=productos_con_descuento_ids
-    ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
+    # Productos con ofertas (descuentos activos) - CON MANEJO DE ERRORES
+    productos_ofertas = []
+    try:
+        # Obtener IDs de productos con descuentos válidos
+        productos_con_descuento_ids = set()
+        
+        # 1. Productos con descuento individual
+        descuentos_producto = DescuentoProducto.objects.filter(
+            activo=True
+        ).select_related('producto')
+        for desc in descuentos_producto:
+            try:
+                if desc.es_valido():
+                    productos_con_descuento_ids.add(desc.producto.id)
+            except Exception:
+                continue
+        
+        # 2. Productos de categorías con descuento
+        descuentos_categoria = DescuentoCategoria.objects.filter(
+            activo=True
+        ).select_related('categoria')
+        for desc in descuentos_categoria:
+            try:
+                if desc.es_valido():
+                    productos = Producto.objects.filter(
+                        categoria=desc.categoria,
+                        activo=True,
+                        stock__gt=0
+                    )
+                    for prod in productos:
+                        productos_con_descuento_ids.add(prod.id)
+            except Exception:
+                continue
+        
+        # 3. Productos de marcas con descuento
+        descuentos_marca = DescuentoMarca.objects.filter(
+            activo=True
+        ).select_related('marca')
+        for desc in descuentos_marca:
+            try:
+                if desc.es_valido():
+                    productos = Producto.objects.filter(
+                        marca=desc.marca,
+                        activo=True,
+                        stock__gt=0
+                    )
+                    for prod in productos:
+                        productos_con_descuento_ids.add(prod.id)
+            except Exception:
+                continue
+        
+        # Obtener los productos con descuentos
+        if productos_con_descuento_ids:
+            productos_ofertas = Producto.objects.filter(
+                id__in=productos_con_descuento_ids
+            ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
+    except Exception:
+        # Si hay cualquier error en lógica de descuentos, simplemente ignorar
+        productos_ofertas = []
     
     marcas = Marca.objects.filter(
         activo=True
@@ -122,52 +135,66 @@ def categoria_detalle(request, slug):
         stock__gt=0
     ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
 
-    # 🟡 OFERTAS (productos con descuentos válidos de esta categoría)
-    productos_con_descuento_ids = set()
-    
-    # Productos individuales con descuento
-    descuentos_producto = DescuentoProducto.objects.filter(
-        activo=True,
-        producto__categoria=categoria,
-        producto__activo=True,
-        producto__stock__gt=0
-    ).select_related('producto')
-    for desc in descuentos_producto:
-        if desc.es_valido():
-            productos_con_descuento_ids.add(desc.producto.id)
-    
-    # Descuento de la categoría
+    # 🟡 OFERTAS (productos con descuentos válidos de esta categoría) - CON MANEJO DE ERRORES
+    productos_ofertas = []
     try:
-        descuento_cat = DescuentoCategoria.objects.get(categoria=categoria, activo=True)
-        if descuento_cat.es_valido():
-            productos = Producto.objects.filter(
-                categoria=categoria,
-                activo=True,
-                stock__gt=0
-            )
-            for prod in productos:
-                productos_con_descuento_ids.add(prod.id)
-    except DescuentoCategoria.DoesNotExist:
-        pass
-    
-    # Descuentos por marca (para productos de esta categoría)
-    descuentos_marca = DescuentoMarca.objects.filter(
-        activo=True
-    ).select_related('marca')
-    for desc in descuentos_marca:
-        if desc.es_valido():
-            productos = Producto.objects.filter(
-                marca=desc.marca,
-                categoria=categoria,
-                activo=True,
-                stock__gt=0
-            )
-            for prod in productos:
-                productos_con_descuento_ids.add(prod.id)
-    
-    productos_ofertas = Producto.objects.filter(
-        id__in=productos_con_descuento_ids
-    ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
+        productos_con_descuento_ids = set()
+        
+        # Productos individuales con descuento
+        descuentos_producto = DescuentoProducto.objects.filter(
+            activo=True,
+            producto__categoria=categoria,
+            producto__activo=True,
+            producto__stock__gt=0
+        ).select_related('producto')
+        for desc in descuentos_producto:
+            try:
+                if desc.es_valido():
+                    productos_con_descuento_ids.add(desc.producto.id)
+            except Exception:
+                continue
+        
+        # Descuento de la categoría
+        try:
+            descuento_cat = DescuentoCategoria.objects.get(categoria=categoria, activo=True)
+            if descuento_cat.es_valido():
+                productos = Producto.objects.filter(
+                    categoria=categoria,
+                    activo=True,
+                    stock__gt=0
+                )
+                for prod in productos:
+                    productos_con_descuento_ids.add(prod.id)
+        except DescuentoCategoria.DoesNotExist:
+            pass
+        except Exception:
+            pass
+        
+        # Descuentos por marca (para productos de esta categoría)
+        descuentos_marca = DescuentoMarca.objects.filter(
+            activo=True
+        ).select_related('marca')
+        for desc in descuentos_marca:
+            try:
+                if desc.es_valido():
+                    productos = Producto.objects.filter(
+                        marca=desc.marca,
+                        categoria=categoria,
+                        activo=True,
+                        stock__gt=0
+                    )
+                    for prod in productos:
+                        productos_con_descuento_ids.add(prod.id)
+            except Exception:
+                continue
+        
+        if productos_con_descuento_ids:
+            productos_ofertas = Producto.objects.filter(
+                id__in=productos_con_descuento_ids
+            ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
+    except Exception:
+        # Si hay cualquier error, simplemente ignorar ofertas
+        productos_ofertas = []
 
     return render(request, 'shop_Template/categoria_detalle.html', {
         'categoria': categoria,
@@ -266,49 +293,62 @@ def marca_detalle_lista(request, slug):
  
 def productos_ofertas_lista(request):
     """Lista de productos con ofertas válidas"""
-    ahora = timezone.now()
+    productos_ofertas = []
     
-    productos_con_descuento_ids = set()
-    
-    # 1. Productos con descuento individual
-    descuentos_producto = DescuentoProducto.objects.filter(
-        activo=True
-    ).select_related('producto')
-    for desc in descuentos_producto:
-        if desc.es_valido():
-            productos_con_descuento_ids.add(desc.producto.id)
-    
-    # 2. Productos de categorías con descuento
-    descuentos_categoria = DescuentoCategoria.objects.filter(
-        activo=True
-    ).select_related('categoria')
-    for desc in descuentos_categoria:
-        if desc.es_valido():
-            productos = Producto.objects.filter(
-                categoria=desc.categoria,
-                activo=True,
-                stock__gt=0
-            )
-            for prod in productos:
-                productos_con_descuento_ids.add(prod.id)
-    
-    # 3. Productos de marcas con descuento
-    descuentos_marca = DescuentoMarca.objects.filter(
-        activo=True
-    ).select_related('marca')
-    for desc in descuentos_marca:
-        if desc.es_valido():
-            productos = Producto.objects.filter(
-                marca=desc.marca,
-                activo=True,
-                stock__gt=0
-            )
-            for prod in productos:
-                productos_con_descuento_ids.add(prod.id)
-    
-    productos_ofertas = Producto.objects.filter(
-        id__in=productos_con_descuento_ids
-    ).select_related('categoria', 'marca').order_by('-fecha_creacion')
+    try:
+        productos_con_descuento_ids = set()
+        
+        # 1. Productos con descuento individual
+        descuentos_producto = DescuentoProducto.objects.filter(
+            activo=True
+        ).select_related('producto')
+        for desc in descuentos_producto:
+            try:
+                if desc.es_valido():
+                    productos_con_descuento_ids.add(desc.producto.id)
+            except Exception:
+                continue
+        
+        # 2. Productos de categorías con descuento
+        descuentos_categoria = DescuentoCategoria.objects.filter(
+            activo=True
+        ).select_related('categoria')
+        for desc in descuentos_categoria:
+            try:
+                if desc.es_valido():
+                    productos = Producto.objects.filter(
+                        categoria=desc.categoria,
+                        activo=True,
+                        stock__gt=0
+                    )
+                    for prod in productos:
+                        productos_con_descuento_ids.add(prod.id)
+            except Exception:
+                continue
+        
+        # 3. Productos de marcas con descuento
+        descuentos_marca = DescuentoMarca.objects.filter(
+            activo=True
+        ).select_related('marca')
+        for desc in descuentos_marca:
+            try:
+                if desc.es_valido():
+                    productos = Producto.objects.filter(
+                        marca=desc.marca,
+                        activo=True,
+                        stock__gt=0
+                    )
+                    for prod in productos:
+                        productos_con_descuento_ids.add(prod.id)
+            except Exception:
+                continue
+        
+        if productos_con_descuento_ids:
+            productos_ofertas = Producto.objects.filter(
+                id__in=productos_con_descuento_ids
+            ).select_related('categoria', 'marca').order_by('-fecha_creacion')
+    except Exception:
+        productos_ofertas = []
 
     return render(request, 'shop_Template/productos_lista.html', {
         'productos':      productos_ofertas,
