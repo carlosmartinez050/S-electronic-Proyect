@@ -17,12 +17,36 @@ inventario, carrito de compras, y procesamiento de órdenes.
 - 🎨 Interfaz responsive y moderna
 
 ## 📸 Capturas de Pantalla
+![alt text](image.png) - pagina principal
+![alt text](image-1.png) - pagina principal
+![alt text](image-2.png) - categoria/telefonos
+![alt text](image-5.png) - marcas
+![alt text](image-3.png) - carrito
+![alt text](image-4.png) - checkout
 
 ### Página Principal
-Proximamente
+La página principal (Home) esta diseñada bajo un enfoque dinámico basado en secciones. Esto significa que el contenido no es estático, sino que se organiza en bloques que pueden variar según la interacción del usuario y la lógica del sistema. Estas secciones pueden representar categorías principales, productos destacados, ofertas u otros conjuntos de información relevantes.
+
+El comportamiento dinámico del Home permite que, dependiendo de la navegación del usuario o de ciertas condiciones definidas en el backend, se muestren diferentes conjuntos de datos, mejorando así la experiencia de usuario y la personalización del contenido. Esta estructura también facilita la escalabilidad del sistema, ya que nuevas secciones pueden ser añadidas, modificadas u ocultadas sin necesidad de alterar la arquitectura general de la página.
 
 ### Carrito de Compras
-Proximamente
+El carrito de compras es un sistema inteligente que permite a los usuarios agregar y gestionar productos antes de realizar la compra. Funciona de manera dual:
+
+Para usuarios anónimos: Los productos se almacenan en la sesión del navegador
+Para usuarios autenticados: Los productos se guardan en la base de datos para persistencia entre sesiones
+
+**Funcionalidades**
+- Agregar productos: Añade artículos con cantidad especificada
+- Actualizar cantidades: Modifica dinámicamente la cantidad de cada producto
+- Eliminar productos: Quita artículos del carrito
+- Limpiar carrito: Vacía todos los productos de una vez
+
+**Sistema de Descuentos**
+- Descuentos por producto: Ofertas individuales
+- Descuentos por marca: Promociones de categoría de marca
+- Descuentos por categoría: Promociones de categoría de producto
+- Muestra el ahorro total antes de proceder al checkout
+
 
 ## 🛠️ Tecnologías
 
@@ -115,7 +139,7 @@ ALLOWED_HOSTS=localhost,127.0.0.1
 ### Acceder al panel de administración
 1. Navega a http://localhost:8000/admin
 2. Ingresa con el superusuario creado
-3. Gestiona productos, categorías y órdenes
+3. Gestiona productos, categorías, órdenes y descuentos
 
 ### Agregar productos
 1. En el admin, ve a "Productos" → "Agregar producto"
