@@ -6,6 +6,13 @@
     
     <!-- Imagen con link a detalle -->
     <a href="{% url 'shop:detalle_producto' producto.slug %}" class="product-image-link">
+        <!-- Badge de descuento (si aplica) -->
+        {% if producto.tiene_descuento %}
+            <div class="discount-badge">
+                -{{ producto.get_descuento_porcentaje|floatformat:0 }}%
+            </div>
+        {% endif %}
+        
         {% if producto.get_imagen_principal %}
             <img src="{{ producto.get_imagen_principal.imagen.url }}" 
                  alt="{{ producto.nombre }}" 
@@ -27,15 +34,27 @@
         
         <!-- Precio + Favorito -->
         <div class="product-price-favorite">
-            <p class="product-price">${{ producto.precio|floatformat:0|intcomma}}</p>
+            {% if producto.tiene_descuento %}
+                <!-- Precio original tachado -->
+                <p class="product-price-original">
+                    ${{ producto.precio|floatformat:2|intcomma }}
+                </p>
+                <!-- Precio final con descuento -->
+                <p class="product-price-discount">
+                    ${{ producto.get_precio_descuento|floatformat:2|intcomma }}
+                </p>
+                <!-- Ahorro mostrado -->
+                {% comment %} <p class="product-savings">
+                    Ahorras: ${{ producto.get_monto_ahorro|floatformat:2|intcomma }}
+                </p> {% endcomment %}
+            {% else %}
+                <!-- Precio normal sin descuento -->
+                <p class="product-price">${{ producto.precio|floatformat:2|intcomma }}</p>
+            {% endif %}
+            
             <button class="btn-favorite" data-producto-id="{{ producto.id }}" aria-label="Añadir a favoritos">
                 ❤️
             </button>
-        </div>
-        
-        <!-- Descuento (oculto por defecto) -->
-        <div class="product-discount hidden" data-producto-id="{{ producto.id }}">
-            -20% (opcional)
         </div>
         
         <!-- Botón agregar al carrito -->
