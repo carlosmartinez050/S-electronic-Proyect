@@ -194,10 +194,8 @@ function actualizarCantidad(productoId, nuevaCantidad) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Actualizar solo los números, sin recargar todo el carrito
-            document.getElementById(`subtotal-${productoId}`).textContent = data.subtotal_producto.toFixed(2);
-            document.getElementById('total-articulos').textContent = data.total_articulos;
-            document.getElementById('total-precio').textContent = data.total_precio.toFixed(2);
+            // Recargar el carrito completo para recalcular descuentos
+            cargarCarrito();
         }
     })
     .catch(error => {
