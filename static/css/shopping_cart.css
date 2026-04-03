@@ -363,6 +363,13 @@ img{
     font-weight: 700;
 }
 
+/* Separador visual dentro de la sección de descuentos */
+.cart-descuentos-separador {
+    border: none;
+    border-top: 1px solid var(--border-subtle);
+    margin: 5px 0;
+}
+
 .cart-precio-tachado {
     text-decoration: line-through;
     color: var(--text-muted);

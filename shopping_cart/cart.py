@@ -113,7 +113,8 @@ class Carrito:
                 producto=producto,
                 defaults={
                     'cantidad': cantidad_sesion,
-                    'precio_unitario': producto.precio,
+                    'precio_unitario': producto.get_precio_descuento(),  # Precio con descuento
+                    'descuento_aplicado': producto.get_descuento_porcentaje(),  # Descuento %
                 }
             )
 
@@ -135,7 +136,8 @@ class Carrito:
             producto=producto,
             defaults={
                 'cantidad': cantidad,
-                'precio_unitario': producto.precio,   # precio capturado ahora
+                'precio_unitario': producto.get_precio_descuento(),  # Precio con descuento
+                'descuento_aplicado': producto.get_descuento_porcentaje(),  # Descuento %
             }
         )
 
@@ -173,10 +175,12 @@ class Carrito:
         items = []
         for producto in productos:
             cantidad = self._sesion_data[str(producto.id)]
+            # Usar precio con descuento en lugar del precio original
+            precio_unitario = producto.get_precio_descuento()
             items.append({
                 'producto': producto,
                 'cantidad': cantidad,
-                'subtotal': producto.precio * cantidad,
+                'subtotal': precio_unitario * cantidad,
             })
         return items
 

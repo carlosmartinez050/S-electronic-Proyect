@@ -43,7 +43,7 @@
               <p class="tag-p">
                 {% if item.producto.tiene_descuento %}
                   <span class="precio-tachado">${{ item.producto.precio|floatformat:2|intcomma }}</span>
-                  ${{ item.producto.precio_con_descuento|floatformat:2 }}
+                  ${{ item.producto.get_precio_descuento|floatformat:2 }}
                 {% else %}
                   ${{ item.producto.precio|floatformat:2|intcomma }}
                 {% endif %}
@@ -77,7 +77,7 @@
             Artículos: <strong id="total-articulos">{{ total_articulos }}</strong>
           </span>
           <span class="cart-resumen-valor">    
-            Subtotal: $<strong id="subtotal">{{ total_precio|floatformat:2|intcomma }}</strong>
+            Subtotal: $<strong id="subtotal">{{ total_sin_descuentos|floatformat:2|intcomma }}</strong>
           </span>
         </div>
 
@@ -93,7 +93,7 @@
         <!-- Fila 3: Total -->
         <div class="cart-resumen-fila">
           <span class="cart-resumen-label">Total:</span>
-          <span class="cart-resumen-valor" id="total-precio">${{ total_precio|floatformat:2|intcomma }}</span>
+          <span class="cart-resumen-valor" id="total-precio">${{ total_con_descuentos|floatformat:2|intcomma }}</span>
         </div>
 
         <p class="info-envio-mensaje">
@@ -119,31 +119,52 @@
               Los descuentos se aplican automáticamente al precio final.
             </p>
 
-            <!-- Descuento por productos en oferta — solo si existe -->
-            {% if descuento_oferta %}
+            <!-- Descuento por productos individuales -->
+            {% if descuento_producto > 0 %}
               <div class="cart-descuentos-fila">
-                <span class="cart-descuentos-label">Ahorro en ofertas</span>
-                <span class="cart-descuentos-valor">-${{ descuento_oferta|floatformat:2|intcomma }}</span>
+                <span class="cart-descuentos-label">Descuento por producto</span>
+                <span class="cart-descuentos-valor">-${{ descuento_producto|floatformat:2|intcomma }}</span>
               </div>
             {% endif %}
 
-            <!-- Descuento por categoría — solo si existe -->
-            {% if descuento_categoria %}
+            <!-- Descuento por marca -->
+            {% if descuento_marca > 0 %}
+              <div class="cart-descuentos-fila">
+                <span class="cart-descuentos-label">Descuento por marca</span>
+                <span class="cart-descuentos-valor">-${{ descuento_marca|floatformat:2|intcomma }}</span>
+              </div>
+            {% endif %}
+
+            <!-- Descuento por categoría -->
+            {% if descuento_categoria > 0 %}
               <div class="cart-descuentos-fila">
                 <span class="cart-descuentos-label">Descuento por categoría</span>
                 <span class="cart-descuentos-valor">-${{ descuento_categoria|floatformat:2|intcomma }}</span>
               </div>
             {% endif %}
 
-            <!-- Total aplicado — tachado si hay descuentos -->
+            <!-- Total de ahorros -->
+            {% if ahorro_total > 0 %}
+              <div class="cart-descuentos-fila">
+                <span class="cart-descuentos-label"><strong>Total ahorrado</strong></span>
+                <span class="cart-descuentos-valor"><strong>-${{ ahorro_total|floatformat:2|intcomma }}</strong></span>
+              </div>
+            {% endif %}
+
+            <!-- Separador visual si hay descuentos -->
+            {% if ahorro_total > 0 %}
+              <hr class="cart-descuentos-separador">
+            {% endif %}
+
+            <!-- Total final -->
             <div class="cart-descuentos-fila cart-descuentos-total">
-                <span class="cart-descuentos-label">Total aplicado</span>
+                <span class="cart-descuentos-label">Total a pagar</span>
                 <span class="cart-descuentos-valor">
-                  {% if descuento_oferta or descuento_categoria %}
-                    <span class="cart-precio-tachado">${{ total|floatformat:2|intcomma }}</span>
-                      ${{ total_con_descuento|floatformat:2 }}
+                  {% if ahorro_total > 0 %}
+                    <span class="cart-precio-tachado">${{ total_sin_descuentos|floatformat:2|intcomma }}</span>
+                      ${{ total_con_descuentos|floatformat:2|intcomma }}
                     {% else %}
-                      ${{ total|floatformat:2 }}
+                      ${{ total_sin_descuentos|floatformat:2|intcomma }}
                   {% endif %}
                 </span>
             </div>

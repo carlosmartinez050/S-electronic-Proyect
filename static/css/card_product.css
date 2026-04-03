@@ -26,7 +26,7 @@
     height: 250px;                   /* Altura fija para la imagen */
     overflow: hidden;
     background-color: var(--bg-hover);      /* Fondo gris claro */
-    
+    position: relative;              /* Para posicionar el badge de descuento */
 }
 
 .product-image {
@@ -34,10 +34,8 @@
     height: 100%;
     object-fit: contain;             /* Mantiene proporción, no recorta */
     object-position: center;
-    transition: transform 0.3s ease;
-    
+    transition: transform 0.3s ease; 
 }
-
 
 .product-image-default {
     width: 100%;
@@ -106,7 +104,49 @@
     color: #ff0000;                  /* Rojo cuando está activo */
 }
 
-/* ===== DESCUENTO (OCULTO POR DEFECTO) ===== */
+/* ===== BADGE DE DESCUENTO ===== */
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--danger-glow);       /* Usa variable del tema */
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border-danger);
+    color: var(--text-primary);
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    width: 70px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+/* ===== PRECIOS CON DESCUENTO ===== */
+.product-price-original {
+    font-size: 14px;
+    color: #888;
+    text-decoration: line-through;
+    margin: 0;
+}
+
+.product-price-discount {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ff6b35;                  /* Naranja para precio con descuento */
+    margin: 0;
+}
+
+.product-savings {
+    font-size: 12px;
+    color: #27ae60;                   /* Verde para ahorro */
+    margin: 0;
+    font-weight: 600;
+}
+
+/* ===== DESCUENTO (OCULTO POR DEFECTO - LEGACY) ===== */
 .product-discount {
     background-color: #ff6b35;       /* Naranja/rojo */
     color: #ffffff;
@@ -122,6 +162,7 @@
 }
 
 /* ===== BOTÓN AGREGAR AL CARRITO ===== */
+
 .btn-add-cart {
     width: 100%;                     /* Ancho completo */
     padding: 12px;

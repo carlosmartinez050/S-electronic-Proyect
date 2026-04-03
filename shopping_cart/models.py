@@ -33,7 +33,7 @@ class Carrito(models.Model):
         return sum(item.cantidad for item in self.items.all())
 
     def total_precio(self):
-        """Suma todos los subtotales"""
+        """Suma todos los subtotales con descuentos aplicados"""
         return sum(item.subtotal() for item in self.items.all())
 
     def esta_vacio(self):
@@ -80,11 +80,19 @@ class ItemCarrito(models.Model):
     
     cantidad = models.PositiveIntegerField(default=1)
     
-    # Guardamos el precio al momento de agregar.
-    # Por qué: si el precio cambia después, el carrito no debe cambiar.
+    # Guardamos el precio al momento de agregar (precio final con descuento incluido)
+    # Por qué: si el precio o descuento cambia después, el carrito no debe cambiar.
     precio_unitario = models.DecimalField(
         max_digits=10,
         decimal_places=2
+    )
+    
+    # Guardamos el porcentaje de descuento aplicado (para referencia)
+    descuento_aplicado = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=0,
+        help_text="Porcentaje de descuento aplicado al momento de agregar"
     )
     
     agregado_en = models.DateTimeField(auto_now_add=True)
@@ -96,6 +104,7 @@ class ItemCarrito(models.Model):
         unique_together = [['carrito', 'producto']]
 
     def subtotal(self):
+        """Calcula el subtotal usando el precio unitario con descuento"""
         return self.precio_unitario * self.cantidad
 
     def __str__(self):

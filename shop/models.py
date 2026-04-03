@@ -303,7 +303,117 @@ class Producto(models.Model):
         if self.precio and self.precio < 0:
             raise ValidationError({'precio': 'El precio no puede ser negativo'})
     
+    # ========== MÉTODOS DE DESCUENTOS ==========
+    
+    def obtener_descuento_aplicable(self):
+        """
+        Retorna el descuento aplicable (máximo de los tres tipos).
+        Prioridad: Producto > Marca > Categoría
+        
+        Returns:
+            dict con: {
+                'porcentaje': float,
+                'tipo': str ('producto', 'marca', 'categoria', 'ninguno'),
+                'valido': bool,
+                'objeto': DescuentoProducto|DescuentoMarca|DescuentoCategoria|None
+            }
+        """
+        descuentos = []
+        
+        # Verificar descuento de producto
+        try:
+            descuento_producto = self.descuento
+            if descuento_producto.es_valido():
+                descuentos.append({
+                    'porcentaje': float(descuento_producto.porcentaje),
+                    'tipo': 'producto',
+                    'valido': True,
+                    'objeto': descuento_producto
+                })
+        except:
+            pass
+        
+        # Verificar descuento de marca
+        if self.marca:
+            try:
+                descuento_marca = self.marca.descuento
+                if descuento_marca.es_valido():
+                    descuentos.append({
+                        'porcentaje': float(descuento_marca.porcentaje),
+                        'tipo': 'marca',
+                        'valido': True,
+                        'objeto': descuento_marca
+                    })
+            except:
+                pass
+        
+        # Verificar descuento de categoría
+        if self.categoria:
+            try:
+                descuento_categoria = self.categoria.descuento
+                if descuento_categoria.es_valido():
+                    descuentos.append({
+                        'porcentaje': float(descuento_categoria.porcentaje),
+                        'tipo': 'categoria',
+                        'valido': True,
+                        'objeto': descuento_categoria
+                    })
+            except:
+                pass
+        
+        # Retornar el máximo descuento (prioridad: producto > marca > categoría)
+        if descuentos:
+            # Prioridad: primero el de producto, después marca, después categoría
+            for descuento in descuentos:
+                if descuento['tipo'] == 'producto':
+                    return descuento
+            for descuento in descuentos:
+                if descuento['tipo'] == 'marca':
+                    return descuento
+            return descuentos[0]
+        
+        return {
+            'porcentaje': 0,
+            'tipo': 'ninguno',
+            'valido': False,
+            'objeto': None
+        }
+    
+    def tiene_descuento(self):
+        """Retorna True si el producto tiene un descuento válido aplicable"""
+        descuento = self.obtener_descuento_aplicable()
+        return descuento['porcentaje'] > 0
+    
+    def get_descuento_porcentaje(self):
+        """Retorna el porcentaje de descuento (0 si no hay)"""
+        return self.obtener_descuento_aplicable()['porcentaje']
+    
+    def get_precio_descuento(self):
+        """
+        Calcula el precio final con descuento.
+        
+        Returns:
+            Decimal con el precio después del descuento
+        """
+        from decimal import Decimal
+        descuento = self.obtener_descuento_aplicable()
+        if descuento['porcentaje'] > 0:
+            porcentaje = Decimal(str(descuento['porcentaje']))
+            precio_descuento = self.precio * (Decimal('100') - porcentaje) / Decimal('100')
+            return precio_descuento.quantize(Decimal('0.01'))
+        return self.precio
+    
+    def get_monto_ahorro(self):
+        """
+        Calcula el monto ahorrado con el descuento.
+        
+        Returns:
+            Decimal con el monto ahorrado
+        """
+        return (self.precio - self.get_precio_descuento()).quantize(__import__('decimal').Decimal('0.01'))
+    
     # ========== MÉTODOS ÚTILES ==========
+    
     
     def disponible(self):
         """¿Disponible para compra?"""
