@@ -20,8 +20,8 @@
                 
             <!-- INPUT DE BÚSQUEDA (oculto por defecto, se muestra al hacer clic en el icono de búsqueda) -->
             <div class="container-search-input" id="container-search-input">
-                <form action="#" method="get" class="form-search">
-                    <input type="text" name="q" placeholder="Buscar productos..." class="input-search" id="input-search">
+                <form action="{% url 'shop:busqueda_productos' %}" method="get" class="form-search">
+                    <input type="text" name="q" placeholder="Buscar productos..." class="input-search" id="input-search" required>
                     <button type="submit" class="btn-search-submit">Buscar</button>
                 </form>
             </div>
@@ -131,13 +131,11 @@
 
         <!-- CONTENEDOR DEL INPUT DE BÚSQUEDA EN MOBILE -->
         <div class="container-search-input-mobile" id="container-search-input-mobile">
-            <form action="#" method="get" class="form-search">
+            <form action="{% url 'shop:busqueda_productos' %}" method="get" class="form-search">
                 <input type="text" name="q" placeholder="Buscar productos..." class="input-search" id="input-search-mobile">
                 <div type="submit" class="container-image-icon-mobile" id="container-logo-search-input-mobile">
                     <img src="{% static 'img/img-iconos/icon-search.png' %}" alt="" class="icon-search-mobile" id="icon-search-mobile">
                 </div>
-
-                {% comment %} <button type="submit" class="btn-search-submit">Buscar</button> {% endcomment %}
             </form>
         </div>
 
