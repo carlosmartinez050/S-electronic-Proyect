@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
+from django.utils import timezone
 from . models import Categoria, Producto, Marca
 from django.shortcuts import redirect
+from discounts.models import DescuentoProducto, DescuentoCategoria, DescuentoMarca
 
 # Create your views here.
 def vistaPrincipalProductos(request):
@@ -29,10 +31,52 @@ def vistaPrincipalProductos(request):
         stock__gt=0
     ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:20]
     
-    # productos_ofertas = Producto.objects.filter(          #* FUTURA SECCIÓN DE OFERTAS *) ESPERA A SER IMPLEMENTADA EN EL FUTURO, CON LA APP "DESCUENTOS".
-    #     oferta=True,
-    #     stock__gt=0
-    # ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
+    # Productos con ofertas (descuentos activos)
+    ahora = timezone.now()
+    
+    # Obtener IDs de productos con descuentos válidos
+    productos_con_descuento_ids = set()
+    
+    # 1. Productos con descuento individual
+    descuentos_producto = DescuentoProducto.objects.filter(
+        activo=True
+    ).select_related('producto')
+    for desc in descuentos_producto:
+        if desc.es_valido():
+            productos_con_descuento_ids.add(desc.producto.id)
+    
+    # 2. Productos de categorías con descuento
+    descuentos_categoria = DescuentoCategoria.objects.filter(
+        activo=True
+    ).select_related('categoria')
+    for desc in descuentos_categoria:
+        if desc.es_valido():
+            productos = Producto.objects.filter(
+                categoria=desc.categoria,
+                activo=True,
+                stock__gt=0
+            )
+            for prod in productos:
+                productos_con_descuento_ids.add(prod.id)
+    
+    # 3. Productos de marcas con descuento
+    descuentos_marca = DescuentoMarca.objects.filter(
+        activo=True
+    ).select_related('marca')
+    for desc in descuentos_marca:
+        if desc.es_valido():
+            productos = Producto.objects.filter(
+                marca=desc.marca,
+                activo=True,
+                stock__gt=0
+            )
+            for prod in productos:
+                productos_con_descuento_ids.add(prod.id)
+    
+    # Obtener los productos con descuentos
+    productos_ofertas = Producto.objects.filter(
+        id__in=productos_con_descuento_ids
+    ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
     
     marcas = Marca.objects.filter(
         activo=True
@@ -42,10 +86,11 @@ def vistaPrincipalProductos(request):
         'productos': productos_recientes,  # ← Mostrar recientes en el cuerpo principal
         'productos_destacados': productos_destacados,
         'productos_nuevos': productos_nuevos,
+        'productos_ofertas': productos_ofertas,
         'marcas': marcas,  
-        # 'productos_ofertas': productos_ofertas,  
     })
     
+
     
 def categoria_detalle(request, slug):
     """
@@ -53,59 +98,85 @@ def categoria_detalle(request, slug):
     URL: /categoria/telefonos/
     """
     categoria = get_object_or_404(Categoria, slug=slug, activo=True)
-    
+    ahora = timezone.now()
+
     # Marcas que tienen productos en esta categoría
     marcas = Marca.objects.filter(
         productos__categoria=categoria,
         productos__activo=True,
         activo=True
     ).distinct().order_by('orden', 'nombre')
-    
-    # Productos de esta categoría
-    productos = Producto.objects.filter(
-        categoria=categoria,
-        activo=True,
-        stock__gt=0
-    ).select_related('categoria', 'marca').order_by('-destacado', '-fecha_creacion')
-    
-    return render(request, 'base.html', {
-        'categoria': categoria,
-        'marcas': marcas,  # ← Para la barra azul
-        'productos': productos,
-    })
 
-def categoria_detalle(request, slug):
-    categoria = get_object_or_404(Categoria, slug=slug, activo=True)
-
-    # 🟣 POPULARES (puedes cambiar la lógica luego)
+    # 🟣 POPULARES
     productos_populares = Producto.objects.filter(
         categoria=categoria,
         activo=True,
         stock__gt=0,
-        destacado=True   # usamos destacado como "popular"
+        destacado=True
     ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
 
-    # 🔵 RECOMENDADOS (por ahora: recientes)
+    # 🔵 RECOMENDADOS
     productos_recomendados = Producto.objects.filter(
         categoria=categoria,
         activo=True,
         stock__gt=0
     ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
 
-    # 🟡 OFERTAS (cuando implementes descuentos)
-    productos_ofertas = Producto.objects.filter(
-        categoria=categoria,
+    # 🟡 OFERTAS (productos con descuentos válidos de esta categoría)
+    productos_con_descuento_ids = set()
+    
+    # Productos individuales con descuento
+    descuentos_producto = DescuentoProducto.objects.filter(
         activo=True,
-        stock__gt=0,
-        # oferta=True  ← cuando lo tengas
+        producto__categoria=categoria,
+        producto__activo=True,
+        producto__stock__gt=0
+    ).select_related('producto')
+    for desc in descuentos_producto:
+        if desc.es_valido():
+            productos_con_descuento_ids.add(desc.producto.id)
+    
+    # Descuento de la categoría
+    try:
+        descuento_cat = DescuentoCategoria.objects.get(categoria=categoria, activo=True)
+        if descuento_cat.es_valido():
+            productos = Producto.objects.filter(
+                categoria=categoria,
+                activo=True,
+                stock__gt=0
+            )
+            for prod in productos:
+                productos_con_descuento_ids.add(prod.id)
+    except DescuentoCategoria.DoesNotExist:
+        pass
+    
+    # Descuentos por marca (para productos de esta categoría)
+    descuentos_marca = DescuentoMarca.objects.filter(
+        activo=True
+    ).select_related('marca')
+    for desc in descuentos_marca:
+        if desc.es_valido():
+            productos = Producto.objects.filter(
+                marca=desc.marca,
+                categoria=categoria,
+                activo=True,
+                stock__gt=0
+            )
+            for prod in productos:
+                productos_con_descuento_ids.add(prod.id)
+    
+    productos_ofertas = Producto.objects.filter(
+        id__in=productos_con_descuento_ids
     ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
 
     return render(request, 'shop_Template/categoria_detalle.html', {
         'categoria': categoria,
+        'marcas': marcas,
         'productos_populares': productos_populares,
         'productos_recomendados': productos_recomendados,
         'productos_ofertas': productos_ofertas,
     })
+
 
 
 def detalle_producto(request, slug):
@@ -192,13 +263,66 @@ def marca_detalle_lista(request, slug):
         'subtitulo':      f'{productos.count()} productos encontrados',
     })
  
+ 
+def productos_ofertas_lista(request):
+    """Lista de productos con ofertas válidas"""
+    ahora = timezone.now()
+    
+    productos_con_descuento_ids = set()
+    
+    # 1. Productos con descuento individual
+    descuentos_producto = DescuentoProducto.objects.filter(
+        activo=True
+    ).select_related('producto')
+    for desc in descuentos_producto:
+        if desc.es_valido():
+            productos_con_descuento_ids.add(desc.producto.id)
+    
+    # 2. Productos de categorías con descuento
+    descuentos_categoria = DescuentoCategoria.objects.filter(
+        activo=True
+    ).select_related('categoria')
+    for desc in descuentos_categoria:
+        if desc.es_valido():
+            productos = Producto.objects.filter(
+                categoria=desc.categoria,
+                activo=True,
+                stock__gt=0
+            )
+            for prod in productos:
+                productos_con_descuento_ids.add(prod.id)
+    
+    # 3. Productos de marcas con descuento
+    descuentos_marca = DescuentoMarca.objects.filter(
+        activo=True
+    ).select_related('marca')
+    for desc in descuentos_marca:
+        if desc.es_valido():
+            productos = Producto.objects.filter(
+                marca=desc.marca,
+                activo=True,
+                stock__gt=0
+            )
+            for prod in productos:
+                productos_con_descuento_ids.add(prod.id)
+    
+    productos_ofertas = Producto.objects.filter(
+        id__in=productos_con_descuento_ids
+    ).select_related('categoria', 'marca').order_by('-fecha_creacion')
+
+    return render(request, 'shop_Template/productos_lista.html', {
+        'productos':      productos_ofertas,
+        'titulo_pagina':  'Ofertas Especiales',
+        'subtitulo':      f'{productos_ofertas.count()} productos encontrados',
+    })
+
 
 # VISTA PARA LA BUSQUEDA DE PRODUCTOS (INPUT DE BUSQUEDA EN EL HEADER)
 def busqueda_productos(request):
     query = request.GET.get('q', '').strip()
     
     if not query:
-        # Si no hay consulta, redirigir a la página principal o mostrar un mensaje
+        # Si no hay consulta, redirigir a la página principal
         return redirect('shop:home')  
     
     productos = Producto.objects.filter(
@@ -213,7 +337,8 @@ def busqueda_productos(request):
     
     return render(request, 'shop_Template/productos_lista.html', {
         'productos': productos,
-        'query': query,
+        'titulo_pagina': f'Resultados de búsqueda: "{query}"',
+        'subtitulo': f'{productos.count()} productos encontrados',
     })
     
 

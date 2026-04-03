@@ -33,4 +33,7 @@ urlpatterns = [
     
     # marca específica
     path('marcas/<slug:slug>/', views.marca_detalle_lista, name='marca_detalle'),
+    
+    # ofertas
+    path('ofertas/', views.productos_ofertas_lista, name='productos_ofertas'),
 ]
