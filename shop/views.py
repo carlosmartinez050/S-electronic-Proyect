@@ -120,7 +120,7 @@ def categoria_detalle(request, slug):
         activo=True
     ).distinct().order_by('orden', 'nombre')
 
-    # 🟣 POPULARES
+    # POPULARES
     productos_populares = Producto.objects.filter(
         categoria=categoria,
         activo=True,
@@ -128,14 +128,14 @@ def categoria_detalle(request, slug):
         destacado=True
     ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
 
-    # 🔵 RECOMENDADOS
+    # RECOMENDADOS
     productos_recomendados = Producto.objects.filter(
         categoria=categoria,
         activo=True,
         stock__gt=0
     ).select_related('categoria', 'marca').order_by('-fecha_creacion')[:8]
 
-    # 🟡 OFERTAS (productos con descuentos válidos de esta categoría) - CON MANEJO DE ERRORES
+    #  OFERTAS (productos con descuentos válidos de esta categoría) - CON MANEJO DE ERRORES
     productos_ofertas = []
     try:
         productos_con_descuento_ids = set()
